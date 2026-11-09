@@ -160,7 +160,7 @@ a{color:var(--oak)}
       <h2>Spaces</h2>
       <table>
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>The full 4 m high, with the first north window and an oak bench under it. 3 m of wardrobes along the east wall, 3.4 m tall, stopping just under the duct; the top cupboards above 2.4 m are for seasonal things and need a ladder. You turn the corner at the end into the passage through a 1.25 m opening, so a sofa carried tilted on its side has room to swing round.</small></td><td class="n">≈ 9 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>Two north windows including the French balcony. The bed's headboard is against the west wall, facing the new wall. A walk-in wardrobe under the parvi opens straight off the bedroom. The whole south side is one flush oak wall, floor to parvi, divided into panels by 3 mm shadow joints. Two of the panels are doors on concealed hinges, with no frames, architraves or headers, so from the bed they look like the other panels. The bedroom door swings out into the passage: you push it open from the bedroom, and only the passage side has a lever. The walk-in door swings into the wardrobe on a touch latch, so you push it open too. There is no handle anywhere on the bedroom side.</small></td><td class="n">≈ 14 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>Two north windows including the French balcony. The bed's headboard is against the west wall, facing the new wall. A walk-in wardrobe under the parvi opens straight off the bedroom. The whole south side is one flush oak wall, floor to parvi, divided into panels by 3 mm shadow joints. Two of the panels are standard-height (21M, about 2.04 m) doors on concealed hinges, with no frames or architraves. A horizontal joint at door-head height runs across the whole wall, so from the bed the doors look like any other cell of the grid. The bedroom door is centred on the passage and swings out into it: you push it open from the bedroom, and only the passage side has a lever. The walk-in door swings into the wardrobe on a touch latch, so you push it open too. There is no handle anywhere on the bedroom side.</small></td><td class="n">≈ 14 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. Two wardrobes back to back, split down the middle, each about 1.3 m deep. The stair takes the west 0.9 m. The walk-in (≈ 3 m²) opens off the bedroom through its flush door: a 1.2 m double rail along the dividing wall, drawers and shelves at the east end. The store (≈ 3 m²) opens off the passage through a sliding oak door, so you don't go through the living room to get the vacuum: steel shelving, a cleaning cupboard and suitcases. The passage past them is now 1.65 m wide, 1.61 m where the door slides, with nothing on the bathroom wall.</small></td><td class="n">≈ 12 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>Kitchen on the east wall (EKE's southern kitchen reservation) with a tall wall of units on the bathroom side. Round table for 2–4. Two 3-seaters face each other across a coffee table, with the TV on the west wall between their ends. The stair starts two steps out into the living room at the west wall and climbs north along the wall through an opening in the parvi floor.</small></td><td class="n">≈ 34 m²</td></tr>
         <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Parvi office<small>Over the wardrobes only, ending in line with the bathroom door. A 2 × 1 m desk facing south, centred on the railing over the living room and pushed right up against it, so from the chair you look over the 49" ultra-wide into the living room. A low bookshelf against the bathroom wall. Railings look down into the bedroom and the living room. 1.60 m headroom, the legal maximum: you can't stand up there, but sitting at the desk is unaffected. A seated head is at about 1.3 m, so it leaves 30 cm above.</small></td><td class="n">≈ 13 m²</td></tr>
@@ -174,7 +174,7 @@ a{color:var(--oak)}
         <li>The kitchen moves to the southern kitchen reservation (KT-varaus) on the east wall. Confirm with EKE that the water and drain connections are planned there too.</li>
         <li>The bedroom's east wall runs floor to ceiling. There is no south wall: the parvi edge and its black steel bars are the only line between the bedroom and the core.</li>
         <li>The stair climbs under an opening in the parvi floor, so there's full ceiling height over every step. The bottom two steps stand out in the living room; at the top you step onto a 0.8 m landing by the bedroom railing and turn east onto the parvi. Both couches watch the TV side-on; the south one has its back to the window.</li>
-        <li>The parvi floor is at 2.40 m: 2.28 m below, 1.60 m above. 1.60 m is the legal maximum: any more and the parvi counts towards the building's floor area, which is already used up. The ceiling is only given as about 4 m, so measure it before building; if it's higher, raise the deck to match. The doors under it are full height: the walk-in and bedroom doors run from the floor to the parvi underside, about 2.27 m, and the store door is 2.21 m. The turn from the eteinen into the passage is under the parvi too, so anything carried round it has to stay under 2.28 m. Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
+        <li>The parvi floor is at 2.40 m: 2.28 m below, 1.60 m above. 1.60 m is the legal maximum: any more and the parvi counts towards the building's floor area, which is already used up. The ceiling is only given as about 4 m, so measure it before building; if it's higher, raise the deck to match. The walk-in and bedroom doors are standard 21M doors, about 2.04 m, with oak above them up to the parvi; the store door is 2.21 m. The turn from the eteinen into the passage is under the parvi too, so anything carried round it has to stay under 2.28 m. Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
         <li>"Evening, indirect" shows hidden warm-white LED lighting, each part on its own switch. The strips are drawn as soft area lights, so you can see where the glow lands. Light bouncing on from the lit ceiling isn't calculated: a warm fill stands in for it, so treat the overall brightness as indicative.</li>
       </ul>
     </section>
@@ -200,9 +200,10 @@ const STAIR_Z1 = P1 + 2 * RUN;                    // bottom two steps stand out 
 const STAIR_TOP = STAIR_Z1 - TREADS * RUN;        // 3.78: stair climbs north along the west wall to a landing by the bedroom railing
 const CORR0 = 3.1, CAB_X = 4.35;                  // passage x 3.1–4.35, 40 cm cabinets on the bathroom side
 const BDOOR = [5.9, 6.7], SDOOR = [4.95, 5.75];   // bathroom door; store sliding door on the passage face (z extent)
-const WI_DOOR = [0.90, 1.70], BD_DOOR = [CORR0, 3.95]; // flush oak doors in the bedroom wall: walk-in (swings in), bedroom (swings out to the passage)
+const WI_DOOR = [0.90, 1.70], DOOR_H = 2.06;       // flush walk-in door; 21M door height (≈2.04 m leaf) // flush oak doors in the bedroom wall: walk-in (swings in), bedroom (swings out to the passage)
 const WARD_SPLIT = 4.42;                          // walk-in wardrobe (north) | utility storage (south)
 const HALL_X = 4.75, WALL_T = 0.12;               // new floor-to-ceiling wall, flush with the bathroom's west face
+const BD_DOOR = [(CORR0+HALL_X-0.85)/2, (CORR0+HALL_X+0.85)/2];   // bedroom door 3.50–4.35, centred on the passage
 const BED_S = P0 - 0.1;                           // end of the eteinen wall (it stops at the oak storage wall)
 const KIT_X = 6.3, TALL_F = 8.1;                  // kitchen front on the east wall; tall-unit wall front
 const SOFA_X = 2.1, SOFAS_Z = [7.7, 10.35], LIVE_Z = 9.02;   // two 3-seaters facing each other; TV + coffee table on the line between
@@ -265,7 +266,7 @@ function planSVG(){
   s.push(`<path d="M0 ${P0} H${BATH_X} V${P1} H${STAIR_W} V${STAIR_TOP} H0 Z" class="plan-parvi"/>`);
   // labels
   Tx(3.3,2.2,'BEDROOM'); Tx(3.3,2.5,'≈ 14 m²','plan-ts');
-  Tx(5.62,2.2,'ETEINEN','plan-ts'); Tx(3.52,P0-0.15,'door','plan-ts');
+  Tx(5.62,2.2,'ETEINEN','plan-ts'); Tx((BD_DOOR[0]+BD_DOOR[1])/2,P0-0.15,'door','plan-ts');
   Tx(2.0,P1-0.12,'OFFICE ABOVE','plan-tp');
   Tx(1.5,11.15,'LIVING'); Tx(5.5,11.15,'KITCHEN · DINING','plan-ts');
   Tx(0.2,LIVE_Z+0.05,'TV','plan-ts','start'); Tx(0.42,STAIR_Z1+0.25,'stair','plan-ts');
@@ -492,11 +493,13 @@ rod(V(STAIR_W-0.04, stairTop(STAIR_Z1-0.05), STAIR_Z1-0.05), V(STAIR_W-0.04, sta
 // north wall (bedroom face): one flush oak wall from the floor to the parvi, 9 cm deep, panels split by 3 mm shadow joints.
 // Two of the panels are doors on concealed hinges, no frame, architrave or header, so the doors read as just more panels:
 //   walk-in door x 0.90–1.70: swings in (south), push to open on a touch latch, no handle
-//   bedroom door x 3.10–3.95: swings out into the passage, pushed open from the bedroom, lever on the passage side only
+//   bedroom door x 3.50–4.35, centred on the passage: swings out into it, pushed open from the bedroom, lever on the passage side only
+// Both doors are standard 21M height; a continuous horizontal joint at the door head runs across the whole wall, so the doors are just cells of the grid.
 const SH = 0.05, WALL_Z1 = P0 + 0.09, DOOR_T = 0.045;
 B(0, WI_DOOR[0], 0, UNDER, P0, WALL_Z1, mat.oak);
-B(WI_DOOR[1], CORR0, 0, UNDER, P0, WALL_Z1, mat.oak);
+B(WI_DOOR[1], BD_DOOR[0], 0, UNDER, P0, WALL_Z1, mat.oak);
 B(BD_DOOR[1], HALL_X, 0, UNDER, P0, WALL_Z1, mat.oak);                     // fixed panel between the bedroom door and the eteinen wall
+[WI_DOOR, BD_DOOR].forEach(([a, b]) => B(a, b, DOOR_H, UNDER, P0, WALL_Z1, mat.oak));   // oak over each door, up to the parvi
 B(CORR0-SH, CORR0, 0, UNDER, WALL_Z1, SDOOR[0], mat.oak); B(CORR0-SH, CORR0, 0, UNDER, SDOOR[1], P1, mat.oak);   // passage side, store door between
 B(CORR0-SH, CORR0, UNDER-0.04, UNDER, SDOOR[0], SDOOR[1], mat.oak);
 B(STAIR_W, CORR0, 0, UNDER, P1-SH, P1, mat.oak);                    // south face, solid
@@ -540,13 +543,16 @@ function hangX(x0, x1, c, y, len, n){
   cyl(0.13, 0.13, 0.32, mat.black, 1.65, 0.16, 5.15); rod(V(1.65,0.3,5.12), V(1.68,1.05,5.0), 0.012, mat.steel); // vacuum
   B(1.1, 2.6, UNDER-0.03, UNDER-0.01, 5.3, 5.34, mat.bulb, scene, {cast:false}); lamps.push({pos:V(1.6, 1.7, 5.3), i:0.4, d:3});
 })();
-B(2.40-0.0015, 2.40+0.0015, 0.01, UNDER, P0-0.002, P0, mat.oakDark, scene, {cast:false});   // fixed shadow joint, same as the door gaps
+// shadow-joint grid on the bedroom face: one vertical joint between the doors, the door edges carried on up to the parvi, one horizontal joint at door-head height
+[2.60].forEach(x => B(x-0.0015, x+0.0015, 0.01, UNDER, P0-0.002, P0, mat.oakDark, scene, {cast:false}));
+[...WI_DOOR, ...BD_DOOR].forEach(x => B(x-0.0015, x+0.0015, DOOR_H, UNDER, P0-0.002, P0, mat.oakDark, scene, {cast:false}));
+B(0, HALL_X, DOOR_H-0.0015, DOOR_H+0.0015, P0-0.002, P0, mat.oakDark, scene, {cast:false});
 // flush door: oak leaf in the bedroom plane, hinged on its west edge, 3 mm dark shadow gaps all round
 function flushDoor([x0, x1]){
-  [[x0, x0+0.003], [x1-0.003, x1]].forEach(([a, b]) => B(a, b, 0.01, UNDER, P0, WALL_Z1, mat.oakDark, scene, {cast:false}));
-  B(x0, x1, UNDER-0.003, UNDER, P0, WALL_Z1, mat.oakDark, scene, {cast:false});
+  [[x0, x0+0.003], [x1-0.003, x1]].forEach(([a, b]) => B(a, b, 0.01, DOOR_H, P0, WALL_Z1, mat.oakDark, scene, {cast:false}));
+  B(x0, x1, DOOR_H-0.003, DOOR_H, P0, WALL_Z1, mat.oakDark, scene, {cast:false});
   const g = group(); g.position.set(x0, 0, P0 + DOOR_T);           // pivot: west edge, passage-side face of the leaf
-  B(0.003, x1-x0-0.003, 0.012, UNDER-0.003, -DOOR_T, 0, mat.oak, g);
+  B(0.003, x1-x0-0.003, 0.012, DOOR_H-0.003, -DOOR_T, 0, mat.oak, g);
   return g;
 }
 const bdoor = flushDoor(BD_DOOR), wdoor = flushDoor(WI_DOOR);
