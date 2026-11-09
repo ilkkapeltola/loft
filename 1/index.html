@@ -251,7 +251,6 @@ function planSVG(){
   R(0.95,WARD_SPLIT-0.64,2.15,WARD_SPLIT-0.04,'plan-fix'); R(2.2,WARD_SPLIT-0.49,CORR0-0.05,WARD_SPLIT-0.04,'plan-thin');
   R(0.95,WARD_SPLIT+0.04,2.35,WARD_SPLIT+0.54,'plan-thin'); R(1.55,5.5,2.25,5.75,'plan-thin'); R(STAIR_W+0.05,5.0,STAIR_W+0.57,P1-0.05,'plan-thin');
   Tx(1.55,3.55,'walk-in','plan-ts'); Tx(1.5,5.45,'store','plan-ts');
-  R(CAB_X,BATH_Z1,BATH_X,TALL_F,'plan-dark');
   // kitchen
   R(BATH_X,BATH_Z1,SH_S[0],TALL_F,'plan-dark'); R(SH_S[0],SH_S[1],W,TALL_F,'plan-dark');
   R(KIT_X,TALL_F,W,9.3,'plan-dark'); R(KIT_X,9.3,W,10.9,'plan-fix');
@@ -587,8 +586,6 @@ function curtain(anchorX, dir){
 }
 const curtains = [curtain(0.02, 1), curtain(HALL_X-0.02, -1)];
 let curtTarget = 0, curtNow = 0;
-// grey column at the kitchen end (the 40 cm cabinet north of the bathroom door is gone, so the passage is wider there)
-B(CAB_X, BATH_X, 0, H, BATH_Z1, TALL_F, mat.wall);
 
 /* ---------- Parvi with the office ---------- */
 function slabPiece(x0,x1,z0,z1){ B(x0,x1,UNDER,PF-0.012,z0,z1,mat.steel,parvi); B(x0,x1,PF-0.012,PF,z0,z1,mat.oak,parvi); }
