@@ -159,9 +159,9 @@ a{color:var(--oak)}
     <section>
       <h2>Spaces</h2>
       <table>
-        <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>The full 4 m high, with the first north window and an oak bench under it. 3 m of wardrobes along the east wall, 3.4 m tall, stopping just under the duct; the top cupboards above 2.4 m are for seasonal things and need a ladder. You turn the corner at the end into the passage through a 1.25 m opening, as wide as the passage itself, so a sofa carried tilted on its side has room to swing round.</small></td><td class="n">≈ 9 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>Two north windows including the French balcony. The bed's headboard is against the west wall, facing the new wall. A walk-in wardrobe under the parvi opens straight off the bedroom. The side towards the passage has no wall: it's open under the parvi edge. An oak panel slides out of a pocket in the storage wall to close it and disappears completely when open; a 40 cm oak panel, flush with the cabinets by the bathroom door, takes the last bit. The walk-in door is a second pocket door in the same oak wall, so there are no handles on the bedroom side, only finger pulls in the door edges.</small></td><td class="n">≈ 14 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. Two wardrobes back to back, split down the middle, each about 1.3 m deep. The stair takes the west 0.9 m. The walk-in (≈ 3 m²) opens off the bedroom through its pocket door: a 1.2 m double rail along the dividing wall, drawers and shelves at the east end. The store (≈ 3 m²) opens off the passage through a sliding oak door, so you don't go through the living room to get the vacuum: steel shelving, a cleaning cupboard and suitcases. The passage past them is 1.25 m wide, 1.21 m where the door slides.</small></td><td class="n">≈ 12 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>The full 4 m high, with the first north window and an oak bench under it. 3 m of wardrobes along the east wall, 3.4 m tall, stopping just under the duct; the top cupboards above 2.4 m are for seasonal things and need a ladder. You turn the corner at the end into the passage through a 1.25 m opening, so a sofa carried tilted on its side has room to swing round.</small></td><td class="n">≈ 9 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>Two north windows including the French balcony. The bed's headboard is against the west wall, facing the new wall. A walk-in wardrobe under the parvi opens straight off the bedroom. The side towards the passage has no wall: it's open under the parvi edge. An oak panel slides out of a pocket in the storage wall to close it and disappears completely when open; a 40 cm oak panel by the eteinen wall takes the last bit. The walk-in door is a second pocket door in the same oak wall, so there are no handles on the bedroom side, only finger pulls in the door edges.</small></td><td class="n">≈ 14 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. Two wardrobes back to back, split down the middle, each about 1.3 m deep. The stair takes the west 0.9 m. The walk-in (≈ 3 m²) opens off the bedroom through its pocket door: a 1.2 m double rail along the dividing wall, drawers and shelves at the east end. The store (≈ 3 m²) opens off the passage through a sliding oak door, so you don't go through the living room to get the vacuum: steel shelving, a cleaning cupboard and suitcases. The passage past them is now 1.65 m wide, 1.61 m where the door slides, with nothing on the bathroom wall.</small></td><td class="n">≈ 12 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>Kitchen on the east wall (EKE's southern kitchen reservation) with a tall wall of units on the bathroom side. Round table for 2–4. Two 3-seaters face each other across a coffee table, with the TV on the west wall between their ends. The stair starts two steps out into the living room at the west wall and climbs north along the wall through an opening in the parvi floor.</small></td><td class="n">≈ 34 m²</td></tr>
         <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Parvi office<small>Over the wardrobes only, ending in line with the bathroom door. A 2 × 1 m desk facing south, centred on the railing over the living room and pushed right up against it, so from the chair you look over the 49" ultra-wide into the living room. A low bookshelf against the bathroom wall. Railings look down into the bedroom and the living room. 1.60 m headroom, the legal maximum: you can't stand up there, but sitting at the desk is unaffected. A seated head is at about 1.3 m, so it leaves 30 cm above.</small></td><td class="n">≈ 13 m²</td></tr>
       </table>
@@ -251,7 +251,6 @@ function planSVG(){
   R(0.95,WARD_SPLIT-0.64,2.15,WARD_SPLIT-0.04,'plan-fix'); R(2.2,WARD_SPLIT-0.49,CORR0-0.05,WARD_SPLIT-0.04,'plan-thin');
   R(0.95,WARD_SPLIT+0.04,2.35,WARD_SPLIT+0.54,'plan-thin'); R(1.55,5.5,2.25,5.75,'plan-thin'); R(STAIR_W+0.05,5.0,STAIR_W+0.57,P1-0.05,'plan-thin');
   Tx(1.55,3.55,'walk-in','plan-ts'); Tx(1.5,5.45,'store','plan-ts');
-  R(CAB_X,BATH_Z0,BATH_X,P1,'plan-solid');
   R(CAB_X,BATH_Z1,BATH_X,TALL_F,'plan-dark');
   // kitchen
   R(BATH_X,BATH_Z1,SH_S[0],TALL_F,'plan-dark'); R(SH_S[0],SH_S[1],W,TALL_F,'plan-dark');
@@ -564,7 +563,7 @@ bpanel.position.x = -BP_TRAVEL;
 // walk-in door: closed it overlaps the opening by 2 cm each side; open, its edge stays 2 cm out for the finger pull
 const wdoor = slider(WI_DOOR[0]-0.02, WI_DOOR[1]+0.02, WI_DOOR[1]+0.02), WD_TRAVEL = WI_DOOR[1] - WI_DOOR[0];
 let wdTarget = 0, wdNow = 0;
-// oak stub between the panel and the eteinen, flush with the cabinets by the bathroom door and as tall as them
+// oak stub between the panel and the eteinen, as tall as the storage wall
 B(CAB_X, HALL_X, 0, UNDER, P0, PZ[1]+0.025, mat.oak);                       // same plane and depth as the oak storage wall
 // passage store: oak sliding door on the passage face of the wall, parks to the north over the walk-in side
 B(CORR0+0.01, CORR0+0.04, UNDER-0.06, UNDER-0.03, SDOOR[0]-0.85, SDOOR[1]+0.03, mat.steel);
@@ -588,12 +587,7 @@ function curtain(anchorX, dir){
 }
 const curtains = [curtain(0.02, 1), curtain(HALL_X-0.02, -1)];
 let curtTarget = 0, curtNow = 0;
-// 40 cm cabinets between the eteinen turn and the bathroom door, ending with the parvi; grey column at the kitchen end
-[[BATH_Z0, P1]].forEach(([z0,z1]) => {
-  B(CAB_X, BATH_X-0.02, 0, UNDER, z0, z1, mat.oak);
-  const n = Math.max(1, Math.round((z1-z0)/0.6));
-  for(let k=1;k<n;k++){ const z = z0 + k*(z1-z0)/n; B(CAB_X-0.003,CAB_X,0.02,UNDER-0.02,z-0.003,z+0.003,mat.oakDark,scene,{cast:false}); }
-});
+// grey column at the kitchen end (the 40 cm cabinet north of the bathroom door is gone, so the passage is wider there)
 B(CAB_X, BATH_X, 0, H, BATH_Z1, TALL_F, mat.wall);
 
 /* ---------- Parvi with the office ---------- */
