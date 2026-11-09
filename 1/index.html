@@ -161,9 +161,9 @@ a{color:var(--oak)}
       <table>
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>The full 4 m high, with the first north window and an oak bench under it. 3 m of wardrobes along the east wall, 3.4 m tall, stopping just under the duct; the top cupboards above 2.4 m are for seasonal things and need a ladder. You turn the corner at the end into the passage through a 1.25 m opening, so a sofa carried tilted on its side has room to swing round.</small></td><td class="n">≈ 9 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>Two north windows including the French balcony. The bed's headboard is against the west wall, facing the new wall. A walk-in wardrobe under the parvi opens straight off the bedroom. The whole south side is one flush oak wall, floor to parvi, divided into panels by 3 mm shadow joints. Two of the panels are standard-height (21M, about 2.04 m) doors on concealed hinges, with no frames or architraves. A horizontal joint at door-head height runs across the whole wall, so from the bed the doors look like any other cell of the grid. The bedroom door is centred on the passage and swings out into it: you push it open from the bedroom, and only the passage side has a lever. The walk-in door swings into the wardrobe on a touch latch, so you push it open too. There is no handle anywhere on the bedroom side.</small></td><td class="n">≈ 14 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. Two wardrobes back to back, split down the middle, each about 1.3 m deep. The stair takes the west 0.9 m. The walk-in (≈ 3 m²) opens off the bedroom through its flush door: a 1.2 m double rail along the dividing wall, drawers and shelves at the east end. The store (≈ 3 m²) opens off the passage through a sliding oak door, so you don't go through the living room to get the vacuum: steel shelving, a cleaning cupboard and suitcases. The passage past them is now 1.65 m wide, 1.61 m where the door slides, with nothing on the bathroom wall.</small></td><td class="n">≈ 12 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. Two wardrobes back to back, split down the middle, each about 1.3 m deep. The stair takes the west 0.9 m. The walk-in (≈ 3 m²) opens off the bedroom through its flush door: a 1.2 m double rail along the dividing wall, drawers and shelves at the east end. The store (≈ 3 m²) opens off the passage through a sliding oak door, so you don't go through the living room to get the vacuum: steel shelving, a cleaning cupboard and suitcases. The passage past them is now 1.65 m wide, 1.61 m where the door slides, The bathroom wall is left exactly as delivered: white, with its door, wall cabinet and access panels uncovered (the cabinet takes the passage to about 1.56 m beside it).</small></td><td class="n">≈ 12 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>Kitchen on the east wall (EKE's southern kitchen reservation) with a tall wall of units on the bathroom side. Round table for 2–4. Two 3-seaters face each other across a coffee table, with the TV on the west wall between their ends. The stair starts two steps out into the living room at the west wall and climbs north along the wall through an opening in the parvi floor.</small></td><td class="n">≈ 34 m²</td></tr>
-        <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Parvi office<small>Over the wardrobes only, ending in line with the bathroom door. A 2 × 1 m desk facing south, centred on the railing over the living room and pushed right up against it, so from the chair you look over the 49" ultra-wide into the living room. A low bookshelf against the bathroom wall. Railings look down into the bedroom and the living room. 1.60 m headroom, the legal maximum: you can't stand up there, but sitting at the desk is unaffected. A seated head is at about 1.3 m, so it leaves 30 cm above.</small></td><td class="n">≈ 13 m²</td></tr>
+        <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Parvi office<small>Over the wardrobes only, ending in line with the bathroom door. A 2 × 1 m desk facing south, centred on the railing over the living room and pushed right up against it, so from the chair you look over the 49" ultra-wide into the living room. A short low bookshelf against the bathroom wall, stopping before the bathroom's high access hatch, which you reach from the parvi. Railings look down into the bedroom and the living room. 1.60 m headroom, the legal maximum: you can't stand up there, but sitting at the desk is unaffected. A seated head is at about 1.3 m, so it leaves 30 cm above.</small></td><td class="n">≈ 13 m²</td></tr>
       </table>
     </section>
 
@@ -453,9 +453,18 @@ rod(V(W-0.32,3.7,0.05), V(W-0.32,3.7,SH_N[2]), 0.15, mat.duct, ceiling);   // ex
 
 /* ---------- Bathroom + shafts (as built) ---------- */
 B(BATH_X, W, 0, H, BATH_Z0, BATH_Z1, mat.plaster);
-B(BATH_X-0.02, BATH_X, 0, UNDER, BATH_Z0, BATH_Z1, mat.oak);
-B(BATH_X-0.04, BATH_X-0.02, 0, 2.04, BDOOR[0], BDOOR[1], mat.oakDark);
-B(BATH_X-0.07, BATH_X-0.04, 1.0, 1.02, BDOOR[0]+0.04, BDOOR[0]+0.12, mat.steel);
+// passage face of the bathroom left exactly as delivered (site photo): white, nothing clad over it, every fixture reachable
+(function(){
+  const white = M({color:'#f1f1ee', roughness:0.6}), hatch = M({color:'#dedfdb', roughness:0.7}), x = BATH_X;
+  B(x-0.02, x, 0, 2.09, BDOOR[0]-0.04, BDOOR[1]+0.04, white);                      // standard white door frame
+  B(x-0.045, x-0.02, 0.01, 2.05, BDOOR[0], BDOOR[1], white);                       // white 21M door leaf
+  B(x-0.11, x-0.045, 1.0, 1.02, BDOOR[0]+0.04, BDOOR[0]+0.14, mat.steel);          // lever on the north side, hinges south
+  B(x-0.09, x, 1.05, 2.08, 5.25, 5.72, white);                                     // tall wall cabinet left of the door
+  B(x-0.004, x, 1.72, 1.8, 5.12, 5.18, M({color:'#3c7fb0'}), scene, {cast:false}); // blue sign beside it
+  B(x-0.006, x, 2.92, 3.79, 5.05, 5.72, hatch, scene, {cast:false});               // high access hatch, above the parvi deck
+  B(x-0.006, x, 0.02, 0.8, 6.78, 7.38, hatch, scene, {cast:false});                // low access panel right of the door
+  [6.95, 7.2].forEach(z => B(x-0.1, x, 3.6, 3.78, z-0.06, z+0.06, white));          // two supply-air valves near the ceiling
+})();
 B(SH_N[0], SH_N[1], 0, H, SH_N[2], BATH_Z0, mat.wall);
 B(SH_S[0], W, 0, H, BATH_Z1, SH_S[1], mat.wall);
 
@@ -632,8 +641,8 @@ railing('z', STAIR_TOP, P1-0.02, STAIR_W+0.02, parvi);          // beside the st
   lamps.push({pos:V(dx1-0.3,y+1.0,dz1-0.3), i:0.7, d:3.5});
   B(dx0-0.2,dx1+0.2,y,y+0.01,dz0-1.0,dz1,mat.rugJute,parvi,{cast:false});
   // low bookshelf against the bathroom wall
-  B(BATH_X-0.34, BATH_X, y, y+0.85, 4.4, P1-0.05, mat.oak, parvi);
-  for(let z = 4.48; z < P1-0.15; z += 0.09) B(BATH_X-0.3, BATH_X-0.06, y+0.85, y+1.05+((z*13)%3)*0.04, z, z+0.06, cloth[Math.round(z*7)%7], parvi);
+  B(BATH_X-0.34, BATH_X, y, y+0.85, 4.4, 4.98, mat.oak, parvi);                // stops short of the access hatch at z 5.05–5.72
+  for(let z = 4.48; z < 4.88; z += 0.09) B(BATH_X-0.3, BATH_X-0.06, y+0.85, y+1.05+((z*13)%3)*0.04, z, z+0.06, cloth[Math.round(z*7)%7], parvi);
   plant(2.3, P0+0.4, 0.9, parvi, y);
 })();
 
