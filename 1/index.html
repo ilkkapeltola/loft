@@ -161,7 +161,7 @@ a{color:var(--oak)}
       <table>
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>The full 4 m high, with the first north window and an oak bench under it. 3 m of wardrobes along the east wall, 3.4 m tall, stopping just under the duct; the top cupboards above 2.4 m are for seasonal things and need a ladder. You turn the corner at the end into the passage through a 1.25 m opening, so a sofa carried tilted on its side has room to swing round.</small></td><td class="n">≈ 9 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>Two north windows including the French balcony. The bed's headboard is against the west wall, facing the new wall. A walk-in wardrobe under the parvi opens straight off the bedroom. The whole south side is one flush oak wall, floor to parvi, divided into panels by 3 mm shadow joints. Two of the panels are standard-height (21M, about 2.04 m) doors on concealed hinges, with no frames or architraves. A horizontal joint at door-head height runs across the whole wall, so from the bed the doors look like any other cell of the grid. The bedroom door is centred on the passage and swings out into it: you push it open from the bedroom, and only the passage side has a lever. The walk-in door swings into the wardrobe on a touch latch, so you push it open too. There is no handle anywhere on the bedroom side.</small></td><td class="n">≈ 14 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. Two wardrobes back to back, split down the middle, each about 1.3 m deep. The stair takes the west 0.9 m. The walk-in (≈ 3 m²) opens off the bedroom through its flush door: a 1.2 m double rail along the dividing wall, drawers and shelves at the east end. The store (≈ 3 m²) opens off the passage through a sliding oak door, so you don't go through the living room to get the vacuum: steel shelving, a cleaning cupboard and suitcases. The passage past them is now 1.65 m wide, 1.61 m where the door slides, The bathroom wall is left exactly as delivered: white, with its door, wall cabinet and access panels uncovered (the cabinet takes the passage to about 1.56 m beside it).</small></td><td class="n">≈ 12 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. Two wardrobes back to back, split down the middle, each about 1.3 m deep. The stair takes the west 0.9 m. The walk-in (≈ 3 m²) opens off the bedroom through its flush door: a 1.2 m double rail along the dividing wall, drawers and shelves at the east end. The store (≈ 3 m²) opens off the passage through a flush, handle-free oak door that you push open, so it reads as just another panel of the oak wall and you don't go through the living room to get the vacuum: steel shelving, a cleaning cupboard and suitcases. The passage past them is now 1.65 m wide, The bathroom wall is left exactly as delivered: white, with its door, wall cabinet and access panels uncovered (the cabinet takes the passage to about 1.56 m beside it).</small></td><td class="n">≈ 12 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>Kitchen on the east wall (EKE's southern kitchen reservation) with a tall wall of units on the bathroom side. Round table for 2–4. Two 3-seaters face each other across a coffee table, with the TV on the west wall between their ends. The stair starts two steps out into the living room at the west wall and climbs north along the wall through an opening in the parvi floor.</small></td><td class="n">≈ 34 m²</td></tr>
         <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Parvi office<small>Over the wardrobes only, ending in line with the bathroom door. A 2 × 1 m desk facing south, centred on the railing over the living room and pushed right up against it, so from the chair you look over the 49" ultra-wide into the living room. A short low bookshelf against the bathroom wall, stopping before the bathroom's high access hatch, which you reach from the parvi. Railings look down into the bedroom and the living room. 1.60 m headroom, the legal maximum: you can't stand up there, but sitting at the desk is unaffected. A seated head is at about 1.3 m, so it leaves 30 cm above.</small></td><td class="n">≈ 13 m²</td></tr>
       </table>
@@ -199,7 +199,7 @@ const STAIR_W = 0.84, RISE = PF / 12, RUN = 0.23, TREADS = 11;
 const STAIR_Z1 = P1 + 2 * RUN;                    // bottom two steps stand out in the living room
 const STAIR_TOP = STAIR_Z1 - TREADS * RUN;        // 3.78: stair climbs north along the west wall to a landing by the bedroom railing
 const CORR0 = 3.1, CAB_X = 4.35;                  // passage x 3.1–4.35, 40 cm cabinets on the bathroom side
-const BDOOR = [5.9, 6.7], SDOOR = [4.95, 5.75];   // bathroom door; store sliding door on the passage face (z extent)
+const BDOOR = [5.9, 6.7], SDOOR = [4.95, 5.75];   // bathroom door; flush push-in store door on the passage face (z extent)
 const WI_DOOR = [0.90, 1.70], DOOR_H = 2.06;       // flush walk-in door; 21M door height (≈2.04 m leaf) // flush oak doors in the bedroom wall: walk-in (swings in), bedroom (swings out to the passage)
 const WARD_SPLIT = 4.42;                          // walk-in wardrobe (north) | utility storage (south)
 const HALL_X = 4.75, WALL_T = 0.12;               // new floor-to-ceiling wall, flush with the bathroom's west face
@@ -247,7 +247,7 @@ function planSVG(){
   R(STAIR_W,P0,STAIR_W+0.05,P1,'plan-wall');
   R(CORR0-0.05,P0,CORR0,SDOOR[0],'plan-wall'); R(CORR0-0.05,SDOOR[1],CORR0,P1,'plan-wall');
   R(STAIR_W,P1-0.05,CORR0,P1,'plan-wall');
-  R(CORR0+0.01,SDOOR[0]-0.02,CORR0+0.04,SDOOR[1]+0.02,'plan-solid');
+  { const r = SDOOR[1]-SDOOR[0], x = CORR0-0.05; L(x,SDOOR[1],x-r,SDOOR[1],'plan-door'); s.push(`<path d="M${x} ${SDOOR[0]} A${r} ${r} 0 0 0 ${x-r} ${SDOOR[1]}" class="plan-door"/>`); }   // store door swings in, hinged south
   R(STAIR_W+0.05,WARD_SPLIT-0.04,CORR0-0.05,WARD_SPLIT+0.04,'plan-wall');
   R(0.95,WARD_SPLIT-0.64,2.15,WARD_SPLIT-0.04,'plan-fix'); R(2.2,WARD_SPLIT-0.49,CORR0-0.05,WARD_SPLIT-0.04,'plan-thin');
   R(0.95,WARD_SPLIT+0.04,2.35,WARD_SPLIT+0.54,'plan-thin'); R(1.55,5.5,2.25,5.75,'plan-thin'); R(STAIR_W+0.05,5.0,STAIR_W+0.57,P1-0.05,'plan-thin');
@@ -510,7 +510,7 @@ B(WI_DOOR[1], BD_DOOR[0], 0, UNDER, P0, WALL_Z1, mat.oak);
 B(BD_DOOR[1], HALL_X, 0, UNDER, P0, WALL_Z1, mat.oak);                     // fixed panel between the bedroom door and the eteinen wall
 [WI_DOOR, BD_DOOR].forEach(([a, b]) => B(a, b, DOOR_H, UNDER, P0, WALL_Z1, mat.oak));   // oak over each door, up to the parvi
 B(CORR0-SH, CORR0, 0, UNDER, WALL_Z1, SDOOR[0], mat.oak); B(CORR0-SH, CORR0, 0, UNDER, SDOOR[1], P1, mat.oak);   // passage side, store door between
-B(CORR0-SH, CORR0, UNDER-0.04, UNDER, SDOOR[0], SDOOR[1], mat.oak);
+B(CORR0-SH, CORR0, DOOR_H, UNDER, SDOOR[0], SDOOR[1], mat.oak);   // oak over the store door, up to the parvi
 B(STAIR_W, CORR0, 0, UNDER, P1-SH, P1, mat.oak);                    // south face, solid
 B(STAIR_W, STAIR_W+SH, 0, UNDER, WALL_Z1, P1-SH, mat.oak);    // stair side
 B(STAIR_W+SH, CORR0-SH, 0, UNDER, WARD_SPLIT-0.04, WARD_SPLIT+0.04, mat.plaster);       // splits the two wardrobes
@@ -572,11 +572,15 @@ const bdoor = flushDoor(BD_DOOR), wdoor = flushDoor(WI_DOOR);
   B(x-0.13, x+0.009, 1.041, 1.059, 0.055, 0.073, mat.black, bdoor);
 })();
 let bdTarget = 0, bdNow = 0, wdTarget = 0, wdNow = 0;
-// passage store: oak sliding door on the passage face of the wall, parks to the north over the walk-in side
-B(CORR0+0.01, CORR0+0.04, UNDER-0.06, UNDER-0.03, SDOOR[0]-0.85, SDOOR[1]+0.03, mat.steel);
-const sdoor = group();
-B(CORR0+0.015, CORR0+0.045, 0.01, UNDER-0.07, SDOOR[0]-0.02, SDOOR[1]+0.02, mat.oak, sdoor);
-B(CORR0+0.045, CORR0+0.06, 0.85, 1.2, SDOOR[1]-0.1, SDOOR[1]-0.08, mat.black, sdoor);
+// passage store: flush oak door in the passage face, same as the bedroom-wall doors: 21M height, 3 mm shadow gaps, concealed hinges,
+// no handle; push to open on a touch latch, swings into the store, hinged on the south edge so it folds flat clear of the shelving
+[[SDOOR[0], SDOOR[0]+0.003], [SDOOR[1]-0.003, SDOOR[1]]].forEach(([a, b]) => B(CORR0-SH, CORR0, 0.01, DOOR_H, a, b, mat.oakDark, scene, {cast:false}));
+B(CORR0-SH, CORR0, DOOR_H-0.003, DOOR_H, SDOOR[0], SDOOR[1], mat.oakDark, scene, {cast:false});
+// joint grid on the passage face: door edges carried up to the parvi, one horizontal joint at door-head height (as on the bedroom side)
+SDOOR.forEach(z => B(CORR0, CORR0+0.002, DOOR_H, UNDER, z-0.0015, z+0.0015, mat.oakDark, scene, {cast:false}));
+B(CORR0, CORR0+0.002, DOOR_H-0.0015, DOOR_H+0.0015, WALL_Z1, P1, mat.oakDark, scene, {cast:false});
+const sdoor = group(); sdoor.position.set(CORR0-DOOR_T, 0, SDOOR[1]);   // pivot: south edge, store-side face of the leaf
+B(0, DOOR_T, 0.012, DOOR_H-0.003, -(SDOOR[1]-SDOOR[0])+0.003, -0.003, mat.oak, sdoor);
 let sdoorTarget = 0, sdoorNow = 0;
 // blackout curtains on the bedroom side, floor to ceiling, one from each corner; drawn from inside the bedroom
 const CURT_Z = P0 - 0.06, CURT_W = HALL_X / 2, CURT_PARK = 0.13;   // parked, each bunches to ~30 cm
@@ -965,7 +969,7 @@ function tick(now){
   if(Math.abs(wdNow - wdTarget) > 0.002){ wdNow += (wdTarget - wdNow) * 0.08; wdoor.rotation.y = -Math.PI/2 * wdNow; }
   if(Math.abs(bdNow - bdTarget) > 0.002){ bdNow += (bdTarget - bdNow) * 0.08; bdoor.rotation.y = -Math.PI/2 * bdNow; }
   if(Math.abs(curtNow - curtTarget) > 0.002){ curtNow += (curtTarget - curtNow) * 0.07; curtains.forEach(g => g.scale.x = CURT_PARK + (1 - CURT_PARK) * curtNow); renderer.shadowMap.needsUpdate = true; }
-  if(Math.abs(sdoorNow - sdoorTarget) > 0.002){ sdoorNow += (sdoorTarget - sdoorNow) * 0.12; sdoor.position.z = -(SDOOR[1] - SDOOR[0]) * sdoorNow; }
+  if(Math.abs(sdoorNow - sdoorTarget) > 0.002){ sdoorNow += (sdoorTarget - sdoorNow) * 0.08; sdoor.rotation.y = Math.PI/2 * sdoorNow; }
   if(renderer.xr.isPresenting){ xrFrame(); renderer.render(scene, camera); return; }
   controls.update();
   const c = camera.position;
