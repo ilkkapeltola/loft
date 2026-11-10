@@ -162,7 +162,7 @@ a{color:var(--oak)}
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>The full 4 m high, with the first north window and an oak bench under it. 3 m of wardrobes along the east wall, 3.4 m tall, stopping just under the duct; the top cupboards above 2.4 m are for seasonal things and need a ladder. You turn the corner at the end into the passage through a 1.25 m opening, so a sofa carried tilted on its side has room to swing round.</small></td><td class="n">≈ 9 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>Two north windows including the French balcony. The bed's headboard is against the west wall, facing the new wall. A walk-in wardrobe under the parvi opens straight off the bedroom. The whole south side is one flush oak wall, floor to parvi, divided into panels by 3 mm shadow joints. Two of the panels are standard-height (21M, about 2.04 m) doors on concealed hinges, with no frames or architraves. A horizontal joint at door-head height runs across the whole wall, so from the bed the doors look like any other cell of the grid. The bedroom door is centred on the passage and swings out into it: you push it open from the bedroom, and only the passage side has a lever. The walk-in door swings into the wardrobe on a touch latch, so you push it open too. There is no handle anywhere on the bedroom side.</small></td><td class="n">≈ 14 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. Two wardrobes back to back, split down the middle, each about 1.3 m deep. The stair takes the west 0.9 m. The walk-in (≈ 3 m²) opens off the bedroom through its flush door: a 1.2 m double rail along the dividing wall, drawers and shelves at the east end. The store (≈ 3 m²) opens off the passage through a flush, handle-free oak door that you push open, so it reads as just another panel of the oak wall and you don't go through the living room to get the vacuum: steel shelving, a cleaning cupboard and suitcases. The passage past them is now 1.65 m wide, The bathroom wall is left exactly as delivered: white, with its door, wall cabinet and access panels uncovered (the cabinet takes the passage to about 1.56 m beside it).</small></td><td class="n">≈ 12 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>Kitchen on the east wall (EKE's southern kitchen reservation) with a tall wall of units on the bathroom side. Round table for 2–4. Two 3-seaters face each other across a coffee table, with the TV on the west wall between their ends. The stair starts two steps out into the living room at the west wall and climbs north along the wall through an opening in the parvi floor.</small></td><td class="n">≈ 34 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>Kitchen on the east wall (EKE's southern kitchen reservation), all matt black, composed as one wall: a 2.7 m tall column at each end (fridge-freezer, pantry), a bridge of upper cabinets flush with them, and between them a lit niche with the hob, the oven under it and a slatted box hiding the extractor. A low run with the sink stands against the bathroom wall, with bare concrete above. Round table for 2–4. Two 3-seaters face each other across a coffee table, with the TV on the west wall between their ends. The stair starts two steps out into the living room at the west wall and climbs north along the wall through an opening in the parvi floor.</small></td><td class="n">≈ 34 m²</td></tr>
         <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Parvi office<small>Over the wardrobes only, ending in line with the bathroom door. A 2 × 1 m desk facing south, centred on the railing over the living room and pushed right up against it, so from the chair you look over the 49" ultra-wide into the living room. A short low bookshelf against the bathroom wall, stopping before the bathroom's high access hatch, which you reach from the parvi. Railings look down into the bedroom and the living room. 1.60 m headroom, the legal maximum: you can't stand up there, but sitting at the desk is unaffected. A seated head is at about 1.3 m, so it leaves 30 cm above.</small></td><td class="n">≈ 13 m²</td></tr>
       </table>
     </section>
@@ -254,8 +254,8 @@ function planSVG(){
   R(0.95,WARD_SPLIT+0.04,2.35,WARD_SPLIT+0.54,'plan-thin'); R(1.55,5.5,2.25,5.75,'plan-thin'); R(STAIR_W+0.05,5.0,STAIR_W+0.57,P1-0.05,'plan-thin');
   Tx(1.55,3.55,'walk-in','plan-ts'); Tx(1.5,5.45,'store','plan-ts');
   // kitchen
-  R(BATH_X,BATH_Z1,SH_S[0],TALL_F,'plan-dark'); R(SH_S[0],SH_S[1],W,TALL_F,'plan-dark');
-  R(KIT_X,TALL_F,W,9.3,'plan-dark'); R(KIT_X,9.3,W,10.9,'plan-fix');
+  R(BATH_X,BATH_Z1,SH_S[0],TALL_F,'plan-fix'); R(SH_S[0],SH_S[1],KIT_X,TALL_F,'plan-fix');   // low sink run
+  R(KIT_X,SH_S[1],W,8.72,'plan-dark'); R(KIT_X,8.72,W,10.28,'plan-fix'); R(KIT_X,10.28,W,10.9,'plan-dark');   // tall | niche | tall
   // dining
   C(4.75,10.1,.45,'plan-fix'); [[4.0,10.1],[4.75,9.35],[4.75,10.85]].forEach(([x,z]) => C(x,z,.2,'plan-thin'));
   // living
@@ -660,25 +660,36 @@ railing('z', STAIR_TOP, P1-0.02, STAIR_W+0.02, parvi);          // beside the st
   plant(2.3, P0+0.4, 0.9, parvi, y);
 })();
 
-/* ---------- Kitchen: tall wall on the bathroom side + run on the east wall ---------- */
-B(BATH_X, SH_S[0], 0.08, 2.4, BATH_Z1, TALL_F, mat.kitchen);        // pantry + fridge (deep)
-B(SH_S[0], W, 0.08, 2.4, SH_S[1], TALL_F, mat.kitchen);             // shallow units in front of the shaft
-B(BATH_X, W, 0, 0.08, BATH_Z1, TALL_F-0.04, mat.steel);
-B(BATH_X, W, 2.4, H, BATH_Z1, TALL_F, mat.wall);                  // grey infill above
-B(5.22,5.225,0.1,2.38,TALL_F,TALL_F+0.004,mat.kitLine,scene,{cast:false});
-B(6.3,6.305,0.1,2.38,TALL_F,TALL_F+0.004,mat.kitLine,scene,{cast:false});
-B(KIT_X, W, 0.08, 2.4, TALL_F, 9.3, mat.kitchen);                   // oven column
-B(KIT_X-0.01, KIT_X, 0.95, 1.5, 8.2, 9.2, mat.ovenGl);
-B(KIT_X-0.01, KIT_X, 1.55, 2.0, 8.2, 9.2, mat.ovenGl);
-function base(x0,x1,z0,z1){ B(x0+0.05,x1-0.05,0,0.1,z0+0.05,z1-0.05,mat.black); B(x0,x1,0.1,0.88,z0,z1,mat.kitchen); B(x0,x1,0.88,0.92,z0,z1,mat.kitTop); }   // black fronts, black worktop
-base(KIT_X, W, 9.3, 10.9);
-B(W-0.02, W, 0.92, 1.5, 9.3, 10.9, mat.kitTop);                  // black splashback, same as the worktop
-B(KIT_X-0.003,KIT_X,0.49,0.495,9.3,10.9,mat.kitLine,scene,{cast:false});
-B(KIT_X-0.003,KIT_X,0.12,0.86,10.1-0.003,10.1+0.003,mat.kitLine,scene,{cast:false});
-B(6.4,6.85,0.905,0.921,9.45,9.95,mat.sink);
-cyl(0.015,0.015,0.32,mat.chrome,6.82,1.08,9.7); rod(V(6.82,1.24,9.7),V(6.62,1.24,9.7),0.013,mat.chrome);
-B(6.33,6.85,0.92,0.926,10.25,10.8,mat.hob);
-B(W-0.03,W,1.95,2.05,9.35,9.45,mat.black); rod(V(W-0.02,2.0,9.4),V(W-0.02,2.0,10.85),0.012,mat.black);
+/* ---------- Kitchen: one composed black wall on the east side + a low sink run on the bathroom side ---------- */
+// East wall: a tall column at each end, a bridge of upper cabinets flush with them, and between them a lit niche:
+// worktop with hob + oven under, a slatted box (hood inside) above. All matt black.
+const KH = 2.7, KA = [SH_S[1], 8.72], KN = [8.72, 10.28], KB = [10.28, 10.9];   // top of the units; tall A (fridge), niche, tall B (pantry)
+function plinth(x0, x1, z0, z1){ B(x0, x1, 0, 0.08, z0, z1, mat.black); }
+plinth(KIT_X+0.05, W, KA[0], KB[1]);
+B(KIT_X, W, 0.08, KH, KA[0], KA[1], mat.kitchen);                            // tall A: fridge-freezer
+B(KIT_X, W, 0.08, KH, KB[0], KB[1], mat.kitchen);                            // tall B: pantry
+B(KIT_X, W, 2.02, KH, KN[0], KN[1], mat.kitchen);                            // bridge of upper cabinets, same plane as the columns
+B(KIT_X, W, 0.08, 0.88, KN[0], KN[1], mat.kitchen);                          // base units in the niche
+B(KIT_X-0.01, W, 0.88, 0.92, KN[0], KN[1], mat.kitTop);                      // worktop
+B(W-0.02, W, 0.92, 1.56, KN[0], KN[1], mat.kitTop);                          // splashback
+B(KIT_X+0.06, W, 1.56, 2.02, KN[0], KN[1], mat.kitchen);                     // slatted box (extractor inside), set back 6 cm
+for(let z = KN[0]+0.015; z < KN[1]-0.02; z += 0.045) B(KIT_X+0.03, KIT_X+0.06, 1.56, 2.02, z, z+0.022, mat.kitchen);   // vertical slats
+B(KIT_X-0.008, KIT_X, 0.14, 0.74, 9.2, 9.8, mat.ovenGl);                     // oven under the hob
+B(KIT_X+0.02, KIT_X+0.58, 0.92, 0.926, 9.2, 9.8, mat.hob);
+// front joints: doors on the columns, the upper bridge and the base drawers
+[[KA, 2], [KB, 1]].forEach(([[z0, z1]]) => B(KIT_X-0.003, KIT_X, 0.1, KH-0.02, (z0+z1)/2-0.002, (z0+z1)/2+0.002, mat.kitLine, scene, {cast:false}));
+B(KIT_X-0.003, KIT_X, 2.0-0.002, 2.0+0.002, KA[0]+0.3, KB[1], mat.kitLine, scene, {cast:false});
+[9.24, 9.76].forEach(z => B(KIT_X-0.003, KIT_X, 2.04, KH-0.02, z-0.002, z+0.002, mat.kitLine, scene, {cast:false}));
+[KA[1], KB[0]].forEach(z => B(KIT_X-0.003, KIT_X, 0.1, KH, z-0.002, z+0.002, mat.kitLine, scene, {cast:false}));
+B(KIT_X-0.003, KIT_X, 0.49, 0.495, KN[0], KN[1], mat.kitLine, scene, {cast:false});
+// Low run against the bathroom/shaft wall: sink, worktop, drawers; raw concrete above, nothing on the wall
+function base(x0,x1,z0,z1){ plinth(x0+0.05,x1,z0,z1-0.05); B(x0,x1,0.08,0.88,z0,z1,mat.kitchen); B(x0,x1,0.88,0.92,z0,z1+0.01,mat.kitTop); }
+base(BATH_X, SH_S[0], BATH_Z1, TALL_F);
+base(SH_S[0], KIT_X, SH_S[1], TALL_F);
+B(BATH_X+0.6, BATH_X+0.6+0.004, 0.1, 0.86, TALL_F, TALL_F+0.003, mat.kitLine, scene, {cast:false});
+B(BATH_X, KIT_X, 0.49, 0.495, TALL_F, TALL_F+0.003, mat.kitLine, scene, {cast:false});
+B(5.15, 5.65, 0.905, 0.921, 7.62, 8.0, mat.sink);
+cyl(0.015,0.015,0.32,mat.chrome,5.4,1.08,7.56); rod(V(5.4,1.24,7.56),V(5.4,1.24,7.76),0.013,mat.chrome);
 
 /* ---------- Dining: round table for 2–4 ---------- */
 (function(){
@@ -854,11 +865,13 @@ element('soffit', 'Recessed lines under the parvi', true, 0.05, [scene], g => {
     areaLight(g, (x0+x1)/2, UNDER-0.012, (z0+z1)/2, alongX ? 'x' : 'z', alongX ? x1-x0 : z1-z0, 0.1, 'down', 7);
   });
 });
-element('kitchen', 'Plinth glow under the kitchen', true, 0.02, [scene], g => {
-  B(BATH_X+0.05, W, 0.062, 0.07, TALL_F-0.045, TALL_F-0.037, ledMat, g, NC);
-  areaLight(g, (BATH_X+W)/2+0.02, 0.07, TALL_F-0.3, 'x', W-BATH_X-0.1, 0.5, 'down', 6);
-  B(KIT_X+0.042, KIT_X+0.05, 0.088, 0.096, 9.35, 10.85, ledMat, g, NC);
-  areaLight(g, (KIT_X+W)/2, 0.07, (TALL_F+10.9)/2, 'z', 10.9-TALL_F-0.1, 0.5, 'down', 6);
+element('kitchen', 'Kitchen niche + plinth glow', true, 0.02, [scene], g => {
+  B(BATH_X+0.05, KIT_X, 0.062, 0.07, TALL_F-0.045, TALL_F-0.037, ledMat, g, NC);
+  areaLight(g, (BATH_X+KIT_X)/2, 0.07, TALL_F-0.3, 'x', KIT_X-BATH_X-0.1, 0.5, 'down', 6);
+  B(KIT_X+0.042, KIT_X+0.05, 0.062, 0.07, 8.2, 10.85, ledMat, g, NC);
+  areaLight(g, (KIT_X+W)/2, 0.07, 9.5, 'z', 2.6, 0.5, 'down', 6);
+  B(KIT_X+0.1, W-0.03, 1.552, 1.558, KN[0]+0.03, KN[1]-0.03, ledMat, g, NC);        // strip under the slatted box lights the niche
+  areaLight(g, (KIT_X+W)/2+0.05, 1.55, (KN[0]+KN[1])/2, 'z', KN[1]-KN[0]-0.06, 0.4, 'down', 10);
 });
 element('stair', 'Step lights under each nosing', true, 0.01, [scene], g => {
   for(let i=0;i<TREADS;i++){ const z1 = STAIR_Z1 - i*RUN, h = (i+1)*RISE; B(0.08, STAIR_W-0.08, h-0.035, h-0.025, z1, z1+0.006, ledMat, g, NC); }
