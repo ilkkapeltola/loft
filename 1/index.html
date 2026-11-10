@@ -175,7 +175,7 @@ a{color:var(--oak)}
         <li>The bedroom's east wall runs floor to ceiling. There is no south wall: the parvi edge and its black steel bars are the only line between the bedroom and the core.</li>
         <li>The stair climbs under an opening in the parvi floor, so there's full ceiling height over every step. The bottom two steps stand out in the living room; at the top you step onto a 0.8 m landing by the bedroom railing and turn east onto the parvi. Both couches watch the TV side-on; the south one has its back to the window.</li>
         <li>The parvi floor is at 2.40 m: 2.28 m below, 1.60 m above. 1.60 m is the legal maximum: any more and the parvi counts towards the building's floor area, which is already used up. The ceiling is only given as about 4 m, so measure it before building; if it's higher, raise the deck to match. The walk-in and bedroom doors are standard 21M doors, about 2.04 m, with oak above them up to the parvi; the store door is 2.21 m. The turn from the eteinen into the passage is under the parvi too, so anything carried round it has to stay under 2.28 m. Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
-        <li>The palette follows EKE's "Rouhea" style for Artus: raw grey concrete walls and ceiling, a grey concrete floor, dark mahogany-toned wood panelling, a stainless kitchen top and splashback, black steel, dark leather and a moss-green jute rug. The new walls are shown in a concrete-look microcement so they sit with the raw concrete; only the bathroom box stays white, as delivered.</li>
+        <li>The palette follows EKE's "Rouhea" style for Artus: raw grey concrete walls and ceiling, a grey concrete floor, dark brown wood panelling, an all-black kitchen (fronts, tall units, worktop and splashback) with a stainless sink, black steel, dark leather and a moss-green jute rug. The new walls are shown in a concrete-look microcement so they sit with the raw concrete; only the bathroom box stays white, as delivered.</li>
         <li>"Evening, indirect" shows hidden warm-white LED lighting, each part on its own switch. The strips are drawn as soft area lights, so you can see where the glow lands. Light bouncing on from the lit ceiling isn't calculated: a warm fill stands in for it, so treat the overall brightness as indicative.</li>
       </ul>
     </section>
@@ -342,13 +342,16 @@ const mat = {
   floor:   M({map:noiseTex('#86847e', 23, 0.9, 1800), roughness:0.42}),
   terrazzo:M({map:noiseTex('#86847e', 41, 0.8, 6000), roughness:0.6}),
   slabX:   M({map:noiseTex('#9e9d97', 5, 1, 1500), roughness:0.95}),
-  oak:     M({map:woodTex('#5a3626', 3), roughness:0.62}),   // dark reddish-brown, mahogany-like
-  oakDark: M({map:woodTex('#2a1a12', 9), roughness:0.8}),
+  oak:     M({map:woodTex('#3e342b', 3), roughness:0.7}),    // dark neutral brown (the old TV-bench tone), used for all the wood
+  oakDark: M({map:woodTex('#1b1713', 9), roughness:0.8}),   // shadow joints
   steel:   M({color:'#1c1c1d', roughness:0.45, metalness:0.6}),
   black:   M({color:'#1f1f1f', roughness:0.35, metalness:0.2}),
   plaster: M({map:noiseTex('#86847f', 13, 1.3, 2400), roughness:0.92}),   // new walls: concrete-look microcement to sit with the raw concrete
   paint:   M({color:'#e4e3df', roughness:0.9}),                            // the bathroom box, white as delivered
-  rst:     M({color:'#b4b6b6', roughness:0.35, metalness:0.55}),          // brushed stainless
+  rst:     M({color:'#b4b6b6', roughness:0.35, metalness:0.55}),
+  kitchen: M({color:'#151515', roughness:0.6}),                           // matt black kitchen: fronts, tall units, worktop
+  kitTop:  M({color:'#1a1a1a', roughness:0.4}),                           // satin black worktop + splashback
+  kitLine: M({color:'#050505', roughness:0.9}),          // brushed stainless
   white:   M({color:'#f0f0ed', roughness:0.5}),
   stone:   M({color:'#e6e1d7', roughness:0.35}),
   travert: M({map:noiseTex('#e3dccd', 31, 0.9, 5000), roughness:0.45}),
@@ -658,20 +661,20 @@ railing('z', STAIR_TOP, P1-0.02, STAIR_W+0.02, parvi);          // beside the st
 })();
 
 /* ---------- Kitchen: tall wall on the bathroom side + run on the east wall ---------- */
-B(BATH_X, SH_S[0], 0.08, 2.4, BATH_Z1, TALL_F, mat.black);        // pantry + fridge (deep)
-B(SH_S[0], W, 0.08, 2.4, SH_S[1], TALL_F, mat.black);             // shallow units in front of the shaft
+B(BATH_X, SH_S[0], 0.08, 2.4, BATH_Z1, TALL_F, mat.kitchen);        // pantry + fridge (deep)
+B(SH_S[0], W, 0.08, 2.4, SH_S[1], TALL_F, mat.kitchen);             // shallow units in front of the shaft
 B(BATH_X, W, 0, 0.08, BATH_Z1, TALL_F-0.04, mat.steel);
 B(BATH_X, W, 2.4, H, BATH_Z1, TALL_F, mat.wall);                  // grey infill above
-B(5.22,5.225,0.1,2.38,TALL_F,TALL_F+0.004,mat.steel,scene,{cast:false});
-B(6.3,6.305,0.1,2.38,TALL_F,TALL_F+0.004,mat.steel,scene,{cast:false});
-B(KIT_X, W, 0.08, 2.4, TALL_F, 9.3, mat.black);                   // oven column
+B(5.22,5.225,0.1,2.38,TALL_F,TALL_F+0.004,mat.kitLine,scene,{cast:false});
+B(6.3,6.305,0.1,2.38,TALL_F,TALL_F+0.004,mat.kitLine,scene,{cast:false});
+B(KIT_X, W, 0.08, 2.4, TALL_F, 9.3, mat.kitchen);                   // oven column
 B(KIT_X-0.01, KIT_X, 0.95, 1.5, 8.2, 9.2, mat.ovenGl);
 B(KIT_X-0.01, KIT_X, 1.55, 2.0, 8.2, 9.2, mat.ovenGl);
-function base(x0,x1,z0,z1){ B(x0+0.05,x1-0.05,0,0.1,z0+0.05,z1-0.05,mat.black); B(x0,x1,0.1,0.88,z0,z1,mat.oak); B(x0,x1,0.88,0.92,z0,z1,mat.rst); }   // smoked oak fronts, stainless top
+function base(x0,x1,z0,z1){ B(x0+0.05,x1-0.05,0,0.1,z0+0.05,z1-0.05,mat.black); B(x0,x1,0.1,0.88,z0,z1,mat.kitchen); B(x0,x1,0.88,0.92,z0,z1,mat.kitTop); }   // black fronts, black worktop
 base(KIT_X, W, 9.3, 10.9);
-B(W-0.02, W, 0.92, 1.5, 9.3, 10.9, mat.rst);                     // stainless splashback
-B(KIT_X-0.003,KIT_X,0.49,0.495,9.3,10.9,mat.black,scene,{cast:false});
-B(KIT_X-0.003,KIT_X,0.12,0.86,10.1-0.003,10.1+0.003,mat.black,scene,{cast:false});
+B(W-0.02, W, 0.92, 1.5, 9.3, 10.9, mat.kitTop);                  // black splashback, same as the worktop
+B(KIT_X-0.003,KIT_X,0.49,0.495,9.3,10.9,mat.kitLine,scene,{cast:false});
+B(KIT_X-0.003,KIT_X,0.12,0.86,10.1-0.003,10.1+0.003,mat.kitLine,scene,{cast:false});
 B(6.4,6.85,0.905,0.921,9.45,9.95,mat.sink);
 cyl(0.015,0.015,0.32,mat.chrome,6.82,1.08,9.7); rod(V(6.82,1.24,9.7),V(6.62,1.24,9.7),0.013,mat.chrome);
 B(6.33,6.85,0.92,0.926,10.25,10.8,mat.hob);
@@ -718,7 +721,7 @@ sofa(SOFA_X, SOFAS_Z[1], Math.PI);     // back to the window, faces north
   [-0.26,0.26].forEach(x => B(x-0.04,x+0.04,0,0.36,-0.33,0.33,mat.oak,g));
   B(-0.26,0.26,0.08,0.13,-0.03,0.03,mat.oak,g);
 })();
-B(0.0,0.4,0.2,0.6,LIVE_Z-0.72,LIVE_Z+0.72,mat.oakDark);
+B(0.0,0.4,0.2,0.6,LIVE_Z-0.72,LIVE_Z+0.72,mat.oak);
 B(0.0,0.04,1.0,1.75,LIVE_Z-0.65,LIVE_Z+0.65,mat.screen);
 function ringPendant(x,z,y,r,n){
   const ring = new THREE.Mesh(new THREE.TorusGeometry(r,0.012,8,72), mat.chrome);
@@ -763,7 +766,7 @@ B(0.05, 6.3, H-0.04, H, D-0.16, D-0.12, mat.steel, ceiling);
 B(0.5,3.2,0,0.012,0.3,2.7,mat.rugOlive,scene,{cast:false});
 (function bed(){
   const g = group(); place(g, 1.12, 1.5, Math.PI/2);            // headboard on the west wall, faces east
-  B(-0.95,0.95,0,0.22,-1.05,1.1,mat.oakDark,g);
+  B(-0.95,0.95,0,0.22,-1.05,1.1,mat.oak,g);
   B(-0.9,0.9,0.22,0.48,-1.03,1.05,mat.bedding,g);
   B(-0.92,0.92,0.48,0.56,-0.35,1.07,mat.bedding,g);
   B(-0.94,0.94,0.56,0.59,0.55,0.95,mat.throwM,g);
@@ -771,7 +774,7 @@ B(0.5,3.2,0,0.012,0.3,2.7,mat.rugOlive,scene,{cast:false});
   B(-1.0,1.0,0.3,1.3,-1.12,-1.06,mat.fabric,g);                // upholstered headboard panel
 })();
 [0.35, 2.65].forEach(z => {
-  B(0,0.42,0.3,0.5,z-0.2,z+0.2,mat.oakDark);
+  B(0,0.42,0.3,0.5,z-0.2,z+0.2,mat.oak);
   rod(V(0.02,1.25,z),V(0.25,1.25,z),0.006,mat.steel);
   cyl(0.03,0.07,0.12,mat.steel,0.27,1.2,z);
   lamps.push({pos:V(0.3,1.05,z), i:0.45, d:2.5});
