@@ -143,6 +143,7 @@ a{color:var(--oak)}
         <label><input type="checkbox" id="t-bdoor"> Open bedroom door</label>
         <label><input type="checkbox" id="t-wdoor"> Open walk-in door</label>
         <label><input type="checkbox" id="t-sdoor"> Open passage store</label>
+<label><input type="checkbox" id="t-thdoor"> Open bathroom door</label>
         <label><input type="checkbox" id="t-curtain"> Close bedroom curtains</label>
         <label><input type="checkbox" id="t-seal"> Oak wall to the ceiling</label>
         <label><input type="checkbox" id="t-evening"> Evening light</label>
@@ -467,16 +468,20 @@ B(0.9,6.3,1.1,1.14,D+1.94,D+2.0,mat.steel);
 [[(FDOOR[0]+FDOOR[1])/2,0.9],[(CAB_X1+CORR1)/2,6.9],[1.2,7.6],[6.5,8.9]].forEach(([x,z]) => cyl(0.05,0.05,0.03,mat.bulb,x,H-0.015,z,ceiling));
 
 /* ---------- Bathroom (as built) ---------- */
-B(0, JOG_X, 0, H, BATH_Z0, BATH_Z1, mat.plaster); B(JOG_X, BATH_X1, 0, H, BATH_Z0, JOG_Z, mat.plaster);   // south face steps back east of the shaft
+B(0, JOG_X, 0, H, BATH_Z0, BATH_Z1, mat.plaster);
+B(JOG_X, BATH_X1, 0, H, BATH_Z0, 3.95, mat.plaster); B(JOG_X, BATH_X1, 0, H, 4.85, JOG_Z, mat.plaster);   // bathroom wall either side of its door
+B(JOG_X, BATH_X1, 2.05, H, 3.95, 4.85, mat.plaster);                                                         // over the door
+B(JOG_X, BATH_X1-0.6, 0, 2.05, 3.95, 4.85, mat.white);   // the doorway opens into the bathroom: its lit interior, 60 cm in
+   // south face steps back east of the shaft
 // flush, frameless doors throughout: concealed frame, concealed hinges, a 3 mm shadow gap round the leaf and a dark reveal behind it.
 // hinged(pivotX, pivotZ, build) returns the group that swings; open/close sets rotation.y
 const DOOR_H = 2.05;
 function hinged(px, pz){ const g = group(); g.position.set(px, 0, pz); return g; }
 // bathroom: leaf painted like the bathroom wall, opens out into the passage, hinged at its south end; lever + lock on the passage side
-B(BATH_X1-0.06, BATH_X1-0.05, 0, DOOR_H, BDOOR[0], BDOOR[1], mat.black);                  // reveal behind the gap
 const thdoor = hinged(BATH_X1, BDOOR[1]);
 B(-0.045, 0, 0.012, DOOR_H-0.003, -(BDOOR[1]-BDOOR[0])+0.003, -0.003, mat.plaster, thdoor);
 B(0, 0.05, 1.0, 1.02, -(BDOOR[1]-BDOOR[0])+0.06, -(BDOOR[1]-BDOOR[0])+0.18, mat.black, thdoor);
+let thTarget = 0, thNow = 0;
 
 /* ---------- New floor-to-ceiling wall: eteinen | bedroom, with a flush door ---------- */
 B(HALL_X, BED_X0, 0, H, 0, BEDDOOR[0], mat.plaster);
@@ -484,7 +489,6 @@ B(HALL_X, BED_X0, 0, H, BEDDOOR[1], P0, mat.plaster);
 B(HALL_X, BED_X0, 2.05, H, BEDDOOR[0], BEDDOOR[1], mat.plaster);
 // bedroom: plaster-finish leaf flush with the eteinen face of the wall, opens out into the eteinen, hinged at its north end.
 // Pushed open from the bedroom (touch latch, no handle); a slim black lever on the eteinen side only.
-B(HALL_X+0.05, HALL_X+0.06, 0, DOOR_H, BEDDOOR[0], BEDDOOR[1], mat.black);
 const bdoor = hinged(HALL_X, BEDDOOR[0]);
 B(0, 0.045, 0.012, DOOR_H-0.003, 0.003, BEDDOOR[1]-BEDDOOR[0]-0.003, mat.plaster, bdoor);
 B(-0.05, 0, 1.0, 1.02, BEDDOOR[1]-BEDDOOR[0]-0.18, BEDDOOR[1]-BEDDOOR[0]-0.06, mat.black, bdoor);
@@ -563,12 +567,10 @@ function hangX(x0, x1, c, y, len, n){
   B(4.3, x1, UNDER-0.03, UNDER-0.01, (z0+z1)/2, (z0+z1)/2+0.04, mat.bulb, scene, {cast:false}); lamps.push({pos:V(5.0, 1.7, (z0+z1)/2), i:0.4, d:3});
 })();
 // walk-in: full-height oak leaf in the bedroom face, grain and joints matching the wall; opens into the bedroom, hinged at its east end, push latch
-B(WI_DOOR[0], WI_DOOR[1], 0, UNDER, PZ[1]+0.015, PZ[1]+0.025, mat.black);    // reveal
 const wdoor = hinged(WI_DOOR[1], P0);
 B(-(WI_DOOR[1]-WI_DOOR[0])+0.003, -0.003, 0.012, UNDER-0.004, 0, 0.045, mat.oak, wdoor);
 let wdTarget = 0, wdNow = 0;
 // store: full-height oak leaf in the passage face, pushed in, hinged at its south end, push latch
-B(CORR1+0.045, CORR1+SH, 0, UNDER, SDOOR[0], SDOOR[1], mat.black);           // reveal
 const sdoor = hinged(CORR1, SDOOR[1]);
 B(0, 0.04, 0.012, UNDER-0.004, -(SDOOR[1]-SDOOR[0])+0.003, -0.003, mat.oak, sdoor);
 let sdoorTarget = 0, sdoorNow = 0;
@@ -936,6 +938,7 @@ tParvi.addEventListener('change', () => { parviUserOff = !tParvi.checked; setPar
 const tSdoor = document.getElementById('t-sdoor'), tBdoor = document.getElementById('t-bdoor'), tWdoor = document.getElementById('t-wdoor');
 tSdoor.addEventListener('change', () => { sdoorTarget = tSdoor.checked ? 1 : 0; });
 tBdoor.addEventListener('change', () => { bdTarget = tBdoor.checked ? 1 : 0; });
+document.getElementById('t-thdoor').addEventListener('change', e => { thTarget = e.target.checked ? 1 : 0; });
 tWdoor.addEventListener('change', () => { wdTarget = tWdoor.checked ? 1 : 0; });
 // click a door itself to slide it (ignored when the pointer was dragged to orbit)
 const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(); let downAt = null;
@@ -977,6 +980,7 @@ function tick(now){
     if(k >= 1) fly = null;
   }
   if(Math.abs(wdNow - wdTarget) > 0.002){ wdNow += (wdTarget - wdNow) * 0.1; wdoor.rotation.y = -Math.PI/2 * wdNow; }
+  if(Math.abs(thNow - thTarget) > 0.002){ thNow += (thTarget - thNow) * 0.1; thdoor.rotation.y = -Math.PI/2 * thNow; }
   if(Math.abs(bdNow - bdTarget) > 0.002){ bdNow += (bdTarget - bdNow) * 0.1; bdoor.rotation.y = -Math.PI/2 * bdNow; }
   if(Math.abs(curtNow - curtTarget) > 0.002){ curtNow += (curtTarget - curtNow) * 0.07; curtains.forEach(g => g.scale.x = CURT_PARK + (1 - CURT_PARK) * curtNow); renderer.shadowMap.needsUpdate = true; }
   if(Math.abs(sdoorNow - sdoorTarget) > 0.002){ sdoorNow += (sdoorTarget - sdoorNow) * 0.12; sdoor.rotation.y = -Math.PI/2 * sdoorNow; }
