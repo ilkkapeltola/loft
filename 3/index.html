@@ -164,7 +164,7 @@ a{color:var(--oak)}
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>The full 4 m high, inside the front door and round the corner to the west window. An oak bench sits under the window and a tall mirror on the bedroom wall. 2.3 m of wardrobes stand against the bathroom, 3.4 m tall; the top cupboards above 2.4 m are for seasonal things and need a ladder. Straight ahead from the door, the passage runs south to the living room. You can see the balcony from the doormat.</small></td><td class="n">≈ 10 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>The NE corner, with the east of the two north windows. The 180 × 200 bed stands centred against the window wall, with a low headboard under the sill, nightstands and 65 cm down each side, and about 1.3 m at the foot. The wall to the eteinen runs floor to ceiling, and a flush, frameless door in the same plaster finish opens out into the eteinen: pushed open from the bedroom, with a slim lever only on the outside. The south side is the oak face of the wardrobes. The walk-in opens off the bedroom there through a full-height hidden door in the oak, at the foot of the bed. Above the wardrobes the bedroom is open to the parvi railing. Two blackout curtains close it, or the oak wall can go up to the ceiling.</small></td><td class="n">≈ 11 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. A 1.65 m passage runs from the front door to the living room along the plain bathroom wall, with nothing on it but the bathroom door. East of it are two wardrobes back to back, trimmed to the minimum. The walk-in (≈ 2.8 m², 1.17 m deep: hanging + aisle) opens off the bedroom: a double rail on the dividing wall and drawers by the door. The store (≈ 2.4 m², 1.0 m deep) is pushed open from the passage through a hidden oak door: steel shelving and a cleaning cupboard. The stair takes the east 0.84 m.</small></td><td class="n">≈ 12 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>The kitchen is on the west wall, in EKE's southern kitchen reservation. The whole kitchen is one graphite-grey wall on the west side, from the bathroom to the window wall: a tall oven-and-pantry column, a lit niche with the sink and hob under a slatted hood box and a bridge of upper cabinets, and the fridge-freezer column in the window corner. Pale stone worktop, travertine splashback. The 32 cm indentation in the bathroom's south face holds a low cupboard with three lit dark-wood shelves over it. A round table for 2–4 sits by the window. The dark brown leather 3-seater faces north to the TV on the dark-wood face of the store, 2.7 m away, with its back to the glass. The core stops 50 cm short of the stair foot, so the stair starts four steps out in the living room's NE corner and climbs north along the east wall.</small></td><td class="n">≈ 27.5 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>The kitchen is on the west wall, in EKE's southern kitchen reservation. The whole kitchen is one graphite-grey wall on the west side, from the bathroom to the window wall: a tall oven-and-pantry column, a lit niche with the sink and hob under a slatted hood box and a bridge of upper cabinets, and the fridge-freezer column in the window corner. Pale stone worktop, travertine splashback. The 32 cm indentation in the bathroom's south face holds a low cupboard with three lit dark-wood shelves over it. A square 75 × 75 cm table for two stands against the window, with a chair at each side. The dark brown leather 3-seater faces north to the TV on the dark-wood face of the store, 2.7 m away, with its back to the glass. The core stops 50 cm short of the stair foot, so the stair starts four steps out in the living room's NE corner and climbs north along the east wall.</small></td><td class="n">≈ 27.5 m²</td></tr>
         <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Parvi office<small>Over the passage and the wardrobes, from the bathroom wall to the stair. The parvi is 2.4 m deep. The 2 × 1 m desk faces south, centred on the railing over the living room and pushed right up against it. A low bookshelf stands against the bathroom wall. Railings look down into the bedroom, the eteinen and the living room. 1.60 m headroom, the legal maximum: you stoop when standing, but sitting at the desk is unaffected.</small></td><td class="n">≈ 10.5 m²</td></tr>
       </table>
     </section>
@@ -213,7 +213,7 @@ const KIT_X = 0.65;                               // front of the kitchen wall o
 const JOG_X = 1.42, JOG_Z = 5.81;                 // the bathroom's south face steps back 32 cm east of x 1.42 (plan): that indentation holds the shelves
 const KH = 2.7, KA = [BATH_Z1, 6.75], KN = [6.75, 9.05], KB = [9.05, D];   // top of the units; tall A (oven + pantry), lit niche, tall B (fridge-freezer) into the window-wall corner
 const SOFA_X = 5.2, SOFA_Z = 8.6, LIVE_Z = 7.45; // one 3-seater facing north to the TV on the store face
-const TABLE = [2.25, 8.3];
+const TABLE = [2.0, D-0.03-0.375];               // 75 × 75 cm table for two, pushed against the window wall; chairs east and west
 const BED_C = [(BED_X0+W)/2, 1.14];               // bed centred on the room, headboard against the window wall
 
 /* ---------- Plan (SVG) ---------- */
@@ -268,7 +268,7 @@ function planSVG(){
   R(0,KA[0],KIT_X,KB[1],'plan-dark'); R(KIT_X-0.02,KN[0],KIT_X,KN[1],'plan-thin');
   R(JOG_X,JOG_Z,BATH_X1,BATH_Z1,'plan-thin');                    // shelves in the indentation
   // dining
-  C(TABLE[0],TABLE[1],.45,'plan-fix'); [[TABLE[0]+0.72,TABLE[1]],[TABLE[0],TABLE[1]-0.72],[TABLE[0],TABLE[1]+0.72]].forEach(([x,z]) => C(x,z,.2,'plan-thin'));
+  R(TABLE[0]-0.375,TABLE[1]-0.375,TABLE[0]+0.375,TABLE[1]+0.375,'plan-fix'); [[TABLE[0]-0.62,TABLE[1]],[TABLE[0]+0.62,TABLE[1]]].forEach(([x,z]) => C(x,z,.2,'plan-thin'));
   // living
   R(SOFA_X-1.1,SOFA_Z-0.425,SOFA_X+1.1,SOFA_Z+0.425,'plan-fix'); R(SOFA_X-0.45,LIVE_Z-0.35,SOFA_X+0.45,LIVE_Z+0.35,'plan-thin');
   R(4.3,P1,6.1,P1+0.4,'plan-thin');
@@ -686,19 +686,20 @@ B(0, KIT_X, KH, H, KA[0], KB[1], mat.wall);                                  // 
   lamps.push({pos:V((x0+x1)/2, 1.7, z1), i:0.4, d:2});
 })();
 
-/* ---------- Dining: round table for 2–4 ---------- */
+/* ---------- Dining: square table for two against the window ---------- */
 (function(){
   const [x, z] = TABLE;
-  cyl(0.45,0.45,0.035,mat.oak,x,0.74,z,scene,48);
-  cyl(0.05,0.05,0.7,mat.steel,x,0.37,z); cyl(0.26,0.28,0.03,mat.steel,x,0.015,z,scene,32);
+  const h = 0.375;
+  B(x-h, x+h, 0.72, 0.75, z-h, z+h, mat.oak);                                   // 75 × 75 dark-wood top
+  [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b]) => B(x+a*(h-0.04)-0.018, x+a*(h-0.04)+0.018, 0, 0.72, z+b*(h-0.04)-0.018, z+b*(h-0.04)+0.018, mat.black));
   function chair(cx,cz,rot){
     const g = group(); place(g,cx,cz,rot);
     [[-0.2,-0.2],[0.2,-0.2],[-0.2,0.2],[0.2,0.2]].forEach(([lx,lz]) => B(lx-0.015,lx+0.015,0,0.45,lz-0.015,lz+0.015,mat.black,g));
     B(-0.23,0.23,0.45,0.53,-0.23,0.23,mat.sage,g);
     const b = B(-0.22,0.22,0.55,0.88,-0.26,-0.18,mat.sage,g); b.rotation.x = -0.1;
   }
-  chair(x+0.72, z, -Math.PI/2); chair(x, z-0.72, 0); chair(x, z+0.72, Math.PI);
-  const c = new THREE.Mesh(new THREE.ConeGeometry(0.4,0.16,40,1,true), mat.shade);
+  chair(x-0.62, z, Math.PI/2); chair(x+0.62, z, -Math.PI/2);
+  const c = new THREE.Mesh(new THREE.ConeGeometry(0.3,0.13,40,1,true), mat.shade);
   c.position.set(x,1.65,z); c.castShadow = true; scene.add(c);
   rod(V(x,1.73,z),V(x,H,z),0.004,mat.black);
   cyl(0.04,0.04,0.04,mat.bulb,x,1.62,z);
@@ -764,7 +765,7 @@ function sheerPanel(x0,x1,z){
   geo.computeVertexNormals();
   const m = new THREE.Mesh(geo, mat.linen); m.position.set((x0+x1)/2, 0.02+h/2, z); scene.add(m);
 }
-sheerPanel(0.95, 1.9, D-0.14); sheerPanel(5.3, 6.2, D-0.14);
+sheerPanel(0.92, 1.5, D-0.14); sheerPanel(5.3, 6.2, D-0.14);
 B(0.95, 6.25, H-0.04, H, D-0.16, D-0.12, mat.steel, ceiling);
 
 /* ---------- Bedroom (north-east) ---------- */
