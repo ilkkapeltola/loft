@@ -108,6 +108,7 @@ a{color:var(--oak)}
     <div class="loading" id="loading">Building the model…</div>
     <button type="button" class="vrbtn" id="vrbtn" disabled>Checking for VR…</button>
     <div class="hint">VR: point at any floor, step, bed or sofa and pull the trigger to teleport · A/X jumps up to the parvi and back · thumbstick left/right to turn</div>
+    <div id="m-labels" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
   </div>
 
   <aside class="panel">
@@ -148,6 +149,7 @@ a{color:var(--oak)}
         <label><input type="checkbox" id="t-seal"> Oak wall to the ceiling</label>
         <label><input type="checkbox" id="t-evening"> Evening light</label>
         <label><input type="checkbox" id="t-indirect"> Evening, indirect</label>
+        <label><input type="checkbox" id="t-measure"> Measure: click two points</label>
       </div>
       <div class="toggles sub" id="indirect-opts" hidden></div>
     </section>
@@ -162,7 +164,7 @@ a{color:var(--oak)}
       <h2>Spaces</h2>
       <table>
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>The full 4 m high, inside the front door and round the corner to the west window. An oak bench sits under the window and a tall mirror on the bedroom wall. 2.3 m of wardrobes stand against the bathroom, 3.4 m tall; the top cupboards above 2.4 m are for seasonal things and need a ladder. Straight ahead from the door, the passage runs south to the living room. You can see the balcony from the doormat.</small></td><td class="n">≈ 10 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>The NE corner, with the east of the two north windows. The 180 × 200 bed stands centred against the window wall, with a low headboard under the sill, nightstands and 65 cm down each side, and about 1.3 m at the foot. The wall to the eteinen runs floor to ceiling, and a flush, frameless door in the same plaster finish opens out into the eteinen: pushed open from the bedroom, with a slim lever only on the outside. The south side is the oak face of the wardrobes. The walk-in opens off the bedroom there through a full-height hidden door in the oak, at the foot of the bed; it is pushed open inwards. Above the wardrobes the bedroom is open to the parvi railing. Two blackout curtains close it, or the oak wall can go up to the ceiling.</small></td><td class="n">≈ 11 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>The NE corner, with the east of the two north windows. The 180 × 200 bed has its headboard on the east wall, with nightstands either side. It sits towards the window: 60 cm to walk on the window side, 1.0 m on the wardrobe side, and about 90 cm at the foot. The wall to the eteinen is concrete, floor to ceiling, and a flush, frameless door in the same concrete finish opens out into the eteinen: pushed open from the bedroom, with a slim lever only on the outside. The south side is the oak face of the wardrobes. The walk-in opens off the bedroom there through a full-height hidden door in the oak, at the foot of the bed; it is pushed open inwards. Above the wardrobes the bedroom is open to the parvi railing. Two blackout curtains close it, or the oak wall can go up to the ceiling.</small></td><td class="n">≈ 11 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. A 1.65 m passage runs from the front door to the living room along the plain bathroom wall, with nothing on it but the bathroom door. East of it are two wardrobes back to back, trimmed to the minimum. The walk-in (≈ 3.8 m², 1.17 m deep: hanging + aisle) opens off the bedroom and runs on under the stair landing: a 2 m double rail on the dividing wall, and drawers with shelves above them in the 2.2 m high space under the landing. The store (≈ 2.4 m², 1.0 m deep) is pushed open from the passage through a hidden oak door: steel shelving and a cleaning cupboard. The stair takes the east 0.84 m.</small></td><td class="n">≈ 12 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>The kitchen is on the west wall, in EKE's southern kitchen reservation. The whole kitchen is one graphite-grey wall on the west side, from the bathroom to the window wall: a tall oven-and-pantry column, a lit niche with the sink and hob under a slatted hood box and a bridge of upper cabinets, and the fridge-freezer column in the window corner. Pale stone worktop, travertine splashback. The 32 cm indentation in the bathroom's south face holds a low cupboard with three lit dark-wood shelves over it. A square 75 × 75 cm table for two stands against the window, with a chair at each side. The dark brown leather 3-seater faces north to the TV on the dark-wood face of the store, 2.7 m away, with its back to the glass. The core stops 50 cm short of the stair foot, so the stair starts four steps out in the living room's NE corner and climbs north along the east wall.</small></td><td class="n">≈ 27.5 m²</td></tr>
         <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Parvi office<small>Over the passage and the wardrobes, from the bathroom wall to the stair. The parvi is 2.4 m deep. The 2 × 1 m desk faces south, centred on the railing over the living room and pushed right up against it. A low bookshelf stands against the bathroom wall. Railings look down into the bedroom, the eteinen and the living room. 1.60 m headroom, the legal maximum: you stoop when standing, but sitting at the desk is unaffected.</small></td><td class="n">≈ 10.5 m²</td></tr>
@@ -214,7 +216,7 @@ const JOG_X = 1.42, JOG_Z = 5.81;                 // the bathroom's south face s
 const KH = 2.7, KA = [BATH_Z1, 6.75], KN = [6.75, 9.05], KB = [9.05, D];   // top of the units; tall A (oven + pantry), lit niche, tall B (fridge-freezer) into the window-wall corner
 const SOFA_X = 5.2, SOFA_Z = 8.6, LIVE_Z = 7.45; // one 3-seater facing north to the TV on the store face
 const TABLE = [2.0, D-0.03-0.375];               // 75 × 75 cm table for two, pushed against the window wall; chairs east and west
-const BED_C = [(BED_X0+W)/2, 1.14];               // bed centred on the room, headboard against the window wall
+const BED_C = [W - 1.14, 1.55];                   // headboard on the east wall, bed runs west; 60 cm walkway on the window side, 1.0 m on the wardrobe side
 
 /* ---------- Plan (SVG) ---------- */
 function planSVG(){
@@ -273,11 +275,11 @@ function planSVG(){
   R(SOFA_X-1.1,SOFA_Z-0.425,SOFA_X+1.1,SOFA_Z+0.425,'plan-fix'); R(SOFA_X-0.45,LIVE_Z-0.35,SOFA_X+0.45,LIVE_Z+0.35,'plan-thin');
   R(4.3,P1,6.1,P1+0.4,'plan-thin');
   // bedroom
-  R(BED_C[0]-0.95,0.02,BED_C[0]+0.95,2.22,'plan-fix'); [-1,1].forEach(d => R(BED_C[0]+d*1.2-0.2,0,BED_C[0]+d*1.2+0.2,0.42,'plan-thin'));
+  R(BED_C[0]-1.1,BED_C[1]-0.95,W-0.02,BED_C[1]+0.95,'plan-fix'); [-1,1].forEach(d => R(W-0.42,BED_C[1]+d*1.2-0.2,W,BED_C[1]+d*1.2+0.2,'plan-thin'));
   // parvi outline
   s.push(`<path d="M${CAB_X0} ${P0} H${W} V${STAIR_TOP} H${STAIR_X0} V${P1} H${CAB_X0} Z" class="plan-parvi"/>`);
   // labels
-  Tx(BED_C[0],2.75,'BEDROOM'); Tx(BED_C[0],2.95,'≈ 11 m²','plan-ts');
+  Tx(5.4,3.05,'BEDROOM'); Tx(5.4,3.25,'≈ 11 m²','plan-ts');
   Tx(2.7,1.25,'ETEINEN'); Tx(3.37,P1-0.15,'passage','plan-ts');
   Tx(5.2,P1-0.12,'OFFICE ABOVE','plan-tp');
   Tx(5.2,9.45,'LIVING'); Tx(1.6,9.45,'KITCHEN · DINING','plan-ts');
@@ -484,13 +486,13 @@ B(0, 0.05, 1.0, 1.02, -(BDOOR[1]-BDOOR[0])+0.06, -(BDOOR[1]-BDOOR[0])+0.18, mat.
 let thTarget = 0, thNow = 0;
 
 /* ---------- New floor-to-ceiling wall: eteinen | bedroom, with a flush door ---------- */
-B(HALL_X, BED_X0, 0, H, 0, BEDDOOR[0], mat.plaster);
-B(HALL_X, BED_X0, 0, H, BEDDOOR[1], P0, mat.plaster);
-B(HALL_X, BED_X0, 2.05, H, BEDDOOR[0], BEDDOOR[1], mat.plaster);
-// bedroom: plaster-finish leaf flush with the eteinen face of the wall, opens out into the eteinen, hinged at its north end.
+B(HALL_X, BED_X0, 0, H, 0, BEDDOOR[0], mat.wall);
+B(HALL_X, BED_X0, 0, H, BEDDOOR[1], P0, mat.wall);
+B(HALL_X, BED_X0, 2.05, H, BEDDOOR[0], BEDDOOR[1], mat.wall);
+// bedroom: concrete-finish leaf flush with the eteinen face of the wall, opens out into the eteinen, hinged at its north end.
 // Pushed open from the bedroom (touch latch, no handle); a slim black lever on the eteinen side only.
 const bdoor = hinged(HALL_X, BEDDOOR[0]);
-B(0, 0.045, 0.012, DOOR_H-0.003, 0.003, BEDDOOR[1]-BEDDOOR[0]-0.003, mat.plaster, bdoor);
+B(0, 0.045, 0.012, DOOR_H-0.003, 0.003, BEDDOOR[1]-BEDDOOR[0]-0.003, mat.wall, bdoor);
 B(-0.05, 0, 1.0, 1.02, BEDDOOR[1]-BEDDOOR[0]-0.18, BEDDOOR[1]-BEDDOOR[0]-0.06, mat.black, bdoor);
 let bdTarget = 0, bdNow = 0;
 
@@ -771,28 +773,28 @@ sheerPanel(0.92, 1.5, D-0.14); sheerPanel(5.3, 6.2, D-0.14);
 B(0.95, 6.25, H-0.04, H, D-0.16, D-0.12, mat.steel, ceiling);
 
 /* ---------- Bedroom (north-east) ---------- */
-B(BED_C[0]-1.33,BED_C[0]+1.33,0,0.012,0.55,3.1,mat.rugOlive,scene,{cast:false});
+B(4.6,6.75,0,0.012,BED_C[1]-1.33,BED_C[1]+1.33,mat.rugOlive,scene,{cast:false});
 (function bed(){
-  const g = group(); place(g, BED_C[0], BED_C[1], 0);  // headboard on the north wall, faces south
+  const g = group(); place(g, BED_C[0], BED_C[1], -Math.PI/2);  // headboard on the east wall, faces west
   B(-0.95,0.95,0,0.22,-1.05,1.1,mat.oakDark,g);
   B(-0.9,0.9,0.22,0.48,-1.03,1.05,mat.bedding,g);
   B(-0.92,0.92,0.48,0.56,-0.35,1.07,mat.bedding,g);
   B(-0.94,0.94,0.56,0.59,0.55,0.95,mat.throwM,g);
   [-0.45,0.45].forEach(x => { const p = B(x-0.38,x+0.38,0.48,0.66,-0.98,-0.68,mat.bedding,g); p.rotation.x = -0.25; });
-  B(-1.0,1.0,0.3,0.86,-1.12,-1.06,mat.fabric,g);               // low upholstered headboard, kept under the 0.9 m window sill
+  B(-1.0,1.0,0.3,0.86,-1.12,-1.06,mat.fabric,g);               // low upholstered headboard
 })();
 [-1, 1].forEach(d => {
-  const x = BED_C[0] + d*1.2;                     // nightstands either side, 25 cm clear of the bed
-  B(x-0.2,x+0.2,0.3,0.5,0,0.42,mat.oakDark);
-  rod(V(x,1.25,0.02),V(x,1.25,0.25),0.006,mat.steel);
-  cyl(0.03,0.07,0.12,mat.steel,x,1.2,0.27);
-  lamps.push({pos:V(x,1.05,0.3), i:0.45, d:2.5});
+  const z = BED_C[1] + d*1.2;                     // nightstands either side against the east wall, 25 cm clear of the bed
+  B(W-0.42,W,0.3,0.5,z-0.2,z+0.2,mat.oakDark);
+  rod(V(W-0.02,1.25,z),V(W-0.25,1.25,z),0.006,mat.steel);
+  cyl(0.03,0.07,0.12,mat.steel,W-0.27,1.2,z);
+  lamps.push({pos:V(W-0.3,1.05,z), i:0.45, d:2.5});
 });
 // blackout roller blind in the window reveal above the bed, rolled up; no curtain to fall onto the headboard
 B(5.13, 6.08, 3.18, 3.3, -0.1, -0.02, mat.steel);
 const pend = new THREE.Mesh(new THREE.SphereGeometry(0.28,40,24), mat.shade);
-pend.position.set(BED_C[0],2.4,1.4); scene.add(pend); rod(V(BED_C[0],2.68,1.4),V(BED_C[0],H,1.4),0.004,mat.black);
-lamps.push({pos:V(BED_C[0],2.3,1.4), i:1.0, d:5});
+pend.position.set(BED_C[0]-0.26,2.4,BED_C[1]); scene.add(pend); rod(V(BED_C[0]-0.26,2.68,BED_C[1]),V(BED_C[0]-0.26,H,BED_C[1]),0.004,mat.black);
+lamps.push({pos:V(BED_C[0]-0.26,2.3,BED_C[1]), i:1.0, d:5});
 
 /* ---------- Lights ---------- */
 const hemi = new THREE.HemisphereLight('#e4ebee', '#8c8478', 0.62);
@@ -915,7 +917,7 @@ const views = {
   entry:    {p:[3.42, 1.6, 0.3],   t:[3.4, 1.3, 7.5]},
   hall:     {p:[3.75, 1.6, 2.75],  t:[0.6, 1.3, 0.5]},
   doorway:  {p:[1.3, 1.6, 3.0],    t:[6.6, 0.9, 1.6], open:'bed'},
-  bedroom:  {p:[6.6, 1.6, 3.2],   t:[5.2, 0.7, 0.4]},
+  bedroom:  {p:[4.3, 1.7, 3.35],  t:[6.8, 0.5, 0.9]},
   down:     {p:[5.3, 3.8, 4.25],  t:[5.7, 0.4, 1.2]},
   office:   {p:[4.4, 3.75, 3.85],  t:[4.4, 2.4, 8.9]},
   living:   {p:[2.4, 1.6, 9.3],    t:[5.6, 1.2, 5.9]},
@@ -951,6 +953,7 @@ renderer.domElement.addEventListener('pointerup', e => {
   const r = renderer.domElement.getBoundingClientRect();
   ndc.set((e.clientX-r.left)/r.width*2-1, -(e.clientY-r.top)/r.height*2+1);
   ray.setFromCamera(ndc, camera);
+  if(measureOn){ measureClick(); return; }
   if(ray.intersectObjects(sdoor.children, false)[0]){ tSdoor.checked = !tSdoor.checked; sdoorTarget = tSdoor.checked ? 1 : 0; return; }
   if(ray.intersectObjects(bdoor.children, false)[0]){ tBdoor.checked = !tBdoor.checked; bdTarget = tBdoor.checked ? 1 : 0; return; }
   if(ray.intersectObjects(wdoor.children, false)[0]){ tWdoor.checked = !tWdoor.checked; wdTarget = tWdoor.checked ? 1 : 0; }
@@ -967,6 +970,36 @@ const qs = new URLSearchParams(location.search);
 if(qs.get('indirect')){ tInd.checked = true; tInd.dispatchEvent(new Event('change')); }
 if(views[qs.get('view')]) setView(qs.get('view'));
 if(qs.get('cam')){ const c = qs.get('cam').split(',').map(Number); if(c.length === 6){ fly = null; camera.position.set(c[0], c[1], c[2]); controls.target.set(c[3], c[4], c[5]); } }
+
+/* ---------- Measuring tape: click two surfaces, shows the distance + its x / y / z parts ---------- */
+let measureOn = false, mStart = null;
+const mGroup = new THREE.Group(); scene.add(mGroup);
+const mLabels = document.getElementById('m-labels'), mItems = [];
+const mDot = new THREE.MeshBasicMaterial({color:'#ff3b30', depthTest:false});
+const mLine = new THREE.LineBasicMaterial({color:'#ff3b30', depthTest:false});
+function shown(o){ for(; o; o = o.parent) if(!o.visible) return false; return true; }
+function dot(p){ const m = new THREE.Mesh(new THREE.SphereGeometry(0.025, 12, 8), mDot); m.position.copy(p); m.renderOrder = 999; mGroup.add(m); }
+function measureClick(){
+  const hit = ray.intersectObject(scene, true).find(h => shown(h.object) && !(h.object.parent === mGroup) && h.object.isMesh);
+  if(!hit) return;
+  const p = hit.point.clone(); dot(p);
+  if(!mStart){ mStart = p; return; }
+  const a = mStart, b = p; mStart = null;
+  const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), mLine); ln.renderOrder = 999; mGroup.add(ln);
+  const d = a.distanceTo(b), f = v => Math.abs(v).toFixed(2);
+  const el = document.createElement('div');
+  el.style.cssText = 'position:absolute;transform:translate(-50%,-120%);background:#111d;color:#fff;font:12px/1.35 system-ui,sans-serif;padding:3px 7px;border-radius:4px;white-space:nowrap';
+  el.innerHTML = `<b>${d.toFixed(2)} m</b><br><span style="opacity:.75">x ${f(b.x-a.x)} · z ${f(b.z-a.z)} · height ${f(b.y-a.y)}</span>`;
+  mLabels.appendChild(el); mItems.push({el, mid: a.clone().lerp(b, 0.5)});
+}
+function measureClear(){ mGroup.clear(); mLabels.innerHTML = ''; mItems.length = 0; mStart = null; }
+function measureLabels(){
+  const r = renderer.domElement.getBoundingClientRect();
+  mItems.forEach(({el, mid}) => { const v = mid.clone().project(camera);
+    el.style.display = v.z < 1 ? '' : 'none'; el.style.left = ((v.x+1)/2*r.width)+'px'; el.style.top = ((1-v.y)/2*r.height)+'px'; });
+}
+document.getElementById('t-measure').addEventListener('change', e => { measureOn = e.target.checked; renderer.domElement.style.cursor = measureOn ? 'crosshair' : ''; if(!measureOn) measureClear(); });
+addEventListener('keydown', e => { if(e.key === 'Escape') measureClear(); });
 
 /* ---------- Loop ---------- */
 function resize(){
@@ -987,6 +1020,7 @@ function tick(now){
   if(Math.abs(bdNow - bdTarget) > 0.002){ bdNow += (bdTarget - bdNow) * 0.1; bdoor.rotation.y = -Math.PI/2 * bdNow; }
   if(Math.abs(curtNow - curtTarget) > 0.002){ curtNow += (curtTarget - curtNow) * 0.07; curtains.forEach(g => g.scale.x = CURT_PARK + (1 - CURT_PARK) * curtNow); renderer.shadowMap.needsUpdate = true; }
   if(Math.abs(sdoorNow - sdoorTarget) > 0.002){ sdoorNow += (sdoorTarget - sdoorNow) * 0.12; sdoor.rotation.y = -Math.PI/2 * sdoorNow; }
+  if(mItems.length) measureLabels();      // labels follow last frame's camera
   if(renderer.xr.isPresenting){ xrFrame(); renderer.render(scene, camera); return; }
   controls.update();
   const c = camera.position;
