@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A33 · 5 · Divider, no parvi</title>
+<title>Artus A33 Phase One</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -112,13 +112,13 @@ a{color:var(--oak)}
 
   <aside class="panel">
     <header>
-      <div class="eyebrow">Vanha talvitie 31 A33 · 6th floor · version 10</div>
-      <h1>Artus A33 Divider</h1>
-      <p class="lede">Version 9 without the parvi, so the whole flat keeps the full 4 m. A 3 m oak divider, 2.4 m tall, separates the bed from the workstation, and the desk stands against its back. The bedroom wardrobes stand against the white wall at the foot of the bed, 3.8 m tall with just room for an uplight on top. That leaves a wide, open way into the bedroom past the end of the divider. The space above the divider stays open, so the north light carries over it into the middle of the flat.</p>
+      <div class="eyebrow">Vanha talvitie 31 A33 · 6th floor · version 12 · phase 1 of version 6</div>
+      <h1>Artus A33 Phase One</h1>
+      <p class="lede">Version 6 built in two steps. This is the first, cheap one: everything that version 6 has outside the core (eteinen, its wall, the kitchen, living and dining) built exactly as in version 6, and the core left open at the full 4 m. No parvi, stair, walk-in or store yet. The bedroom wardrobe and the desk stand where version 6's walk-in and store will go, sized to fit under the parvi, so step 2 just adds the stair, the deck and the oak walls round them.</p>
       <div class="stats">
-        <div class="stat"><b>~16 m²</b><span>bedroom</span></div>
-        <div class="stat"><b>3 m</b><span>wardrobes, 3.8 m tall</span></div>
-        <div class="stat"><b>4.0 m</b><span>ceiling</span></div>
+        <div class="stat"><b>~22 m²</b><span>open bedroom + desk</span></div>
+        <div class="stat"><b>2.1 m</b><span>wardrobe, 2.26 m tall</span></div>
+        <div class="stat"><b>≈ €35k</b><span>moved to step 2</span></div>
       </div>
     </header>
 
@@ -129,14 +129,16 @@ a{color:var(--oak)}
         <button type="button" id="v-entry" data-view="entry">From the front door</button>
         <button type="button" id="v-doorway" data-view="doorway">Hall → bedroom</button>
         <button type="button" id="v-bedroom" data-view="bedroom">Bedroom</button>
+        <button type="button" id="v-wardrobe" data-view="wardrobe">Wardrobe from the bed</button>
         <button type="button" id="v-office" data-view="office">Workstation</button>
-        <button type="button" id="v-wardrobes" data-view="wardrobes">Wardrobes from the bed</button>
         <button type="button" id="v-living" data-view="living">Living</button>
         <button type="button" id="v-kitchen" data-view="kitchen">Kitchen + dining</button>
         <button type="button" id="v-passage" data-view="passage">Passage</button>
+        <button type="button" id="v-step2" data-view="step2">Step 2 on top</button>
         <button type="button" id="v-plan" data-view="plan">Plan from above</button>
       </div>
       <div class="toggles">
+        <label><input type="checkbox" id="t-ghost"> Show step 2 (version 6's parvi)</label>
         <label><input type="checkbox" id="t-evening"> Evening light</label>
         <label><input type="checkbox" id="t-indirect"> Evening, indirect</label>
       </div>
@@ -146,30 +148,35 @@ a{color:var(--oak)}
     <section>
       <h2>Plan</h2>
       <div class="sheet" id="plan"></div>
-      <p class="src" style="margin-top:6px">Click a zone to move the camera there. The heavy line is the new floor-to-ceiling wall between the eteinen and the bedroom.</p>
+      <p class="src" style="margin-top:6px">Click a zone to move the camera there. The heavy line is the new floor-to-ceiling wall, built now. The olive dashed lines are step 2: version 6's parvi, stair and oak walls.</p>
     </section>
 
     <section>
       <h2>Spaces</h2>
       <table>
-        <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>The full 4 m high, with the first north window and an oak bench under it. 3 m of wardrobes along the east wall, 3.4 m tall, stopping just under the duct, for outdoor clothes and shoes; the top cupboards above 2.4 m are for seasonal things and need a ladder. The wall to the bedroom is as long as in version 9, so the way out of the eteinen at the end is 1.3 m wide.</small></td><td class="n">≈ 9 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>Two north windows including the French balcony. The 180 × 200 bed has its headboard on the west wall: 0.6 m on the window side, 0.8 m to the divider and 1.9 m past the foot to the wardrobes. The wardrobes stand against the white wall to the eteinen: 3 m long, 60 cm deep, 3.8 m tall, with hinged doors up to 2.4 m and cupboards above for seasonal things, and an uplight on top. The way in is the 1.75 m gap between the end of the divider and the eteinen wall line, with no door.</small></td><td class="n">≈ 16 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Workstation + passage<small>Behind the divider, full height. A 2 × 0.8 m oak desk stands against the divider with two open shelves above it, and you sit facing north with the living room behind you. A low bookshelf on the west wall. With the cabinets gone from the bathroom wall, the walk from the eteinen past the bathroom door to the living room is about 1.6 m wide.</small></td><td class="n">≈ 17 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-core)"></span>Eteinen<small>As in version 6. The full 4 m high, with the first north window and an oak bench under it. 3 m of wardrobes along the east wall, 3.4 m tall, stopping just under the duct; the top cupboards above 2.4 m are for seasonal things and need a ladder. The wall between the eteinen and the bedroom is built now, exactly where version 6 has it, so step 2 doesn't touch it.</small></td><td class="n">≈ 9 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>Two north windows including the French balcony. The bed, nightstands and lamps are as in version 6: headboard on the west wall, facing the eteinen wall. There's no wall on the south side yet. The bedroom runs on into the open middle band and ends at the wardrobe, 1.3 m past the bed. Two ways in: the 1.65 m passage from the eteinen on the east, and an 0.84 m gap along the west wall where version 6's stair will go.</small></td><td class="n">≈ 14 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Wardrobe + workstation<small>A 2.1 m oak wardrobe, 60 cm deep and 2.26 m tall, stands across the middle band facing the bed: four flush, handle-free doors with 3 mm shadow joints, a joint at 2.06 m door-head height and top cupboards above it, the same grid as version 6's oak wall. Its back is finished oak too, and the desk stands against it: 2 × 0.8 m, with the 49" ultra-wide on it, and you sit facing north with the living room behind you. It stands exactly on version 6's line between the walk-in and the store. In step 2 the wardrobe stays where it is and becomes the walk-in's fittings, and its back becomes the wall between the walk-in and the store. The desk moves up onto the parvi.</small></td><td class="n">≈ 8 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-live)"></span>Kitchen, dining + living<small>As in version 6. Kitchen on the east wall (EKE's southern kitchen reservation), all matt black, composed as one wall: a 2.7 m tall column at each end, a bridge of upper cabinets flush with them, and between them a lit niche with the hob, the oven under it and a slatted box hiding the extractor. The low run with the sink is set out on a straight line from the shaft, and the 30 cm indentation behind it in the bathroom wall becomes an open niche with three dark-wood shelves. Round table for 2–4. Two 3-seaters face each other across a coffee table, with the TV on the west wall between their ends.</small></td><td class="n">≈ 34 m²</td></tr>
+        <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Step 2<small>Adds version 6's core: the stair along the west wall, the parvi deck at 2.40 m (1.60 m above, the legal limit), the railings, the flush oak wall on the bedroom side with the bedroom and walk-in doors, the oak passage face with the store door, and the store's steel shelving. The desk goes up to the parvi. Nothing built in step 1 has to come out.</small></td><td class="n">+ 13 m²</td></tr>
       </table>
     </section>
 
     <section>
       <h2>Check before building</h2>
       <ul class="notes">
-        <li>The divider stops at 2.4 m and the way into the bedroom has no door, so the bedroom is open to sound and to evening light from the rest of the flat. From the end of the eteinen you look straight into it.</li>
-        <li>Clothes storage is 3 m of wardrobes in the eteinen and 3 m in the bedroom, both with ladder-height top cupboards. There's no separate store in this version; the cleaning gear and suitcases need a place, in the cellar unit or the top cupboards.</li>
-        <li>The desk faces the oak divider, not a window. The daylight comes from the south glazing, 4–6 m behind you, and over the wardrobes from the north.</li>
-        <li>The kitchen is on the southern kitchen reservation (KT-varaus) on the east wall. Confirm with EKE that the water and drain connections are planned there too. Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
+        <li>The bedroom has no door and no wall to the south, so it's open to the passage, the desk and the living room for sound and evening light, and you can see the bed from the end of the eteinen. A ceiling curtain track on version 6's line (z 2.9 m) is a cheap fix if it bothers you; it's the same track version 6 uses.</li>
+        <li>Fixed now so step 2 doesn't undo finished work: run the floor finish under the whole core; put empty conduit for the parvi's lights, sockets and desk into the west wall and the bathroom face before they're finished; and have the parvi's structural design done now, so the bearing points (and any fixings in the west wall) are known. The bathroom box is EKE's: confirm with them whether the deck can bear on it.</li>
+        <li>The wardrobe stands free in the middle of the floor: fix it to the floor slab and make the carcass rigid, since nothing holds the top until the parvi arrives. It stops 6 cm short of version 6's stair wall line, so the walk-in door can fold flat there later, and 5 cm short of the passage face.</li>
+        <li>In step 2 the parvi deck sits 2 cm above the wardrobe. Measure the real ceiling height before building either step: the plan only says "about 4 m", and the deck height follows from it (at most 1.60 m above the deck).</li>
+        <li>Roughly what moves to step 2, at version 6's estimate: parvi €17k, stair €7k, railings €6k, the oak wall and doors and the store fittings about €6k. About €35k, less the wardrobe (≈ €4k) built now.</li>
+        <li>The kitchen moves to the southern kitchen reservation (KT-varaus) on the east wall. Confirm with EKE that the water and drain connections are planned there too. Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
+        <li>The palette follows EKE's "Rouhea" style for Artus, as in version 6: raw grey concrete walls and ceiling, a grey concrete floor, dark brown wood, an all-black kitchen with a stainless sink, black steel, dark leather and a moss-green jute rug.</li>
         <li>"Evening, indirect" shows hidden warm-white LED lighting, each part on its own switch. The strips are drawn as soft area lights, so you can see where the glow lands. Light bouncing on from the lit ceiling isn't calculated: a warm fill stands in for it, so treat the overall brightness as indicative.</li>
-      </ul></ul>
+      </ul>
     </section>
 
-    <p class="src">Source: <a href="https://www.ekerakennus.fi/asunnot/vanha-talvitie-31-a33/?apartment=Vanha+talvitie+31+A33" target="_blank" rel="noopener">A33 listing and floor plan</a>. Built from version 9, without the parvi.</p>
+    <p class="src">Source: <a href="https://www.ekerakennus.fi/asunnot/vanha-talvitie-31-a33/?apartment=Vanha+talvitie+31+A33" target="_blank" rel="noopener">A33 listing and floor plan</a>. Built from version 6, without its core.</p>
   </aside>
 </div>
 
@@ -183,16 +190,23 @@ const W = 6.9, D = 11.45, H = 4.0, T = 0.25;
 const DOOR0 = 0.12, DOOR1 = 1.08;                 // front door in the east wall
 const BATH_X = 4.75, BATH_Z0 = 4.65, BATH_Z1 = 7.5; // bathroom box, full height
 const SH_N = [4.75, 6.7, 4.3], SH_S = [5.7, 7.8]; // shafts: north (x0, x1, z0), south (x0, z1)
-const DIV_Z0 = 3.30, DIV_Z1 = 3.40, DIV_X1 = 3.0, DIV_H = 2.4;   // divider between bed and workstation: north and south faces, east end, height
-const P1 = BATH_Z1;                               // south end of the workstation zone, in line with the bathroom's south wall
-const CAB_X = 4.35;                               // front of the grey column at the kitchen end
-const BDOOR = [5.9, 6.7];                         // bathroom door
+const PF = 2.40, UNDER = 2.28;                    // parvi floor top / clear height below: max 1.60 m headroom above (legal limit, not counted as floor area)
+const P0 = 2.96, P1 = 5.85;                       // parvi + core band (north/south edges); 2.96 leaves 1.25 m at the turn out of the eteinen, same as the passage
+const STAIR_W = 0.84, RISE = PF / 12, RUN = 0.23, TREADS = 11;
+const STAIR_Z1 = P1 + 2 * RUN;                    // bottom two steps stand out in the living room
+const STAIR_TOP = STAIR_Z1 - TREADS * RUN;        // 3.78: stair climbs north along the west wall to a landing by the bedroom railing
+const CORR0 = 3.1, CAB_X = 4.35;                  // passage x 3.1–4.35, 40 cm cabinets on the bathroom side
+const BDOOR = [5.9, 6.7], SDOOR = [4.95, 5.75];   // bathroom door; flush push-in store door on the passage face (z extent)
+const WI_DOOR = [0.90, 1.70], DOOR_H = 2.06;       // flush walk-in door; 21M door height (≈2.04 m leaf) // flush oak doors in the bedroom wall: walk-in (swings in), bedroom (swings out to the passage)
+const WARD_SPLIT = 4.42;                          // walk-in wardrobe (north) | utility storage (south)
 const HALL_X = 4.75, WALL_T = 0.12;               // new floor-to-ceiling wall, flush with the bathroom's west face
-const BED_S = 2.86;                               // end of the eteinen wall (as in version 9)
-const WR_X0 = HALL_X - 0.6, WR_Z1 = BED_S + WALL_T, WR_H = H - 0.2;   // bedroom wardrobes against the eteinen wall: front face, south end, height (20 cm left for the uplight)
-const KIT_X = 6.3, TALL_F = 8.1;                  // kitchen front on the east wall; tall-unit wall front
-const DESK = [0.6, 2.6], DESK_D = 0.8;            // desk against the wardrobe back (x extent, depth)
-const SOFA_X = 2.1, SOFAS_Z = [7.85, 10.5], LIVE_Z = 9.175;   // two 3-seaters facing each other; TV + coffee table on the line between
+const BD_DOOR = [(CORR0+HALL_X-0.85)/2, (CORR0+HALL_X+0.85)/2];   // bedroom door 3.50–4.35, centred on the passage
+const BED_S = P0 - 0.1;                           // end of the eteinen wall (it stops at the oak storage wall)
+const KIT_X = 6.3, TALL_F = 8.4;                  // TALL_F: front of the low sink run, set straight off the shaft line (SH_S z 7.8)
+//                  // kitchen front on the east wall; tall-unit wall front
+const WR_X = [0.95, CORR0 - 0.05], WR_Z = [WARD_SPLIT - 0.64, WARD_SPLIT - 0.04], WR_H = UNDER - 0.02;   // step-1 wardrobe: on v6's walk-in | store line, 2 cm under the future deck
+const DESK = [WR_X[0]+0.05, WR_X[1]-0.05], DESK_Z = [WR_Z[1], WR_Z[1]+0.8];                         // desk against the wardrobe's back
+const SOFA_X = 2.1, SOFAS_Z = [7.7, 10.35], LIVE_Z = 9.02;   // two 3-seaters facing each other; TV + coffee table on the line between
 
 /* ---------- Plan (SVG) ---------- */
 function planSVG(){
@@ -209,27 +223,32 @@ function planSVG(){
   s.push(`<path d="M${W+T} ${DOOR0} A${DOOR1-DOOR0} ${DOOR1-DOOR0} 0 0 1 ${W+T+DOOR1-DOOR0} ${DOOR1}" class="plan-door"/>`);
   L(W+T,DOOR1,W+T+DOOR1-DOOR0,DOOR1,'plan-door');
   // zones
-  R(0,0,HALL_X,DIV_Z0,'plan-zone','style="fill:var(--zone-bed)" data-view="bedroom"');
+  R(0,0,HALL_X,BED_S,'plan-zone','style="fill:var(--zone-bed)" data-view="bedroom"');
   R(HALL_X,0,W,SH_N[2],'plan-zone','style="fill:var(--zone-core)" data-view="entry"');
-  R(0,DIV_Z1,BATH_X,P1,'plan-zone','style="fill:var(--zone-kit)" data-view="office"');
+  R(CORR0,BED_S,HALL_X,P0+0.6,'plan-zone','style="fill:var(--zone-core)" data-view="doorway"');
+  R(CORR0,P0+0.6,BATH_X,P1,'plan-zone','style="fill:var(--zone-kit)" data-view="passage"');
+  R(0,P0,CORR0,WR_Z[0],'plan-zone','style="fill:var(--zone-bed)" data-view="wardrobe"');
+  R(0,WR_Z[0],CORR0,P1,'plan-zone','style="fill:var(--zone-kit)" data-view="office"');
   R(0,P1,W,D,'plan-zone','style="fill:var(--zone-live)" data-view="living"');
   // shafts + bathroom
   R(SH_N[0],SH_N[2],SH_N[1],BATH_Z0,'plan-dark'); R(SH_S[0],BATH_Z1,W,SH_S[1],'plan-dark');
   R(BATH_X,BATH_Z0,W,BATH_Z1,'plan-fix'); Tx((BATH_X+W)/2,6.2,'KPH');
   // new walls
   R(HALL_X,0,HALL_X+WALL_T,BED_S+WALL_T,'plan-wall');
+
   // eteinen
   R(KIT_X,1.25,W,SH_N[2],'plan-solid'); R(5.25,0,6.15,0.4,'plan-thin');
-  // bedroom wardrobes + workstation
-  R(0,DIV_Z0,DIV_X1,DIV_Z1,'plan-solid');
-  R(WR_X0,0,HALL_X,WR_Z1,'plan-solid');
-  for(let k=1;k<5;k++) L(WR_X0,k*WR_Z1/5,WR_X0+0.1,k*WR_Z1/5,'plan-thin');
-  R(DESK[0],DIV_Z1,DESK[1],DIV_Z1+DESK_D,'plan-fix'); C((DESK[0]+DESK[1])/2,DIV_Z1+DESK_D+0.35,.24,'plan-thin');
-  R(0,5.3,0.36,7.0,'plan-thin');
-  R(CAB_X,BATH_Z1,BATH_X,TALL_F,'plan-dark');
+  // step 1: wardrobe (four doors) facing the bed, desk + chair against its back
+  R(WR_X[0],WR_Z[0],WR_X[1],WR_Z[1],'plan-solid');
+  for(let k=1;k<4;k++){ const x = WR_X[0] + k*(WR_X[1]-WR_X[0])/4; L(x,WR_Z[0],x,WR_Z[0]+0.1,'plan-door'); }
+  R(DESK[0],DESK_Z[0],DESK[1],DESK_Z[1],'plan-fix'); C((DESK[0]+DESK[1])/2,DESK_Z[1]+0.32,.22,'plan-thin');
+  Tx((WR_X[0]+WR_X[1])/2,WR_Z[0]-0.12,'wardrobe','plan-ts'); Tx((DESK[0]+DESK[1])/2,DESK_Z[0]+0.45,'desk','plan-ts');
+  // step 2 (version 6's core), dashed: parvi outline, stair treads, oak walls
+  for(let i=0;i<=TREADS;i++){ const z = STAIR_Z1 - i*RUN; L(0.06,z,STAIR_W-0.06,z,'plan-parvi'); }
+  L(0,P0+0.05,HALL_X,P0+0.05,'plan-parvi'); L(CORR0-0.03,P0,CORR0-0.03,P1,'plan-parvi');
   // kitchen
-  R(BATH_X,BATH_Z1,SH_S[0],TALL_F,'plan-dark'); R(SH_S[0],SH_S[1],W,TALL_F,'plan-dark');
-  R(KIT_X,TALL_F,W,9.3,'plan-dark'); R(KIT_X,9.3,W,10.9,'plan-fix');
+  R(BATH_X,SH_S[1],KIT_X,TALL_F,'plan-fix'); R(BATH_X,BATH_Z1,SH_S[0],SH_S[1],'plan-thin');   // low sink run; shelf niche behind it
+  R(KIT_X,SH_S[1],W,9.0,'plan-dark'); R(KIT_X,9.0,W,10.8,'plan-fix'); R(KIT_X,10.8,W,D,'plan-dark');   // tall | niche | tall
   // dining
   C(4.75,10.1,.45,'plan-fix'); [[4.0,10.1],[4.75,9.35],[4.75,10.85]].forEach(([x,z]) => C(x,z,.2,'plan-thin'));
   // living
@@ -237,17 +256,19 @@ function planSVG(){
   R(0,LIVE_Z-0.72,0.4,LIVE_Z+0.72,'plan-thin');
   // bedroom
   R(0,0.6,2.2,2.4,'plan-fix'); R(0,0.15,0.42,0.55,'plan-thin'); R(0,2.45,0.42,2.85,'plan-thin');
+  // parvi outline
+  s.push(`<path d="M0 ${P0} H${BATH_X} V${P1} H${STAIR_W} V${STAIR_TOP} H0 Z" class="plan-parvi" style="stroke-dasharray:.05 .06;stroke-width:.025"/>`);
   // labels
-  Tx(3.1,2.2,'BEDROOM'); Tx(3.1,2.5,'≈ 16 m²','plan-ts');
-  Tx(5.62,2.2,'ETEINEN','plan-ts'); Tx(1.5,DIV_Z0-0.12,'divider','plan-ts'); s.push(`<text x="${WR_X0+0.3}" y="1.5" class="plan-ts" text-anchor="middle" transform="rotate(-90 ${WR_X0+0.3} 1.5)">wardrobes</text>`);
-  Tx(1.7,6.3,'WORKSTATION','plan-ts');
+  Tx(3.3,2.2,'BEDROOM'); Tx(3.3,2.5,'≈ 14 m²','plan-ts');
+  Tx(5.62,2.2,'ETEINEN','plan-ts');
+  Tx(3.95,P1-0.12,'STEP 2: PARVI','plan-tp');
   Tx(1.5,11.15,'LIVING'); Tx(5.5,11.15,'KITCHEN · DINING','plan-ts');
-  Tx(0.2,LIVE_Z+0.05,'TV','plan-ts','start'); 
+  Tx(0.2,LIVE_Z+0.05,'TV','plan-ts','start'); Tx(0.42,STAIR_Z1+0.25,'stair, step 2','plan-tp');
   Tx(W+0.16,DOOR1+0.5,'entry','plan-ts','start');
   L(0,-0.55,W,-0.55,'plan-thin'); Tx(W/2,-0.65,'6.90');
   L(-0.55,0,-0.55,D,'plan-thin');
   s.push(`<text x="-0.7" y="${D/2}" class="plan-t" text-anchor="middle" transform="rotate(-90 -0.7 ${D/2})">11.45</text>`);
-  return `<svg viewBox="-1 -1 8.9 13.2" role="img" aria-label="Floor plan of A33 version 10: eteinen and bedroom to the north, a divider with the workstation behind it, wardrobes against the eteinen wall, kitchen, dining and living to the south">${s.join('')}</svg>`;
+  return `<svg viewBox="-1 -1 8.9 13.2" role="img" aria-label="Floor plan of A33 version 12: eteinen and an open bedroom to the north, a wardrobe and desk in the open middle band, kitchen, dining and living to the south; version 6's parvi and stair dashed for step 2">${s.join('')}</svg>`;
 }
 document.getElementById('plan').innerHTML = planSVG();
 
@@ -307,17 +328,23 @@ function noiseTex(base, seed, blot, specks){
 
 /* ---------- Materials ---------- */
 const M = (o) => new THREE.MeshStandardMaterial(o);
+// palette after EKE's "Rouhea" style for Artus: raw grey concrete, smoked oak, stainless steel, black steel, dark leather, moss-green jute
 const mat = {
-  wall:    M({map:noiseTex('#b5b4ae', 7, 1.4, 2200), roughness:0.95}),
-  ceil:    M({map:noiseTex('#a7a6a0', 11, 1.2, 2200), roughness:0.95}),
-  floor:   M({map:noiseTex('#d2d2cd', 23, 0.8, 1500), roughness:0.5}),
-  terrazzo:M({map:noiseTex('#c4c2bb', 41, 0.6, 9000), roughness:0.7}),
+  wall:    M({map:noiseTex('#8e8c86', 7, 1.6, 2600), roughness:0.95}),
+  ceil:    M({map:noiseTex('#86847f', 11, 1.4, 2600), roughness:0.95}),
+  floor:   M({map:noiseTex('#86847e', 23, 0.9, 1800), roughness:0.42}),
+  terrazzo:M({map:noiseTex('#86847e', 41, 0.8, 6000), roughness:0.6}),
   slabX:   M({map:noiseTex('#9e9d97', 5, 1, 1500), roughness:0.95}),
-  oak:     M({map:woodTex('#b98b5b', 3), roughness:0.72}),
-  oakDark: M({map:woodTex('#9c7247', 9), roughness:0.7}),
+  oak:     M({map:woodTex('#3e342b', 3), roughness:0.7}),    // dark neutral brown (the old TV-bench tone), used for all the wood
+  oakDark: M({map:woodTex('#1b1713', 9), roughness:0.8}),   // shadow joints
   steel:   M({color:'#1c1c1d', roughness:0.45, metalness:0.6}),
-  black:   M({color:'#121212', roughness:0.35, metalness:0.2}),
-  plaster: M({color:'#e9e7e2', roughness:0.9}),
+  black:   M({color:'#1f1f1f', roughness:0.35, metalness:0.2}),
+  plaster: M({map:noiseTex('#86847f', 13, 1.3, 2400), roughness:0.92}),   // new walls: concrete-look microcement to sit with the raw concrete
+  paint:   M({color:'#e4e3df', roughness:0.9}),                            // the bathroom box, white as delivered
+  rst:     M({color:'#b4b6b6', roughness:0.35, metalness:0.55}),
+  kitchen: M({color:'#151515', roughness:0.6}),                           // matt black kitchen: fronts, tall units, worktop
+  kitTop:  M({color:'#1a1a1a', roughness:0.4}),                           // satin black worktop + splashback
+  kitLine: M({color:'#050505', roughness:0.9}),          // brushed stainless
   white:   M({color:'#f0f0ed', roughness:0.5}),
   stone:   M({color:'#e6e1d7', roughness:0.35}),
   travert: M({map:noiseTex('#e3dccd', 31, 0.9, 5000), roughness:0.45}),
@@ -328,12 +355,12 @@ const mat = {
   linen:   M({color:'#e4d9c6', roughness:1, side:THREE.DoubleSide, transparent:true, opacity:0.9}),
   bedding: M({color:'#eeebe4', roughness:1}),
   throwM:  M({color:'#bcae98', roughness:1}),
-  rugOlive:M({color:'#666a3b', roughness:1}),
+  rugOlive:M({map:noiseTex('#4d5233', 29, 0.7, 9000), roughness:1}),   // moss-green jute
   rugJute: M({color:'#a5855a', roughness:1}),
   glass:   M({color:'#cfe2e8', roughness:0.05, metalness:0.1, transparent:true, opacity:0.16, depthWrite:false}),
   frost:   M({color:'#9fb0a6', roughness:0.25, transparent:true, opacity:0.8}),
   frame:   M({color:'#f0f0ed', roughness:0.5}),
-  chrome:  M({color:'#cfcfcf', roughness:0.22, metalness:1}),
+  chrome:  M({color:'#d6d6d4', roughness:0.28, metalness:0.55}),   // no environment map, so full metalness would render black
   duct:    M({color:'#9a9a96', roughness:0.5, metalness:0.7}),
   green:   M({color:'#3e5a31', roughness:0.8}),
   green2:  M({color:'#567343', roughness:0.8}),
@@ -350,6 +377,9 @@ const mat = {
   sink:    M({color:'#8d8d8b', roughness:0.3, metalness:0.8}),
   ovenGl:  M({color:'#060606', roughness:0.1, metalness:0.3}),
 };
+
+// hex colours are sRGB: convert the flat-colour materials so dark leather, black steel etc. render as dark as specified (textures are already sRGB)
+Object.values(mat).forEach(m => { if(!m.map) m.color.convertSRGBToLinear(); });
 
 /* ---------- Helpers ---------- */
 function B(x0,x1,y0,y1,z0,z1,m,parent,opt){
@@ -381,7 +411,7 @@ const V = (x,y,z) => new THREE.Vector3(x,y,z);
 /* ---------- Shell (as built) ---------- */
 const walls = {N:group(), S:group(), E:group(), W:group()};
 const ceiling = group();
-const parvi = group();
+const ghost = group(); ghost.visible = false;   // step 2: version 6's core, see-through
 const lamps = [];
 
 B(-T, W+T, -0.3, 0, -T, D+T, mat.floor);
@@ -425,9 +455,19 @@ rod(V(W-0.32,3.7,0.05), V(W-0.32,3.7,SH_N[2]), 0.15, mat.duct, ceiling);   // ex
 [[5.95,1.6],[5.95,3.2],[2.4,1.8],[4.4,9.6],[1.6,9.3]].forEach(([x,z]) => cyl(0.05,0.05,0.03,mat.bulb,x,H-0.015,z,ceiling));
 
 /* ---------- Bathroom + shafts (as built) ---------- */
-B(BATH_X, W, 0, H, BATH_Z0, BATH_Z1, mat.plaster);
-B(BATH_X-0.04, BATH_X-0.02, 0, 2.04, BDOOR[0], BDOOR[1], mat.oakDark);
-B(BATH_X-0.07, BATH_X-0.04, 1.0, 1.02, BDOOR[0]+0.04, BDOOR[0]+0.12, mat.steel);
+B(BATH_X, W, 0, H, BATH_Z0, BATH_Z1, mat.paint);
+// passage face of the bathroom left exactly as delivered (site photo): white, nothing clad over it, every fixture reachable
+(function(){
+  const white = M({color:'#f1f1ee', roughness:0.6}), hatch = M({color:'#dedfdb', roughness:0.7}), x = BATH_X;
+  B(x-0.02, x, 0, 2.09, BDOOR[0]-0.04, BDOOR[1]+0.04, white);                      // standard white door frame
+  B(x-0.045, x-0.02, 0.01, 2.05, BDOOR[0], BDOOR[1], white);                       // white 21M door leaf
+  B(x-0.11, x-0.045, 1.0, 1.02, BDOOR[0]+0.04, BDOOR[0]+0.14, mat.steel);          // lever on the north side, hinges south
+  B(x-0.09, x, 1.05, 2.08, 5.25, 5.72, white);                                     // tall wall cabinet left of the door
+  B(x-0.004, x, 1.72, 1.8, 5.12, 5.18, M({color:'#3c7fb0'}), scene, {cast:false}); // blue sign beside it
+  B(x-0.006, x, 2.92, 3.79, 5.05, 5.72, hatch, scene, {cast:false});               // high access hatch, above the parvi deck
+  B(x-0.006, x, 0.02, 0.8, 6.78, 7.38, hatch, scene, {cast:false});                // low access panel right of the door
+  [6.95, 7.2].forEach(z => B(x-0.1, x, 3.6, 3.78, z-0.06, z+0.06, white));          // two supply-air valves near the ceiling
+})();
 B(SH_N[0], SH_N[1], 0, H, SH_N[2], BATH_Z0, mat.wall);
 B(SH_S[0], W, 0, H, BATH_Z1, SH_S[1], mat.wall);
 
@@ -450,75 +490,103 @@ B(HALL_X+WALL_T, HALL_X+WALL_T+0.03, 1.7, 1.73, 0.5, 1.2, mat.steel);
 rod(V(5.68,H,2.6),V(5.68,2.75,2.6),0.004,mat.black); B(5.63,5.73,2.7,2.75,1.6,3.6,mat.black);
 B(5.64,5.72,2.69,2.7,1.62,3.58,mat.bulb); lamps.push({pos:V(5.68,2.5,2.6), i:0.9, d:4});
 
-const cloth = [mat.bedding, mat.leather2, mat.sage, mat.fabric, mat.art, mat.throwM, mat.white];   // book spines
-/* ---------- Divider between the bed and the workstation: oak, 2.4 m tall, 3 m long ---------- */
-B(0, DIV_X1, 0.06, DIV_H, DIV_Z0, DIV_Z1, mat.oak);
-B(0.02, DIV_X1-0.02, 0, 0.06, DIV_Z0+0.02, DIV_Z1-0.02, mat.black);   // recessed plinth
-B(0, DIV_X1, DIV_H, DIV_H+0.02, DIV_Z0, DIV_Z1, mat.black);           // black steel cap
-
-/* ---------- Bedroom wardrobes against the eteinen wall: 3 m long, 3.8 m tall, uplight on top ---------- */
-B(WR_X0, HALL_X, 0.08, WR_H, 0.02, WR_Z1, mat.oak);
-B(WR_X0+0.03, HALL_X, 0, 0.08, 0.04, WR_Z1-0.02, mat.black);
-B(WR_X0, HALL_X, WR_H, WR_H+0.025, 0.02, WR_Z1, mat.black);
-B(WR_X0-0.003, WR_X0, 2.4-0.003, 2.4+0.003, 0.03, WR_Z1-0.01, mat.oakDark, scene, {cast:false});   // doors below, top cupboards above
-for(let k=1;k<5;k++){ const z = 0.02 + k*(WR_Z1-0.02)/5; B(WR_X0-0.003,WR_X0,0.09,WR_H-0.01,z-0.003,z+0.003,mat.oakDark,scene,{cast:false}); }
-for(let k=0;k<5;k++){ const z = 0.02 + (k + (k%2 ? 0.08 : 0.92))*(WR_Z1-0.02)/5; B(WR_X0-0.004,WR_X0,1.0,1.3,z-0.012,z+0.012,mat.oakDark,scene,{cast:false}); }   // finger pulls
-/* ---------- Workstation behind the divider ---------- */
+/* ---------- Step 1: wardrobe facing the bed, desk against its back ---------- */
+// On version 6's line between the walk-in and the store, 2 cm under the future parvi deck. In step 2 it stays put: its
+// fronts become the walk-in's fittings and its finished back the wall between the walk-in and the store.
+const SH = 0.05, DOOR_T = 0.045, cloth = [mat.bedding, mat.leather2, mat.sage, mat.fabric, mat.art, mat.throwM, mat.white];
 (function(){
-  const dx0 = DESK[0], dx1 = DESK[1], dz0 = DIV_Z1, dz1 = DIV_Z1 + DESK_D, xc = (dx0+dx1)/2;
+  const [x0, x1] = WR_X, [z0, z1] = WR_Z, n = 4, w = (x1-x0)/n;
+  B(x0+0.03, x1-0.03, 0, 0.06, z0+0.04, z1-0.04, mat.black);            // recessed plinth
+  B(x0, x1, 0.06, WR_H, z0, z1, mat.oak);
+  // front (north) grid: four door leaves, a joint at door-head height, top cupboards above, 3 mm shadow joints
+  const J = (a, b, y0, y1, za, zb) => B(a, b, y0, y1, za, zb, mat.oakDark, scene, {cast:false});
+  for(let k=1;k<n;k++){ const x = x0 + k*w; J(x-0.0015, x+0.0015, 0.07, WR_H-0.01, z0-0.002, z0); }
+  J(x0+0.01, x1-0.01, DOOR_H-0.0015, DOOR_H+0.0015, z0-0.002, z0);
+  // back (south) face: plain oak panels, three vertical joints, same door-head joint
+  [x0 + (x1-x0)/3, x0 + 2*(x1-x0)/3].forEach(x => J(x-0.0015, x+0.0015, 0.07, WR_H-0.01, z1, z1+0.002));
+  J(x0+0.01, x1-0.01, DOOR_H-0.0015, DOOR_H+0.0015, z1, z1+0.002);
+})();
+// workstation: 2 x 0.8 m oak desk against the wardrobe's back; you sit on the south side facing north
+(function(){
+  const [dx0, dx1] = DESK, [dz0, dz1] = DESK_Z, xc = (dx0+dx1)/2;
   B(dx0,dx1,0.71,0.74,dz0,dz1,mat.oak);
   [[dx0+0.05,dz0+0.05],[dx1-0.05,dz0+0.05],[dx0+0.05,dz1-0.05],[dx1-0.05,dz1-0.05]].forEach(([x,z]) => B(x-0.02,x+0.02,0,0.71,z-0.02,z+0.02,mat.steel));
-  // 49" curved ultra-wide against the divider, facing south at the chair
-  const scr = group(); place(scr, xc, dz0+0.22, -Math.PI/2, 0.74);   // local +x points south, at the chair
+  // 49" curved ultra-wide, ~1.2 m wide: three panels angled towards the chair
+  const scr = group(); place(scr, xc, dz0+0.28, -Math.PI/2, 0.74);   // local +x points south, at the chair
   B(-0.015,0.015,0.2,0.56,-0.3,0.3,mat.screen,scr);
   [-1,1].forEach(sd => { const g = group(scr); g.position.set(0, 0, sd*0.3); g.rotation.y = sd*0.32;
     B(-0.015,0.015,0.2,0.56,sd>0?0:-0.31,sd>0?0.31:0,mat.screen,g); });
-  B(-0.02,0.02,0.03,0.2,-0.03,0.03,mat.steel,scr); B(-0.08,0.12,0,0.012,-0.12,0.12,mat.steel,scr);
+  B(-0.02,0.02,0.03,0.2,-0.03,0.03,mat.steel,scr); B(-0.12,0.08,0,0.012,-0.12,0.12,mat.steel,scr);
   B(xc-0.24,xc+0.24,0.74,0.755,dz1-0.34,dz1-0.2,mat.black);              // keyboard
-  const ch = group(); place(ch, xc, dz1+0.3, 0, 0);                       // faces north
+  const ch = group(); place(ch, xc, dz1+0.3, 0, 0);                         // faces north
   B(-0.24,0.24,0.44,0.5,-0.23,0.23,mat.leather,ch); B(-0.22,0.22,0.5,0.95,0.2,0.24,mat.leather,ch);
   cyl(0.03,0.03,0.4,mat.chrome,0,0.22,0,ch); cyl(0.26,0.26,0.02,mat.steel,0,0.02,0,ch,5);
-  // desk lamp
   cyl(0.06,0.07,0.02,mat.steel,dx1-0.15,0.75,dz0+0.15);
   rod(V(dx1-0.15,0.75,dz0+0.15),V(dx1-0.25,1.15,dz0+0.25),0.008,mat.steel);
   const dl = cyl(0.02,0.07,0.1,mat.steel,dx1-0.3,1.12,dz0+0.3); dl.rotation.x = 0.5;
   lamps.push({pos:V(dx1-0.3,1.0,dz0+0.3), i:0.7, d:3.5});
-  // two open oak shelves on the divider above the desk
-  [1.45, 1.85].forEach((y, r) => {
-    B(dx0, dx1, y, y+0.025, DIV_Z1, DIV_Z1+0.24, mat.oak);
-    for(let x = dx0+0.08 + r*0.5; x < dx0+1.0 + r*0.5; x += 0.045) B(x, x+0.035, y+0.025, y+0.25+((x*31)%3)*0.03, DIV_Z1+0.03, DIV_Z1+0.21, cloth[Math.round(x*29)%7]);
-  });
-  B(dx0-0.3,dx1+0.3,0,0.01,dz0,dz1+1.3,mat.rugJute,scene,{cast:false});
-  // low bookshelf on the west wall
-  B(0, 0.36, 0, 0.85, 5.3, 7.0, mat.oak);
-  for(let z = 5.38; z < 6.4; z += 0.06) B(0.04, 0.3, 0.85, 1.05+((z*13)%3)*0.04, z, z+0.045, cloth[Math.round(z*7)%7]);
-  plant(0.3, 4.4, 0.9);
-  // pendant over the desk
-  const pd = new THREE.Mesh(new THREE.SphereGeometry(0.22,40,24), mat.shade);
-  pd.position.set(xc, 2.25, dz0+0.55); scene.add(pd); rod(V(xc,2.47,dz0+0.55),V(xc,H,dz0+0.55),0.004,mat.black);
-  lamps.push({pos:V(xc,2.1,dz0+0.55), i:0.8, d:4});
+  B(dx0-0.2,dx1+0.2,0,0.01,dz0,dz1+1.0,mat.rugJute,scene,{cast:false});
 })();
-B(CAB_X, BATH_X, 0, H, BATH_Z1, TALL_F, mat.wall);
 
-/* ---------- Kitchen: tall wall on the bathroom side + run on the east wall ---------- */
-B(BATH_X, SH_S[0], 0.08, 2.4, BATH_Z1, TALL_F, mat.black);        // pantry + fridge (deep)
-B(SH_S[0], W, 0.08, 2.4, SH_S[1], TALL_F, mat.black);             // shallow units in front of the shaft
-B(BATH_X, W, 0, 0.08, BATH_Z1, TALL_F-0.04, mat.steel);
-B(BATH_X, W, 2.4, H, BATH_Z1, TALL_F, mat.wall);                  // grey infill above
-B(5.22,5.225,0.1,2.38,TALL_F,TALL_F+0.004,mat.steel,scene,{cast:false});
-B(6.3,6.305,0.1,2.38,TALL_F,TALL_F+0.004,mat.steel,scene,{cast:false});
-B(KIT_X, W, 0.08, 2.4, TALL_F, 9.3, mat.black);                   // oven column
-B(KIT_X-0.01, KIT_X, 0.95, 1.5, 8.2, 9.2, mat.ovenGl);
-B(KIT_X-0.01, KIT_X, 1.55, 2.0, 8.2, 9.2, mat.ovenGl);
-function base(x0,x1,z0,z1){ B(x0+0.05,x1-0.05,0,0.1,z0+0.05,z1-0.05,mat.black); B(x0,x1,0.1,0.88,z0,z1,mat.oak); B(x0,x1,0.88,0.92,z0,z1,mat.stone); }
-base(KIT_X, W, 9.3, 10.9);
-B(W-0.02, W, 0.92, 1.5, 9.3, 10.9, mat.travert);
-B(KIT_X-0.003,KIT_X,0.49,0.495,9.3,10.9,mat.black,scene,{cast:false});
-B(KIT_X-0.003,KIT_X,0.12,0.86,10.1-0.003,10.1+0.003,mat.black,scene,{cast:false});
-B(6.4,6.85,0.905,0.921,9.45,9.95,mat.sink);
-cyl(0.015,0.015,0.32,mat.chrome,6.82,1.08,9.7); rod(V(6.82,1.24,9.7),V(6.62,1.24,9.7),0.013,mat.chrome);
-B(6.33,6.85,0.92,0.926,10.25,10.8,mat.hob);
-B(W-0.03,W,1.95,2.05,9.35,9.45,mat.black); rod(V(W-0.02,2.0,9.4),V(W-0.02,2.0,10.85),0.012,mat.black);
+/* ---------- Step 2, shown see-through: version 6's stair, parvi deck, railings and oak walls ---------- */
+(function(){
+  const gm = M({color:'#8a9150', roughness:0.8, transparent:true, opacity:0.28, depthWrite:false});
+  const gl = M({color:'#565b2f', roughness:0.8, transparent:true, opacity:0.55, depthWrite:false});
+  gm.color.convertSRGBToLinear(); gl.color.convertSRGBToLinear();
+  const G = (x0,x1,y0,y1,z0,z1,m) => B(x0,x1,y0,y1,z0,z1,m||gm,ghost,{cast:false});
+  for(let i=0;i<TREADS;i++){ const z1 = STAIR_Z1 - i*RUN; G(0, STAIR_W, (i+1)*RISE-0.04, (i+1)*RISE, z1-RUN, z1, gl); }
+  G(STAIR_W, BATH_X, UNDER, PF, P0, P1, gl); G(0, STAIR_W, UNDER, PF, P0, STAIR_TOP, gl);          // deck + top landing
+  G(0, HALL_X, 0, UNDER, P0, P0+0.09);                                                             // oak wall on the bedroom side (two doors in it)
+  G(CORR0-SH, CORR0, 0, UNDER, P0+0.09, P1); G(STAIR_W, CORR0, 0, UNDER, P1-SH, P1); G(STAIR_W, STAIR_W+SH, 0, UNDER, P0+0.09, P1-SH);
+  [[0.02,BATH_X,P0+0.02,'x'],[STAIR_W,BATH_X,P1-0.02,'x']].forEach(([a,b,c]) => G(a,b,PF+0.97,PF+1.0,c-0.02,c+0.02,gl));   // railing tops
+  G(BATH_X-0.04,BATH_X,PF+0.97,PF+1.0,BED_S+WALL_T,SH_N[2],gl); G(STAIR_W,STAIR_W+0.04,PF+0.97,PF+1.0,STAIR_TOP,P1-0.02,gl);
+})();
+
+/* ---------- Kitchen: one composed black wall on the east side + a low sink run on the bathroom side ---------- */
+// East wall: a tall column at each end, a bridge of upper cabinets flush with them, and between them a lit niche:
+// worktop with hob + oven under, a slatted box (hood inside) above. All matt black.
+const KH = 2.7, KA = [SH_S[1], 9.0], KN = [9.0, 10.8], KB = [10.8, D];   // top of the units; tall A (pantry, round the corner), niche, tall B (fridge-freezer) right into the window-wall corner
+function plinth(x0, x1, z0, z1){ B(x0, x1, 0, 0.08, z0, z1, mat.black); }
+plinth(KIT_X+0.05, W, KA[0], KB[1]);
+B(KIT_X, W, 0.08, KH, KA[0], KA[1], mat.kitchen);                            // tall A: fridge-freezer
+B(KIT_X, W, 0.08, KH, KB[0], KB[1], mat.kitchen);                            // tall B: pantry
+B(KIT_X, W, 2.02, KH, KN[0], KN[1], mat.kitchen);                            // bridge of upper cabinets, same plane as the columns
+B(KIT_X, W, 0.08, 0.88, KN[0], KN[1], mat.kitchen);                          // base units in the niche
+B(KIT_X-0.01, W, 0.88, 0.92, KN[0], KN[1], mat.kitTop);                      // worktop
+B(W-0.02, W, 0.92, 1.56, KN[0], KN[1], mat.kitTop);                          // splashback
+B(KIT_X+0.06, W, 1.56, 2.02, KN[0], KN[1], mat.kitchen);                     // slatted box (extractor inside), set back 6 cm
+for(let z = KN[0]+0.015; z < KN[1]-0.02; z += 0.045) B(KIT_X+0.03, KIT_X+0.06, 1.56, 2.02, z, z+0.022, mat.kitchen);   // vertical slats
+B(KIT_X-0.008, KIT_X, 0.14, 0.74, 9.6, 10.2, mat.ovenGl);                    // oven under the hob
+B(KIT_X+0.02, KIT_X+0.58, 0.92, 0.926, 9.6, 10.2, mat.hob);
+// front joints: doors on the columns, the upper bridge and the base drawers
+B(KIT_X-0.003, KIT_X, 2.0-0.002, 2.0+0.002, TALL_F, KB[1], mat.kitLine, scene, {cast:false});
+[9.6, 10.2].forEach(z => B(KIT_X-0.003, KIT_X, 2.04, KH-0.02, z-0.002, z+0.002, mat.kitLine, scene, {cast:false}));
+[KA[1], KB[0]].forEach(z => B(KIT_X-0.003, KIT_X, 0.1, KH, z-0.002, z+0.002, mat.kitLine, scene, {cast:false}));
+B(KIT_X-0.003, KIT_X, 0.49, 0.495, KN[0], KN[1], mat.kitLine, scene, {cast:false});
+// Low sink run, brought out to a straight line off the shaft (back z 7.8, front z 8.4), so it no longer follows the jog in the wall.
+// The 30 cm indentation left between the bathroom wall and the shaft becomes an open shelf niche over the worktop.
+function base(x0,x1,z0,z1){ plinth(x0+0.05,x1,z0,z1-0.05); B(x0,x1,0.08,0.88,z0,z1,mat.kitchen); B(x0,x1,0.88,0.92,z0,z1+0.01,mat.kitTop); }
+base(BATH_X, KIT_X, SH_S[1], TALL_F);
+B(BATH_X, SH_S[0], 0, 0.92, BATH_Z1, SH_S[1], mat.kitchen);                     // under the niche: closed, the worktop runs back into it
+B(BATH_X, SH_S[0], 0.88, 0.92, BATH_Z1, SH_S[1], mat.kitTop);
+B(BATH_X+0.78, BATH_X+0.784, 0.1, 0.86, TALL_F, TALL_F+0.003, mat.kitLine, scene, {cast:false});
+B(BATH_X, KIT_X, 0.49, 0.495, TALL_F, TALL_F+0.003, mat.kitLine, scene, {cast:false});
+B(5.45, 5.95, 0.905, 0.921, 7.92, 8.3, mat.sink);
+cyl(0.015,0.015,0.32,mat.chrome,5.7,1.08,7.86); rod(V(5.7,1.24,7.86),V(5.7,1.24,8.06),0.013,mat.chrome);
+// shelf niche: three dark-wood shelves, lit from under the top one, a few white pieces on them
+(function(){
+  const x0 = BATH_X, x1 = SH_S[0], z0 = BATH_Z1, z1 = SH_S[1];
+  [1.38, 1.8, 2.22].forEach((y, k) => {
+    B(x0, x1, y-0.035, y, z0, z1, mat.oak);
+    [[0.15, 0.06, 0.16], [0.36, 0.05, 0.1], [0.62, 0.07, 0.22]].forEach(([dx, r, h], i) => {
+      if((i + k) % 3 === 2) return;
+      cyl(r, r, h, mat.pot, x0 + dx + k*0.08, y + h/2, (z0+z1)/2);
+    });
+  });
+  [[0.18, 0.05, 0.24], [0.4, 0.07, 0.12]].forEach(([dx, r, h]) => cyl(r, r, h, mat.pot, x0+dx, 0.92+h/2, (z0+z1)/2));
+  B(x0+0.03, x1-0.03, 2.22-0.04, 2.22-0.035, z0+0.03, z0+0.06, mat.bulb, scene, {cast:false});
+  lamps.push({pos:V((x0+x1)/2, 1.7, z1), i:0.4, d:2});
+})();
 
 /* ---------- Dining: round table for 2–4 ---------- */
 (function(){
@@ -528,11 +596,11 @@ B(W-0.03,W,1.95,2.05,9.35,9.45,mat.black); rod(V(W-0.02,2.0,9.4),V(W-0.02,2.0,10
   function chair(cx,cz,rot){
     const g = group(); place(g,cx,cz,rot);
     [[-0.2,-0.2],[0.2,-0.2],[-0.2,0.2],[0.2,0.2]].forEach(([lx,lz]) => B(lx-0.015,lx+0.015,0,0.45,lz-0.015,lz+0.015,mat.black,g));
-    B(-0.23,0.23,0.45,0.53,-0.23,0.23,mat.sage,g);
-    const b = B(-0.22,0.22,0.55,0.88,-0.26,-0.18,mat.sage,g); b.rotation.x = -0.1;
+    B(-0.23,0.23,0.45,0.53,-0.23,0.23,mat.leather2,g);
+    const b = B(-0.22,0.22,0.55,0.88,-0.26,-0.18,mat.leather2,g); b.rotation.x = -0.1;
   }
   chair(x-0.72, z, Math.PI/2); chair(x, z-0.72, 0); chair(x, z+0.72, Math.PI);
-  const c = new THREE.Mesh(new THREE.ConeGeometry(0.4,0.16,40,1,true), mat.shade);
+  const c = new THREE.Mesh(new THREE.ConeGeometry(0.4,0.16,40,1,true), mat.black);
   c.position.set(x,1.65,z); c.castShadow = true; scene.add(c);
   rod(V(x,1.73,z),V(x,H,z),0.004,mat.black);
   cyl(0.04,0.04,0.04,mat.bulb,x,1.62,z);
@@ -561,7 +629,7 @@ sofa(SOFA_X, SOFAS_Z[1], Math.PI);     // back to the window, faces north
   [-0.26,0.26].forEach(x => B(x-0.04,x+0.04,0,0.36,-0.33,0.33,mat.oak,g));
   B(-0.26,0.26,0.08,0.13,-0.03,0.03,mat.oak,g);
 })();
-B(0.0,0.4,0.2,0.6,LIVE_Z-0.72,LIVE_Z+0.72,mat.oakDark);
+B(0.0,0.4,0.2,0.6,LIVE_Z-0.72,LIVE_Z+0.72,mat.oak);
 B(0.0,0.04,1.0,1.75,LIVE_Z-0.65,LIVE_Z+0.65,mat.screen);
 function ringPendant(x,z,y,r,n){
   const ring = new THREE.Mesh(new THREE.TorusGeometry(r,0.012,8,72), mat.chrome);
@@ -603,25 +671,25 @@ sheerPanel(0.05, 1.0, D-0.14); sheerPanel(5.4, 6.3, D-0.14);
 B(0.05, 6.3, H-0.04, H, D-0.16, D-0.12, mat.steel, ceiling);
 
 /* ---------- Bedroom (north) ---------- */
-B(0.5,3.2,0,0.012,0.4,2.75,mat.rugOlive,scene,{cast:false});
+B(0.5,3.2,0,0.012,0.3,2.7,mat.rugOlive,scene,{cast:false});
 (function bed(){
-  const g = group(); place(g, 1.12, 1.55, Math.PI/2);            // headboard on the west wall, faces east
-  B(-0.95,0.95,0,0.22,-1.05,1.1,mat.oakDark,g);
+  const g = group(); place(g, 1.12, 1.5, Math.PI/2);            // headboard on the west wall, faces east
+  B(-0.95,0.95,0,0.22,-1.05,1.1,mat.oak,g);
   B(-0.9,0.9,0.22,0.48,-1.03,1.05,mat.bedding,g);
   B(-0.92,0.92,0.48,0.56,-0.35,1.07,mat.bedding,g);
   B(-0.94,0.94,0.56,0.59,0.55,0.95,mat.throwM,g);
   [-0.45,0.45].forEach(x => { const p = B(x-0.38,x+0.38,0.48,0.66,-0.98,-0.68,mat.bedding,g); p.rotation.x = -0.25; });
   B(-1.0,1.0,0.3,1.3,-1.12,-1.06,mat.fabric,g);                // upholstered headboard panel
 })();
-[0.38, 2.72].forEach(z => {
-  B(0,0.42,0.3,0.5,z-0.2,z+0.2,mat.oakDark);
+[0.35, 2.65].forEach(z => {
+  B(0,0.42,0.3,0.5,z-0.2,z+0.2,mat.oak);
   rod(V(0.02,1.25,z),V(0.25,1.25,z),0.006,mat.steel);
   cyl(0.03,0.07,0.12,mat.steel,0.27,1.2,z);
   lamps.push({pos:V(0.3,1.05,z), i:0.45, d:2.5});
 });
 function sheerX(x0,x1){ sheerPanel(x0,x1,0.14); }
 sheerX(0.6, 1.3); sheerX(2.75, 3.3);
-B(0.3, WR_X0-0.1, H-0.04, H, 0.12, 0.16, mat.steel, ceiling);
+B(0.3, HALL_X-0.05, H-0.04, H, 0.12, 0.16, mat.steel, ceiling);
 const pend = new THREE.Mesh(new THREE.SphereGeometry(0.28,40,24), mat.shade);
 pend.position.set(1.5,2.4,1.5); scene.add(pend); rod(V(1.5,2.68,1.5),V(1.5,H,1.5),0.004,mat.black);
 lamps.push({pos:V(1.5,2.3,1.5), i:1.0, d:5});
@@ -654,7 +722,7 @@ function setEvening(on){
   pts.forEach(o => o.p.intensity = on ? o.i*2.2 : 0);
   mat.bulb.emissiveIntensity = on ? 2.2 : 0;
   mat.screen.emissiveIntensity = on ? 1.2 : 0;
-  mat.glass.color.set(on ? '#2c3b52' : '#cfe2e8'); mat.glass.opacity = on ? 0.55 : 0.16;
+  mat.glass.color.set(on ? '#2c3b52' : '#cfe2e8').convertSRGBToLinear(); mat.glass.opacity = on ? 0.55 : 0.16;
   viewerBg();
 }
 viewerBg();
@@ -676,28 +744,26 @@ function element(key, label, on, fill, parents, build){
   build(...gs); indirect[key] = {gs, on, fill, label};
 }
 const NC = {cast:false};
-element('ward', 'Uplight on top of the bedroom wardrobes', true, 0.08, [scene], g => {
-  B(WR_X0+0.02, WR_X0+0.05, WR_H+0.025, WR_H+0.04, 0.1, WR_Z1-0.05, ledMat, g, NC);
-  areaLight(g, WR_X0+0.25, WR_H+0.05, WR_Z1/2, 'z', WR_Z1-0.15, 0.4, 'up', 9);
-});
-element('divider', 'Uplight on top of the divider', true, 0.04, [scene], g => {
-  B(0.05, DIV_X1-0.05, DIV_H+0.02, DIV_H+0.025, (DIV_Z0+DIV_Z1)/2-0.01, (DIV_Z0+DIV_Z1)/2+0.01, ledMat, g, NC);
-  areaLight(g, DIV_X1/2, DIV_H+0.035, (DIV_Z0+DIV_Z1)/2, 'x', DIV_X1-0.1, 0.1, 'up', 7);
+element('wardrobe', 'Uplight on top of the wardrobe', true, 0.08, [scene], g => {
+  B(WR_X[0]+0.05, WR_X[1]-0.05, WR_H, WR_H+0.006, (WR_Z[0]+WR_Z[1])/2-0.01, (WR_Z[0]+WR_Z[1])/2+0.01, ledMat, g, NC);
+  areaLight(g, (WR_X[0]+WR_X[1])/2, WR_H+0.01, (WR_Z[0]+WR_Z[1])/2, 'x', WR_X[1]-WR_X[0]-0.1, 0.4, 'up', 12);   // washes the raw concrete ceiling over the middle band
 });
 element('hall', 'Wardrobe-top uplight in the eteinen', true, 0.04, [scene], g => {
   B(KIT_X+0.02, KIT_X+0.05, WARD_TOP+0.03, WARD_TOP+0.045, 1.3, SH_N[2]-0.05, ledMat, g, NC);
   areaLight(g, KIT_X+0.25, WARD_TOP+0.05, (1.25+SH_N[2])/2, 'z', SH_N[2]-1.35, 0.4, 'up', 8);
 });
-element('kitchen', 'Plinth glow under the kitchen', true, 0.02, [scene], g => {
-  B(BATH_X+0.05, W, 0.062, 0.07, TALL_F-0.045, TALL_F-0.037, ledMat, g, NC);
-  areaLight(g, (BATH_X+W)/2+0.02, 0.07, TALL_F-0.3, 'x', W-BATH_X-0.1, 0.5, 'down', 6);
-  B(KIT_X+0.042, KIT_X+0.05, 0.088, 0.096, 9.35, 10.85, ledMat, g, NC);
-  areaLight(g, (KIT_X+W)/2, 0.07, (TALL_F+10.9)/2, 'z', 10.9-TALL_F-0.1, 0.5, 'down', 6);
+element('kitchen', 'Kitchen niche + plinth glow', true, 0.02, [scene], g => {
+  B(BATH_X+0.05, KIT_X, 0.062, 0.07, TALL_F-0.045, TALL_F-0.037, ledMat, g, NC);
+  areaLight(g, (BATH_X+KIT_X)/2, 0.07, TALL_F-0.3, 'x', KIT_X-BATH_X-0.1, 0.5, 'down', 6);
+  B(KIT_X+0.042, KIT_X+0.05, 0.062, 0.07, TALL_F+0.05, D-0.05, ledMat, g, NC);
+  areaLight(g, (KIT_X+W)/2, 0.07, (TALL_F+D)/2, 'z', D-TALL_F-0.1, 0.5, 'down', 6);
+  B(KIT_X+0.1, W-0.03, 1.552, 1.558, KN[0]+0.03, KN[1]-0.03, ledMat, g, NC);        // strip under the slatted box lights the niche
+  areaLight(g, (KIT_X+W)/2+0.05, 1.55, (KN[0]+KN[1])/2, 'z', KN[1]-KN[0]-0.06, 0.4, 'down', 10);
 });
 element('bed', 'Glow under the bed and behind the headboard', true, 0.02, [scene], g => {
-  areaLight(g, 1.145, 0.05, 1.55, 'x', 2.0, 1.75, 'down', 6);              // inside the base: the floor round the bed glows
-  B(0.005, 0.055, 1.3, 1.308, 0.6, 2.5, ledMat, g, NC);
-  areaLight(g, 0.03, 1.315, 1.55, 'z', 1.9, 0.06, 'up', 30);                 // washes the west wall above the headboard
+  areaLight(g, 1.145, 0.05, 1.5, 'x', 2.0, 1.75, 'down', 6);              // inside the base: the floor round the bed glows
+  B(0.005, 0.055, 1.3, 1.308, 0.55, 2.45, ledMat, g, NC);
+  areaLight(g, 0.03, 1.315, 1.5, 'z', 1.9, 0.06, 'up', 30);                 // washes the west wall above the headboard
 });
 element('graze', 'Grazing light on the TV wall', false, 0.02, [scene], g => {
   B(0.08, 0.16, H-0.012, H, LIVE_Z-1.5, LIVE_Z+1.5, ledMat, g, NC);
@@ -733,22 +799,26 @@ const views = {
   entry:    {p:[6.6, 1.6, 0.6],    t:[5.6, 1.4, 4.4]},
   doorway:  {p:[5.9, 1.6, 3.95],   t:[2.6, 1.3, 3.0]},
   bedroom:  {p:[4.5, 1.6, 0.4],    t:[0.6, 1.2, 2.3]},
-  office:   {p:[3.9, 1.6, 7.3],    t:[1.4, 1.1, 4.2]},
-  wardrobes:{p:[0.7, 1.5, 3.0],    t:[4.4, 1.8, 1.3]},
+  wardrobe: {p:[3.6, 1.55, 0.7],   t:[1.9, 1.1, 3.9]},
+  office:   {p:[3.4, 1.55, 6.9],   t:[1.9, 0.95, 4.4]},
   living:   {p:[4.4, 1.6, 10.9],   t:[1.2, 1.1, 7.6]},
   kitchen:  {p:[2.6, 1.6, 10.9],   t:[6.4, 1.2, 8.4]},
-  passage:  {p:[3.95, 1.55, 3.7],  t:[3.6, 1.0, 9.6]},
+  passage:  {p:[3.72, 1.6, 4.1],   t:[3.72, 1.2, 9.5]},
+  step2:    {p:[-4.6, 6.2, 10.4],  t:[2.4, 1.3, 4.3], ghost:true},
   plan:     {p:[3.45, 19, 5.75],   t:[3.45, 0, 5.72]},
 };
 let fly = null;
-function setParvi(on){ parvi.visible = on; }   // no parvi in this version; kept for the VR build
+const tGhost = document.getElementById('t-ghost');
+function setGhost(on){ ghost.visible = on; tGhost.checked = on; }
 function setView(name){
   const v = views[name]; if(!v) return;
+  if(v.ghost) setGhost(true);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   fly = {p0:camera.position.clone(), t0:controls.target.clone(), p1:V(...v.p), t1:V(...v.t), start:performance.now(), ms: reduce ? 1 : 1100};
   document.querySelectorAll('#views button').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === name ? 'true' : 'false'));
 }
 camera.position.set(...views.overview.p); controls.target.set(...views.overview.t);
+tGhost.addEventListener('change', () => setGhost(tGhost.checked));
 document.getElementById('t-evening').addEventListener('change', e => setEvening(e.target.checked));
 document.getElementById('views').addEventListener('click', e => { const b = e.target.closest('button[data-view]'); if(b) setView(b.dataset.view); });
 document.getElementById('plan').addEventListener('click', e => { const z = e.target.closest('[data-view]'); if(z) setView(z.dataset.view); });
@@ -811,7 +881,7 @@ function snapTurn(a){
   rig.position.sub(head).applyAxisAngle(UP, a).add(head); rig.rotation.y += a;
 }
 const heading = () => { const d = new THREE.Vector3(); camera.getWorldDirection(d); return Math.atan2(-d.x, -d.z); };
-const UPSTAIRS = V((DESK[0]+DESK[1])/2, 0, DIV_Z1+DESK_D+0.6), DOWNSTAIRS = V(3.7, 0, 9.3);   // no parvi: A/X jumps between the desk and the living room
+const UPSTAIRS = V((DESK[0]+DESK[1])/2, 0, DESK_Z[1]+0.6), DOWNSTAIRS = V(3.7, 0, 9.3);   // no parvi yet: A/X jumps between the desk and the living room
 function jumpLevel(){
   const up = rig.position.z > 7.5;
   teleport(up ? UPSTAIRS : DOWNSTAIRS);
@@ -848,7 +918,7 @@ renderer.xr.addEventListener('sessionstart', () => {
   Object.values(walls).forEach(g => g.visible = true); ceiling.visible = true;
   pts.forEach(o => o.p.visible = evening);                 // fewer lights = faster on the headset
   xrTargets = scene.children.filter(o => o !== rig && o !== reticle);
-  rig.position.copy(DOWNSTAIRS); rig.rotation.y = 0;      // living room, facing north towards the workstation
+  rig.position.copy(DOWNSTAIRS); rig.rotation.y = 0;      // living room, facing north towards the stair and the parvi
 });
 renderer.xr.addEventListener('sessionend', () => {
   rig.position.set(0,0,0); rig.rotation.y = 0; reticle.visible = false;
