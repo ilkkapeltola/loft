@@ -215,7 +215,7 @@ function planSVG(){
   R(-T,-T,W+T,D+T,'plan-wall');
   R(0,0,W,D,'plan-floor');
   [[0.89,1.97],[3.1,4.05],[5.2,6.16]].forEach(([a,b]) => L(a,-T/2,b,-T/2,'plan-glass'));
-  L(0.84,D+T/2,6.16,D+T/2,'plan-glass');
+  L(0.83,D+T/2,6.01,D+T/2,'plan-glass');
   R(W,DOOR0,W+T,DOOR1,'plan-floor');
   s.push(`<path d="M${W+T} ${DOOR0} A${DOOR1-DOOR0} ${DOOR1-DOOR0} 0 0 1 ${W+T+DOOR1-DOOR0} ${DOOR1}" class="plan-door"/>`);
   L(W+T,DOOR1,W+T+DOOR1-DOOR0,DOOR1,'plan-door');
@@ -434,10 +434,10 @@ function glazing(a0,a1,y0,y1,zc,cols,transom,g){
 const northWin = [{a0:0.89,a1:1.97,y0:0.7,y1:3.3},{a0:3.1,a1:4.05,y0:0.0,y1:3.3},{a0:5.2,a1:6.16,y0:0.7,y1:3.3}];
 wallAlongX(-T, 0, northWin, walls.N);
 northWin.forEach(o => { glazing(o.a0,o.a1,o.y0,o.y1,-T/2,2,2.5,walls.N); B(o.a0,o.a1,1.05,1.08,-T-0.12,-T-0.08,mat.steel,walls.N); });
-wallAlongX(D, D+T, [{a0:0.84,a1:6.16,y0:0,y1:3.3}], walls.S);
-glazing(0.84,3.05,0,3.3,D+T/2,3,2.4,walls.S);
+wallAlongX(D, D+T, [{a0:0.83,a1:6.01,y0:0,y1:3.3}], walls.S);
+glazing(0.83,3.05,0,3.3,D+T/2,3,2.4,walls.S);
 glazing(3.05,3.86,0,3.3,D+T/2,1,2.3,walls.S);
-glazing(3.86,6.16,0,3.3,D+T/2,3,2.4,walls.S);
+glazing(3.86,6.01,0,3.3,D+T/2,3,2.4,walls.S);
 B(0.8,6.4,-0.22,0,D+T,D+1.85,mat.slabX);
 B(0.8,6.4,0.05,1.1,D+1.81,D+1.83,mat.glass,scene,{cast:false});
 B(0.8,6.4,1.1,1.14,D+1.79,D+1.85,mat.steel);
