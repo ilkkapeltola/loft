@@ -174,7 +174,7 @@ a{color:var(--oak)}
         <li>The kitchen isn't in EKE's kitchen reservation, but it backs onto the bathroom's north shaft, so the water, the drain and the hood duct have the shortest possible run. Check with EKE that the shaft can take them.</li>
         <li>The bedroom wall stands just west of the French balcony, so the balcony door and its light belong to the hall, not the bedroom. Moving the wall east past it would leave the hall too narrow to reach the kitchen.</li>
         <li>The bedroom is 2.83 m wide, so the wall stands 15 cm clear of the French balcony window. With the bed against the window there is about 47 cm on each side of a 180 bed: enough for slim nightstands, but tight to walk past. A 160 bed would give about 57 cm each side.</li>
-        <li>TV wall: the 65" picture TV (1.45 × 0.82 m) is centred on the sofa at 1.15 m, about 2.9 m from the seated eye. The two mesh pieces differ on purpose: north, the desk's 2000 × 3000 stock of 50 × 50 × 4.0 mm, cut 1.30 × 2.90 m; south, a finer 1500 × 3000 stock of 30 × 30 × 3.0 mm, cut 1.25 × 2.90 m. Both grids are turned 5° and both sheets stand 31 cm from the TV, 20 cm clear of the bench and the ceiling. The south one sits 20 cm higher. Run power and HDMI in the wall behind the TV, and the LED feeds behind the bench.</li>
+        <li>TV wall: the 65" picture TV (1.45 × 0.82 m) is centred on the sofa at 1.15 m, about 2.9 m from the seated eye. Every mesh sheet in the flat is cut from the same 1500 × 3000 stock of 30 × 30 × 3.0 mm, grid turned 5°. The TV-wall pieces are 1.25 × 2.90 m, the desk's 1.26 × 2.85 m (the turn costs about 25 cm of the 1.5 m width) and both sheets stand 31 cm from the TV, 20 cm clear of the bench and the ceiling. The south one sits 20 cm higher. Run power and HDMI in the wall behind the TV, and the LED feeds behind the bench.</li>
         <li>The sofa is 3.4 m long and 1.05 m deep, with a 1.75 m chaise at the window end. Its back leaves about 85 cm to the bathroom-wall cabinets.</li>
         <li>The entry is 1.15 m wide. The front door opens outwards, so the full width stays clear.</li>
         <li>Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
@@ -211,9 +211,9 @@ const K_Z = [WE_Z[1], SH_N[2]], K_D = 0.62, KS = SH_N[2] - K_D, KN = WE_Z[1] + K
 const DOOR_H = 2.05;
 const DESK_D = 0.8, DESK_TOP = 0.75, DESK_Z = [SH_S[1]+0.3, D-0.4];   // workstation on the east wall: 80 cm deep top, tight to the concrete
 const MON_Z = 9.35;                                                    // the 57" curved screen and the chair, centred on the legroom
-// backlit black welded mesh over the desk: one piece cut from a 2000 x 3000 mm stock sheet of 50 x 50 x 4.0 mm mesh, the grid turned 5°.
+// backlit black welded mesh over the desk: one piece cut from a 1500 x 3000 mm stock sheet of 30 x 30 x 3.0 mm mesh (the same stock for every mesh sheet in the flat), the grid turned 5°.
 // meshCut() works out the biggest square-to-the-room piece the stock sheet gives at that angle, 20 cm clear of the desk top and the ceiling.
-const MESH_STOCK = [2.0, 3.0], MESH_C = 0.05, MESH_WIRE = 0.004, MESH_A = 5 * Math.PI/180;
+const MESH_STOCK = [1.5, 3.0], MESH_C = 0.03, MESH_WIRE = 0.003, MESH_A = 5 * Math.PI/180;
 const MESH_ZC = (DESK_Z[0]+DESK_Z[1])/2, MESH_YC = (DESK_TOP+H)/2;
 const MESH_STEP = 0.2;                            // the TV wall's pair: the south sheet sits 20 cm higher
 const [MESH_W, MESH_H] = meshCut(MESH_STOCK, MESH_A, {maxW:DESK_Z[1]-DESK_Z[0], maxH:H-DESK_TOP-0.4});
@@ -221,10 +221,10 @@ const [MESH_W, MESH_H] = meshCut(MESH_STOCK, MESH_A, {maxW:DESK_Z[1]-DESK_Z[0], 
 const MESH_P = [{z:[MESH_ZC-MESH_W/2, MESH_ZC+MESH_W/2], y:[MESH_YC-MESH_H/2, MESH_YC+MESH_H/2]}];
 const MESH_Z = MESH_P[0].z, MESH_Y = MESH_P[0].y, MESH_GAP = 0.025;
 // living room on the 7.35 m west concrete wall south of the bedroom wardrobes: a 65" picture TV over a floating oak bench, centred
-// on a low corner sofa, a backlit mesh sheet either side, each cut by meshCut from its own stock (grid turned 5° as on the desk), the
-// same 31 cm from the TV, the south one 20 cm higher. North: the desk's 2000 x 3000, 50 x 50 x 4.0 mm. South: a finer 1500 x 3000, 30 x 30 x 3.0 mm.
+// on a low corner sofa, a backlit mesh sheet either side, cut by meshCut from the desk's stock (grid turned 5°), 31 cm from the TV,
+// the south one 20 cm higher. LIV_P keeps a stock / cell / wire per sheet, so one can be swapped for a different mesh.
 const LIV_ZC = 7.75, TV_Y = 1.15, TVB_D = 0.42, TVB_Y = [0.22, 0.46], LM_IN = 1.05, LM_YC = (TVB_Y[1]+H)/2;
-const LIV_P = [{k:-1, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE}, {k:1, stock:[1.5, 3.0], cell:0.03, wire:0.003}].map(m => {
+const LIV_P = [-1, 1].map(k => ({k, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE})).map(m => {
   const [w, h] = meshCut(m.stock, MESH_A, {maxW:1.3, maxH:H-TVB_Y[1]-MESH_STEP-0.4}), a = LIV_ZC + m.k*LM_IN, yc = LM_YC + m.k*MESH_STEP/2;
   return {...m, z: m.k < 0 ? [a-w, a] : [a, a+w], y:[yc-h/2, yc+h/2]}; });
 const TVB_Z = [LIV_P[0].z[0]-0.03, LIV_P[1].z[1]+0.03];              // the bench runs the whole composition
@@ -828,7 +828,7 @@ function coffeeTable(P, x0, x1, z0, z1, h = 0.36){
 
 /* ---------- Workstation on the east concrete wall, south of the bathroom, under a backlit mesh sheet ---------- */
 // 80 cm deep top tight to the concrete. North pedestal: three drawers. South pedestal: two drawers over a cupboard (filament,
-// tools), the 3D printer on the top above it. One 57" curved screen, one task chair. One mesh piece cut from 2000 x 3000 stock (50 mm, 4 mm wire, turned 5°),
+// tools), the 3D printer on the top above it. One 57" curved screen, one task chair. One mesh piece cut from 1500 x 3000 stock (30 mm, 3 mm wire, turned 5°),
 // centred on the desk and between its top and the ceiling; LED strip right round it.
 MESH_P.forEach(m => meshSheet({face:'E', at:m.z, y:m.y, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE, angle:MESH_A, gap:MESH_GAP, glowFloor:DESK_TOP}));
 (function(){
