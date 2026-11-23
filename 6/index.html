@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Loft · 6 · A33 Kitchen Behind Coats</title>
+<title>Artus A33 Kitchen Behind Coats</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,11 +108,12 @@ a{color:var(--oak)}
     <div class="loading" id="loading">Building the model…</div>
     <button type="button" class="vrbtn" id="vrbtn" disabled>Checking for VR…</button>
     <div class="hint">VR: point at any floor, step, bed or sofa and pull the trigger to teleport · A/X jumps up to the parvi and back · thumbstick left/right to turn</div>
+    <div id="m-labels" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
   </div>
 
   <aside class="panel">
     <header>
-      <div class="eyebrow">Vanha talvitie 31 A33 · 6th floor · version 13 · new concept</div>
+      <div class="eyebrow">Vanha talvitie 31 A33 · 6th floor · version 14 · new concept</div>
       <h1>Artus A33 Kitchen Behind Coats</h1>
       <p class="lede">A new start. Step in from the front door and the coat wardrobes are straight away on your left: one oak block, as long as the bathroom is wide. The kitchen is built behind them: two graphite runs facing each other, one on the wardrobes' back and one on the bathroom's shaft, open to a hall by the French balcony. The bedroom takes the north-west corner the way A21 /9 does it: a concrete wall with a hidden flush door, the bed's headboard on the outer wall, and tall wardrobes as its south wall. The rest of the flat is left empty for now. No parvi; 4 m everywhere.</p>
       <div class="stats">
@@ -137,6 +138,7 @@ a{color:var(--oak)}
       <div class="toggles">
         <label><input type="checkbox" id="t-bdoor"> Open bedroom door</label>
         <label><input type="checkbox" id="t-wr"> Open the wardrobes</label>
+        <label><input type="checkbox" id="t-measure"> Measure: click two points</label>
         <label><input type="checkbox" id="t-evening"> Evening light</label>
         <label><input type="checkbox" id="t-indirect"> Evening, indirect</label>
       </div>
@@ -155,7 +157,7 @@ a{color:var(--oak)}
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Entry + coat wardrobes<small>You come in through the east wall, by the north-east window. Straight away on the left is a 2.15 m run of oak wardrobes, the same length as the bathroom is wide and flush with its west face: 60 cm deep, 3.42 m tall to just under the duct, four doors with black bar pulls, and ladder-height top cupboards above 2.4 m. The entry between them and the window wall is 1.15 m wide, the front door's width.</small></td><td class="n">≈ 2.5 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Kitchen<small>Behind the wardrobes, between their back and the bathroom's north shaft: two graphite runs facing each other across a 1.3 m aisle, 2.15 m long and open at both ends. Nothing turns a corner, so there are no blind corner cupboards. On the wardrobes' back: the hob under a slatted hood box, about 1 m of worktop, wall units up to the same 3.42 m top, and the integrated fridge-freezer column in the east corner. On the shaft: the sink and tap, about 1 m of worktop, wall units to 2.4 m, and a column in the east corner with an oven-microwave combi at eye level, drawers under it and a cupboard over it. The east wall between the two columns is left clear. Pale stone worktop, travertine splashback.</small></td><td class="n">≈ 5.5 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Hall<small>1.7 m wide, between the bedroom wall and the kitchen, full height, with the French balcony at its north end. It leads south past the bathroom door to the rest of the flat.</small></td><td class="n">≈ 7 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>As in A21 /9, mirrored. The north-west corner with the west window, 2.95 × 3.5 m. The 180 × 200 bed has its low headboard on the west wall, with nightstands either side. There's 60 cm to walk on the window side and 70 cm at the foot. A concrete wall separates it from the hall, with a flush concrete door that opens into the room, hinged at its south end, so open it folds back over the wardrobes. Its south wall is six oak wardrobe doors, 3.4 m tall: long hanging, a double rail, and shelves over drawers. The east third is a cleaning cupboard that opens from the hall side.</small></td><td class="n">≈ 10 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>As in A21 /9, mirrored. The north-west corner with the west window, 2.95 × 3.5 m. The 180 × 200 bed has its low headboard on the west wall, with nightstands either side. There's 60 cm to walk on the window side and 70 cm at the foot. A concrete wall separates it from the hall, with a flush concrete door that opens into the room, hinged at its south end, so open it folds back over the wardrobes. Its south wall is six oak wardrobe doors, 3.4 m tall: long hanging, a double rail, and shelves over drawers. All six doors open into the bedroom; the open bedroom door covers the east two, which is fine. The hall between the bedroom wall and the kitchen is 1.68 m wide.</small></td><td class="n">≈ 10 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-live)"></span>The rest<small>Empty for now: about 6.9 × 7.3 m round the bathroom, from the bedroom wardrobes to the balcony glass.</small></td><td class="n">≈ 43 m²</td></tr>
       </table>
     </section>
@@ -229,8 +231,7 @@ function planSVG(){
   swing(BW[0], BEDDOOR[1], -Math.PI/2, BEDDOOR[1]-BEDDOOR[0], -1);   // opens into the bedroom, hinged south
   // bedroom wardrobes
   R(WR_X[0],WR_Z[0],WR_X[1],WR_Z[1],'plan-solid');
-  for(let k=1;k<WR_N;k++){ const x = WR_X[0] + k*(WR_X[1]-WR_X[0])/WR_N; if(k===WR_N-1) L(x,WR_Z[1]-0.1,x,WR_Z[1],'plan-door'); else L(x,WR_Z[0],x,WR_Z[0]+(k%2 ? 0.1 : 0.6),'plan-door'); }
-  Tx(WR_X[1]-0.48,WR_Z[1]+0.22,'cleaning','plan-ts');
+  for(let k=1;k<WR_N;k++){ const x = WR_X[0] + k*(WR_X[1]-WR_X[0])/WR_N; L(x,WR_Z[0],x,WR_Z[0]+(k%2 ? 0.1 : 0.6),'plan-door'); }
   // coat wardrobes + kitchen
   R(WE_X[0],WE_Z[0],WE_X[1],WE_Z[1],'plan-solid');
   for(let k=1;k<4;k++){ const x = WE_X[0] + k*(WE_X[1]-WE_X[0])/4; L(x,WE_Z[0],x,WE_Z[0]+0.1,'plan-door'); }
@@ -243,13 +244,13 @@ function planSVG(){
   // labels
   Tx(1.5,3.0,'BEDROOM'); Tx(1.5,3.22,'≈ 10 m²','plan-ts');
   Tx(5.82,0.75,'ENTRY','plan-ts'); Tx(5.4,(KN+KS)/2+0.08,'KITCHEN','plan-ts');
-  Tx(3.9,2.0,'HALL','plan-ts');
+  Tx(3.9,2.0,'HALL','plan-ts'); Tx((BW[1]+HALL_X)/2,K_Z[0]+0.6,'1.68','plan-ts');
   Tx(2.4,8.0,'EMPTY FOR NOW','plan-ts');
   Tx(W+0.16,DOOR1+0.5,'entry','plan-ts','start');
   L(0,-0.55,W,-0.55,'plan-thin'); Tx(W/2,-0.65,'6.90');
   L(-0.55,0,-0.55,D,'plan-thin');
   s.push(`<text x="-0.7" y="${D/2}" class="plan-t" text-anchor="middle" transform="rotate(-90 -0.7 ${D/2})">11.45</text>`);
-  return `<svg viewBox="-1 -1 8.9 13.2" role="img" aria-label="Floor plan of A33 version 13: coat wardrobes left of the front door with a U kitchen behind them against the bathroom shaft, a hall by the French balcony, the bedroom in the north-west corner behind a concrete wall and tall wardrobes, and the rest of the flat empty">${s.join('')}</svg>`;
+  return `<svg viewBox="-1 -1 8.9 13.2" role="img" aria-label="Floor plan of A33 version 14: coat wardrobes left of the front door with a galley kitchen behind them, a hall by the French balcony, the bedroom in the north-west corner behind a concrete wall and tall wardrobes, and the rest of the flat empty">${s.join('')}</svg>`;
 }
 document.getElementById('plan').innerHTML = planSVG();
 
@@ -441,15 +442,15 @@ B(BW[0], BW[1], 0, H, BEDDOOR[1], WR_Z[1], mat.wall);      // runs on to be flus
 B(BW[0], BW[1], DOOR_H, H, BEDDOOR[0], BEDDOOR[1], mat.wall);
 function hinged(px, pz, parent){ const g = group(parent); g.position.set(px, 0, pz); return g; }
 // concrete-finish leaf flush with the hall face, opens INTO the bedroom, hinged at its south end, so open it folds back across the
-// wardrobes' east section (the cleaning cupboard, which opens from the hall side). Touch latch outside, lever on the bedroom side only.
+// wardrobes' east section (accepted: those two doors are used with the bedroom door shut). Touch latch outside, lever on the bedroom side only.
 const BD_W = BEDDOOR[1]-BEDDOOR[0];
 const bdoor = hinged(BW[1]-0.045, BEDDOOR[1]);
 B(0, 0.045, 0.012, DOOR_H-0.003, -BD_W+0.003, -0.003, mat.wall, bdoor);
 B(-0.05, 0, 1.0, 1.02, -BD_W+0.06, -BD_W+0.18, mat.black, bdoor);
 let bdTarget = 0, bdNow = 0;
 
-/* ---------- Bedroom wardrobes: the bedroom's south wall, 3.4 m tall; the east section is a cleaning cupboard opening to the hall ---------- */
-// built as in A21 /9 inside a mirrored group, so the cleaning cupboard lands at the door end (east)
+/* ---------- Bedroom wardrobes: the bedroom's south wall, 3.4 m tall; all six doors open into the bedroom ---------- */
+// built as in A21 /9 inside a mirrored group, so the shelf section lands at the door end (east)
 const cloth = [mat.bedding, mat.leather2, mat.sage, mat.fabric, mat.art, mat.throwM, mat.white];
 const wrDoors = [];
 const WRG = group(); WRG.scale.x = -1; WRG.position.x = WR_X[0] + WR_X[1];
@@ -459,16 +460,12 @@ const WRG = group(); WRG.scale.x = -1; WRG.position.x = WR_X[0] + WR_X[1];
   const inner = M({map:woodTex('#2b241e', 17), roughness:0.75});
   BB(x0, x1, 0, 0.06, z0+0.04, z1-0.02, mat.black);
   const xS = x0 + (x1-x0)/3;
-  BB(xS, x1, 0.06, WR_H, z1-0.02, z1, mat.oak);
-  BB(x0, xS, DOOR_H, WR_H, z1-0.02, z1, mat.oak);
-  BB(x0, xS, 0.08, DOOR_H, z0, z0+LT, mat.oak);
-  [x0+0.003, (x0+xS)/2, xS-0.003].forEach(x => BB(x-G, x+G, 0.09, DOOR_H-0.01, z0-0.002, z0, mat.oakDark, NCs));
-  BB(x0+0.01, xS-0.01, DOOR_H-G, DOOR_H+G, z0-0.002, z0, mat.oakDark, NCs);
+  BB(x0, x1, 0.06, WR_H, z1-0.02, z1, mat.oak);             // closed oak back towards the living room
   BB(x0, x0+0.02, 0.06, WR_H, z0+LT, z1-0.02, inner); BB(x1-0.02, x1, 0.06, WR_H, z0+LT, z1-0.02, inner);
   BB(x0, x1, 0.06, 0.08, z0+LT, z1-0.02, inner); BB(x0, x1, WR_H-0.02, WR_H, z0, z1-0.02, mat.oak);
   BB(x0, x1, DOOR_H-0.02, DOOR_H, z0+LT, z1-0.02, inner);
   for(let k=1;k<3;k++){ const x = x0 + k*(x1-x0)/3; BB(x-0.01, x+0.01, 0.08, DOOR_H-0.02, z0+LT, z1-0.02, inner); }
-  BB(xS, x1-0.01, DOOR_H-G, DOOR_H+G, z1, z1+0.002, mat.oakDark, NCs);
+  BB(x0+0.01, x1-0.01, DOOR_H-G, DOOR_H+G, z1, z1+0.002, mat.oakDark, NCs);
   [1,2].forEach(k => { const x = x0 + k*(x1-x0)/3; BB(x-G, x+G, 0.07, WR_H-0.01, z1, z1+0.002, mat.oakDark, NCs); });
   const sA = x0+0.02, s1 = x0+(x1-x0)/3-0.01, s2 = x0+2*(x1-x0)/3-0.01, sB = x1-0.02, c = (z0+z1)/2;
   function hang(a, b, y, len, k){
@@ -477,13 +474,11 @@ const WRG = group(); WRG.scale.x = -1; WRG.position.x = WR_X[0] + WR_X[1];
     for(let i=0;i<m;i++){ const x = a + (i+0.5)*(b-a)/m, drop = len*(0.7+0.3*((i*5+k)%7)/6);
       BB(x-0.018, x+0.018, y-0.04-drop, y-0.04, c-0.23, c+0.23, cloth[(i*3+k)%7]); }
   }
-  [1.45, 1.8].forEach((y, k) => { BB(sA, s1, y-0.02, y, z0+LT, z1-0.02, inner);
-    for(let x = sA+0.05; x < s1-0.2; x += 0.24) BB(x, x+0.2, y, y+0.14+((x*9+k)%3)*0.04, z0+0.1, z1-0.08, (Math.round(x*7)+k)%2 ? mat.white : mat.black); });
-  cyl(0.14, 0.14, 0.34, mat.black, sA+0.2, 0.25, c, P); rod(V(sA+0.2,0.4,c+0.05), V(sA+0.28,1.15,c+0.1), 0.014, mat.steel, P);
-  rod(V(sA+0.48,0.09,c+0.12), V(sA+0.46,1.35,c+0.15), 0.012, mat.steel, P); BB(sA+0.38, sA+0.58, 0.08, 0.11, c+0.02, c+0.22, mat.sage);
-  rod(V(sA+0.62,0.09,c+0.15), V(sA+0.6,1.3,c+0.18), 0.012, mat.oak, P); BB(sA+0.55, sA+0.69, 0.08, 0.14, c+0.12, c+0.2, mat.black);
-  cyl(0.13, 0.11, 0.27, mat.pot, s1-0.2, 0.215, c-0.05, P);
-  BB(s1-0.06, s1-0.03, 0.1, 1.35, z0+0.08, z1-0.08, mat.white);
+  // east third (mirrored: local west): shelves over a low drawer unit
+  BB(sA, s1, 0.08, 0.7, z0+0.06, z1-0.02, mat.oak);
+  for(let k=1;k<3;k++) BB(sA+0.01, s1-0.01, 0.08+k*0.207-G, 0.08+k*0.207+G, z0+0.058, z0+0.06, mat.oakDark, NCs);
+  [1.05, 1.4, 1.75].forEach((y, k) => { BB(sA, s1, y-0.02, y, z0+0.04, z1-0.02, inner);
+    for(let x = sA+0.05; x < s1-0.17; x += 0.21) BB(x, x+0.17, y, y+0.1+((x*9+k)%3)*0.03, z0+0.1, z1-0.06, cloth[(Math.round(x*7)+k+3)%7]); });
   hang(s1+0.05, s2-0.03, 1.9, 0.75, 2); hang(s1+0.05, s2-0.03, 0.98, 0.65, 4);
   BB(s2+0.02, sB, 0.08, 0.86, z0+0.06, z1-0.02, mat.oak);
   for(let k=1;k<4;k++) BB(s2+0.03, sB-0.01, 0.08+k*0.195-G, 0.08+k*0.195+G, z0+0.058, z0+0.06, mat.oakDark, NCs);
@@ -492,7 +487,7 @@ const WRG = group(); WRG.scale.x = -1; WRG.position.x = WR_X[0] + WR_X[1];
   BB(sA+0.1, sB-0.1, DOOR_H-0.06, DOOR_H-0.05, z0+0.06, z0+0.08, mat.bulb, NCs);
   for(let i=0;i<n;i++){ const a = x0+i*w; BB(a+G, a+w-G, DOOR_H+G, WR_H-0.02-G, z0, z0+LT, mat.oak); }
   for(let i=0;i<n;i++){
-    const left = i % 2 === 0, hx = left ? x0+i*w : x0+(i+1)*w, sg = left ? 1 : -1, south = i < 2, f = south ? -1 : 1;
+    const left = i % 2 === 0, hx = left ? x0+i*w : x0+(i+1)*w, sg = left ? 1 : -1, south = false, f = 1;
     const g = group(P); g.position.set(hx, 0, south ? z1-LT : z0+LT);
     B(sg>0 ? G : -w+G, sg>0 ? w-G : -G, 0.08+G, DOOR_H-G, south ? 0 : -LT, south ? LT : 0, mat.oak, g);
     const px = sg * (w - 0.05), zp = south ? LT : -LT;
@@ -726,6 +721,48 @@ if(qs.get('indirect')){ tInd.checked = true; tInd.dispatchEvent(new Event('chang
 if(views[qs.get('view')]) setView(qs.get('view'));
 if(qs.get('cam')){ const c = qs.get('cam').split(',').map(Number); if(c.length === 6){ camera.position.set(c[0], c[1], c[2]); controls.target.set(c[3], c[4], c[5]); } }
 
+// click a door to open / close it (ignored when the pointer was dragged to orbit); in measure mode, clicks place points
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(); let downAt = null;
+renderer.domElement.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', e => {
+  if(!downAt || Math.hypot(e.clientX-downAt[0], e.clientY-downAt[1]) > 5) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set((e.clientX-r.left)/r.width*2-1, -(e.clientY-r.top)/r.height*2+1);
+  ray.setFromCamera(ndc, camera);
+  if(measureOn){ measureClick(); return; }
+  if(ray.intersectObjects(bdoor.children, false)[0]){ tBdoor.checked = !tBdoor.checked; bdTarget = tBdoor.checked ? 1 : 0; }
+});
+
+/* ---------- Measuring tape: click two surfaces, shows the distance + its x / y / z parts ---------- */
+let measureOn = false, mStart = null;
+const mGroup = new THREE.Group(); scene.add(mGroup);
+const mLabels = document.getElementById('m-labels'), mItems = [];
+const mDot = new THREE.MeshBasicMaterial({color:'#ff3b30', depthTest:false});
+const mLine = new THREE.LineBasicMaterial({color:'#ff3b30', depthTest:false});
+function shown(o){ for(; o; o = o.parent) if(!o.visible) return false; return true; }
+function dot(p){ const m = new THREE.Mesh(new THREE.SphereGeometry(0.025, 12, 8), mDot); m.position.copy(p); m.renderOrder = 999; mGroup.add(m); }
+function measureClick(){
+  const hit = ray.intersectObject(scene, true).find(h => shown(h.object) && !(h.object.parent === mGroup) && h.object.isMesh);
+  if(!hit) return;
+  const p = hit.point.clone(); dot(p);
+  if(!mStart){ mStart = p; return; }
+  const a = mStart, b = p; mStart = null;
+  const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), mLine); ln.renderOrder = 999; mGroup.add(ln);
+  const d = a.distanceTo(b), f = v => Math.abs(v).toFixed(2);
+  const el = document.createElement('div');
+  el.style.cssText = 'position:absolute;transform:translate(-50%,-120%);background:#111d;color:#fff;font:12px/1.35 system-ui,sans-serif;padding:3px 7px;border-radius:4px;white-space:nowrap';
+  el.innerHTML = `<b>${d.toFixed(2)} m</b><br><span style="opacity:.75">x ${f(b.x-a.x)} · z ${f(b.z-a.z)} · height ${f(b.y-a.y)}</span>`;
+  mLabels.appendChild(el); mItems.push({el, mid: a.clone().lerp(b, 0.5)});
+}
+function measureClear(){ mGroup.clear(); mLabels.innerHTML = ''; mItems.length = 0; mStart = null; }
+function measureLabels(){
+  const r = renderer.domElement.getBoundingClientRect();
+  mItems.forEach(({el, mid}) => { const v = mid.clone().project(camera);
+    el.style.display = v.z < 1 ? '' : 'none'; el.style.left = ((v.x+1)/2*r.width)+'px'; el.style.top = ((1-v.y)/2*r.height)+'px'; });
+}
+document.getElementById('t-measure').addEventListener('change', e => { measureOn = e.target.checked; renderer.domElement.style.cursor = measureOn ? 'crosshair' : ''; if(!measureOn) measureClear(); });
+addEventListener('keydown', e => { if(e.key === 'Escape') measureClear(); });
+
 /* ---------- Loop ---------- */
 function resize(){
   const w = host.clientWidth, h = host.clientHeight;
@@ -742,6 +779,7 @@ function tick(now){
   }
   if(Math.abs(bdNow - bdTarget) > 0.002){ bdNow += (bdTarget - bdNow) * 0.1; bdoor.rotation.y = Math.PI/2 * bdNow; }
   if(Math.abs(wrNow - wrTarget) > 0.002){ wrNow += (wrTarget - wrNow) * 0.1; wrDoors.forEach(d => d.g.rotation.y = d.sg * 1.75 * wrNow); }
+  if(mItems.length) measureLabels();      // labels follow last frame's camera
   if(renderer.xr.isPresenting){ xrFrame(); renderer.render(scene, camera); return; }
   controls.update();
   const c = camera.position;
@@ -780,7 +818,7 @@ function snapTurn(a){
   rig.position.sub(head).applyAxisAngle(UP, a).add(head); rig.rotation.y += a;
 }
 const heading = () => { const d = new THREE.Vector3(); camera.getWorldDirection(d); return Math.atan2(-d.x, -d.z); };
-const UPSTAIRS = V(3.9, 0, 2.6), DOWNSTAIRS = V(1.9, 0, 2.9);   // no parvi: A/X jumps between the hall by the kitchen and the bedroom
+const UPSTAIRS = V(3.9, 0, 2.6), DOWNSTAIRS = V(1.9, 0, 2.9);
 function jumpLevel(){
   const up = rig.position.y < PF/2;
   teleport(up ? UPSTAIRS : DOWNSTAIRS);
