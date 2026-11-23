@@ -438,8 +438,19 @@ rod(V(W-0.32,3.7,0.05), V(W-0.32,3.7,SH_N[2]), 0.15, mat.duct, ceiling);   // ex
 
 /* ---------- Bathroom + shafts (as built) ---------- */
 B(BATH_X, W, 0, H, BATH_Z0, BATH_Z1, mat.paint);
-B(BATH_X-0.04, BATH_X-0.02, 0, 2.04, BDOOR[0], BDOOR[1], mat.oakDark);
-B(BATH_X-0.07, BATH_X-0.04, 1.0, 1.02, BDOOR[0]+0.04, BDOOR[0]+0.12, mat.steel);
+// bathroom door: the delivered white flush door in a white frame (karmi + listat), lever handle
+const BF = 0.05;                                                   // frame face width
+B(BATH_X-0.015, BATH_X, 0, 2.1+BF, BDOOR[0]-BF, BDOOR[0]+0.01, mat.paint);   // jambs + head, standing 15 mm proud of the wall
+B(BATH_X-0.015, BATH_X, 0, 2.1+BF, BDOOR[1]-0.01, BDOOR[1]+BF, mat.paint);
+B(BATH_X-0.015, BATH_X, 2.09, 2.1+BF, BDOOR[0]-BF, BDOOR[1]+BF, mat.paint);
+B(BATH_X-0.008, BATH_X+0.03, 0.01, 2.09, BDOOR[0]+0.01, BDOOR[1]-0.01, mat.paint);   // leaf, a touch behind the frame face
+{ const gm = M({color:'#77756f', roughness:0.9}), NCg = {cast:false};        // 3 mm shadow gaps round the leaf and at the frame's outer edge
+  [BDOOR[0]+0.01, BDOOR[1]-0.013].forEach(z => B(BATH_X-0.0165, BATH_X-0.007, 0.01, 2.093, z, z+0.003, gm, scene, NCg));
+  B(BATH_X-0.0165, BATH_X-0.007, 2.09, 2.093, BDOOR[0]+0.01, BDOOR[1]-0.01, gm, scene, NCg);
+  [BDOOR[0]-BF-0.002, BDOOR[1]+BF-0.001].forEach(z => B(BATH_X-0.016, BATH_X-0.001, 0, 2.1+BF, z, z+0.003, gm, scene, NCg));
+  B(BATH_X-0.016, BATH_X-0.001, 2.1+BF-0.001, 2.1+BF+0.002, BDOOR[0]-BF, BDOOR[1]+BF, gm, scene, NCg); }
+B(BATH_X-0.06, BATH_X-0.008, 1.0, 1.02, BDOOR[0]+0.05, BDOOR[0]+0.06, mat.chrome);
+B(BATH_X-0.075, BATH_X-0.06, 1.0, 1.02, BDOOR[0]+0.05, BDOOR[0]+0.18, mat.chrome);
 B(SH_N[0], SH_N[1], 0, H, SH_N[2], BATH_Z0, mat.wall);
 B(SH_S[0], W, 0, H, BATH_Z1, SH_S[1], mat.wall);
 
