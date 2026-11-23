@@ -115,7 +115,7 @@ a{color:var(--oak)}
     <header>
       <div class="eyebrow">Vanha talvitie 31 A21 · 4th floor · 68.5 m² · version 3, kitchen at the door</div>
       <h1>Artus A21 Kitchen Entry</h1>
-      <p class="lede">Version 3 with the kitchen moved to the front door, as in /9. The graphite U kitchen takes the north-west corner under the west window, where the eteinen was. Oak coat cabinets line the bathroom wall by the passage instead. Where version 3 had its kitchen, the west side of the south room is now a big living room: two 3-seaters in an L, a 65" TV on the west wall and a big coffee table. A round table for four stands where version 3's sofa was. The parvi office, the two wardrobes, the stair and the bedroom are unchanged.</p>
+      <p class="lede">Version 3 with the kitchen moved to the front door, as in /9. The graphite U kitchen takes the north-west corner under the west window, where the eteinen was. Oak coat cabinets line the bathroom wall by the passage instead. Where version 3 had its kitchen, the west side of the south room is now a big living room: two facing 3-seaters, a 65" TV on the west wall and a big coffee table. A round table for four stands where version 3's sofa was. The parvi office, the two wardrobes, the stair and the bedroom are unchanged.</p>
       <div class="stats">
         <div class="stat"><b>~13 m²</b><span>living</span></div>
         <div class="stat"><b>~11 m²</b><span>bedroom</span></div>
@@ -170,7 +170,7 @@ a{color:var(--oak)}
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Coat cabinets<small>Oak, 50 cm deep, on the bathroom wall either side of its door. North of the parvi they're 3.42 m tall, with ladder-height top cupboards above 2.4 m. Under the parvi they stop at 2.25 m. 2.8 m of fronts in all. The passage between them and the wardrobes is 1.15 m wide.</small></td><td class="n">≈ 1.4 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>The NE corner, with the east of the two north windows. The 180 × 200 bed has its headboard on the east wall, with nightstands either side. It sits towards the window: 60 cm to walk on the window side, 1.0 m on the wardrobe side, and about 90 cm at the foot. The wall to the eteinen is concrete, floor to ceiling, and a flush, frameless door in the same concrete finish opens out into the eteinen: pushed open from the bedroom, with a slim lever only on the outside. The south side is the oak face of the wardrobes. The walk-in opens off the bedroom there through a full-height hidden door in the oak, at the foot of the bed; it is pushed open inwards. Above the wardrobes the bedroom is open to the parvi railing. Two blackout curtains close it, or the oak wall can go up to the ceiling.</small></td><td class="n">≈ 11 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Under the parvi<small>2.28 m clear. A 1.15 m passage runs from the front door to the living room between the coat cabinets and the wardrobes. East of it are two wardrobes back to back, trimmed to the minimum. The walk-in (≈ 3.8 m², 1.17 m deep: hanging + aisle) opens off the bedroom and runs on under the stair landing: a 2 m double rail on the dividing wall, and drawers with shelves above them in the 2.2 m high space under the landing. The store (≈ 2.4 m², 1.0 m deep) is pushed open from the passage through a hidden oak door: steel shelving and a cleaning cupboard. The stair takes the east 0.84 m.</small></td><td class="n">≈ 12 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-live)"></span>Living<small>The west side of the south room, from the west wall to the passage: about 3.2 × 3.6 m. A 65" TV hangs on the west wall over a low floating bench. One dark brown leather 3-seater faces it from 2.7 m away, with its back to the passage. The second 3-seater has its back to the glass and faces north, so the two make an L. Between them is a 1.0 × 1.3 m dark-wood coffee table under the ring pendant. A side table and a floor lamp stand in the corner where the sofas meet. The lit shelves in the bathroom's indentation are at the head of the room.</small></td><td class="n">≈ 13 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-live)"></span>Living<small>The west side of the south room, from the west wall to the passage: about 3.3 × 3.6 m. A 65" TV hangs on the west wall over a low floating bench. Two dark brown leather 3-seaters face each other across it, side-on to the TV and 1.0–3.2 m from it: one with its back to the bathroom, one with its back to the glass. Between them, a narrow 1.3 × 0.6 m dark-wood coffee table runs along the room, with 50 cm to each sofa, under the ring pendant. A side table and a floor lamp stand at the west end of the glass-side sofa. The bathroom-side sofa stands in front of the low cupboard in the indentation, so only the lit shelves above it stay in use.</small></td><td class="n">≈ 13 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Dining<small>East of the sofa's back, where version 3's sofa stood: a round 1.1 m dark-wood table for four with a pedestal base and a pendant over it. A low floating sideboard for plates and glasses stands on the store's oak face, where version 3 hung the TV. The stair still starts in the north-east corner. From the passage, a 90 cm walk runs straight past the sofa's back to the balcony door.</small></td><td class="n">≈ 13 m²</td></tr>
         <tr><td><span class="sw" style="border:1.5px dashed var(--olive)"></span>Parvi office<small>Over the passage and the wardrobes, from the bathroom wall to the stair. The parvi is 2.4 m deep. The 2 × 1 m desk faces south, centred on the railing over the living room and pushed right up against it. A low bookshelf stands against the bathroom wall. Railings look down into the bedroom, the eteinen and the living room. 1.60 m headroom, the legal maximum: you stoop when standing, but sitting at the desk is unaffected.</small></td><td class="n">≈ 10.5 m²</td></tr>
       </table>
@@ -221,8 +221,8 @@ const JOG_X = 1.42, JOG_Z = 5.81;                 // the bathroom's south face s
 const KH = 2.7;                                   // top of the kitchen units
 const K_N = 0.62, KIT_E = FDOOR[0] - 0.1, KS0 = BATH_Z0 - 0.62;   // kitchen at the entrance (as in /9): north run depth, its east end, front of the run on the bathroom's north face
 const COAT = [[BATH_Z0, BDOOR[0]-0.05], [BDOOR[1]+0.07, JOG_Z]], COAT_D = 0.5;   // coat cabinets on the bathroom's east face, either side of its door: 3.42 m tall north of the parvi, 2.25 m under it
-const SOFA_A = [2.75, 7.65], SOFA_B = [1.2, D-0.18-0.425];   // living on the west side: 3-seater facing west to the TV, a second 3-seater with its back to the glass, facing north
-const TV_Z = SOFA_A[1], CT = [0.85, 1.85, 6.95, 8.25];       // 65" TV on the west wall; coffee table 1.0 x 1.3 m [x0, x1, z0, z1]
+const SOFA_A = [2.1, BATH_Z1+0.07+0.425], SOFA_B = [2.1, D-0.12-0.425], LIV_E = 3.3;   // living on the west side: two 3-seaters facing each other (A faces south, B north, back to the glass), side-on to the TV, 1.0–3.2 m from it
+const TV_Z = (SOFA_A[1]+SOFA_B[1])/2, CT = [1.45, 2.75, TV_Z-0.3, TV_Z+0.3];   // 65" TV on the west wall, centred between the sofas; coffee table 1.3 x 0.6 m along x [x0, x1, z0, z1]
 const TABLE = [5.25, 8.1], TABLE_R = 0.55;                    // round 1.1 m table for four where /3's sofa was
 const BED_C = [W - 1.14, 1.55];                   // headboard on the east wall, bed runs west; 60 cm walkway on the window side, 1.0 m on the wardrobe side
 
@@ -248,9 +248,9 @@ function planSVG(){
   R(BED_X0,0,W,P0,'plan-zone','style="fill:var(--zone-bed)" data-view="bedroom"');
   R(CAB_X1,P0,CORR1,P1,'plan-zone','style="fill:var(--zone-kit)" data-view="passage"');
   R(CORR1,P0,STAIR_X0,P1,'plan-zone','style="fill:var(--zone-kit)" data-view="storage"');
-  R(0,BATH_Z1,SOFA_A[0]+0.43,D,'plan-zone','style="fill:var(--zone-live)" data-view="living"');
-  R(CAB_X0,P1,SOFA_A[0]+0.43,BATH_Z1,'plan-zone','style="fill:var(--zone-live)" data-view="living"');
-  R(SOFA_A[0]+0.43,P1,W,D,'plan-zone','style="fill:var(--zone-kit)" data-view="dining"');
+  R(0,BATH_Z1,LIV_E,D,'plan-zone','style="fill:var(--zone-live)" data-view="living"');
+  R(CAB_X0,P1,LIV_E,BATH_Z1,'plan-zone','style="fill:var(--zone-live)" data-view="living"');
+  R(LIV_E,P1,W,D,'plan-zone','style="fill:var(--zone-kit)" data-view="dining"');
   // bathroom
   R(0,BATH_Z0,JOG_X,BATH_Z1,'plan-fix'); R(JOG_X,BATH_Z0,BATH_X1,JOG_Z,'plan-fix'); Tx(BATH_X1/2,4.45,'KPH');
   R(BATH_X1-0.03,BDOOR[0],BATH_X1,BDOOR[1],'plan-floor');
@@ -287,9 +287,9 @@ function planSVG(){
   C(TABLE[0],TABLE[1],TABLE_R,'plan-fix'); [[0,-1],[0,1],[-1,0],[1,0]].forEach(([a,b]) => C(TABLE[0]+a*0.74,TABLE[1]+b*0.74,.2,'plan-thin'));
   R(4.2,P1,6.2,P1+0.45,'plan-thin');
   // living: sofa A facing west, sofa B facing north, coffee table, TV on the west wall
-  R(SOFA_A[0]-0.425,SOFA_A[1]-1.1,SOFA_A[0]+0.425,SOFA_A[1]+1.1,'plan-fix'); R(SOFA_B[0]-1.1,SOFA_B[1]-0.425,SOFA_B[0]+1.1,SOFA_B[1]+0.425,'plan-fix');
+    R(SOFA_A[0]-1.1,SOFA_A[1]-0.425,SOFA_A[0]+1.1,SOFA_A[1]+0.425,'plan-fix'); R(SOFA_B[0]-1.1,SOFA_B[1]-0.425,SOFA_B[0]+1.1,SOFA_B[1]+0.425,'plan-fix');
   R(CT[0],CT[2],CT[1],CT[3],'plan-thin'); R(0,TV_Z-1.05,0.4,TV_Z+1.05,'plan-thin'); L(0.06,TV_Z-0.72,0.06,TV_Z+0.72,'plan-door');
-  C(SOFA_A[0],D-0.5,.2,'plan-thin');
+    C(0.7,D-0.4,.2,'plan-thin');
   // bedroom
   R(BED_C[0]-1.1,BED_C[1]-0.95,W-0.02,BED_C[1]+0.95,'plan-fix'); [-1,1].forEach(d => R(W-0.42,BED_C[1]+d*1.2-0.2,W,BED_C[1]+d*1.2+0.2,'plan-thin'));
   // parvi outline
@@ -298,13 +298,13 @@ function planSVG(){
   Tx(5.4,3.05,'BEDROOM'); Tx(5.4,3.25,'≈ 11 m²','plan-ts');
   Tx(1.45,1.35,'KITCHEN'); Tx(3.45,1.2,'ENTRY','plan-ts'); Tx(BATH_X1+0.25,P0-0.15,'coats','plan-ts','start'); Tx(3.42,P1-0.15,'passage','plan-ts');
   Tx(5.2,P1-0.12,'OFFICE ABOVE','plan-tp');
-  Tx(1.55,6.55,'LIVING'); Tx(5.25,9.45,'DINING','plan-ts');
+  Tx(2.1,TV_Z+0.09,'LIVING'); Tx(5.25,9.45,'DINING','plan-ts');
   Tx(0.5,TV_Z+0.07,'TV 65"','plan-ts','start'); Tx(STAIR_X0+STAIR_W/2,STAIR_Z1+0.25,'stair','plan-ts');
   Tx((FDOOR[0]+FDOOR[1])/2,-0.38,'entry','plan-ts');
   L(0,D+0.55,W,D+0.55,'plan-thin'); Tx(W/2,D+0.8,'7.30');
   L(-0.55,0,-0.55,D,'plan-thin');
   s.push(`<text x="-0.7" y="${D/2}" class="plan-t" text-anchor="middle" transform="rotate(-90 -0.7 ${D/2})">9.70</text>`);
-  return `<svg viewBox="-1 -1.4 9.3 12.4" role="img" aria-label="Floor plan of A21 version 3 with the kitchen at the entrance: kitchen in the north-west corner by the front door, bedroom to the north-east, coat cabinets on the bathroom wall, a parvi over the passage and two wardrobes in the middle, a living room with two sofas and a TV on the west wall, and a round table for four in the south-east">${s.join('')}</svg>`;
+  return `<svg viewBox="-1 -1.4 9.3 12.4" role="img" aria-label="Floor plan of A21 version 3 with the kitchen at the entrance: kitchen in the north-west corner by the front door, bedroom to the north-east, coat cabinets on the bathroom wall, a parvi over the passage and two wardrobes in the middle, a living room with two facing sofas side-on to a TV on the west wall, and a round table for four in the south-east">${s.join('')}</svg>`;
 }
 document.getElementById('plan').innerHTML = planSVG();
 
@@ -753,8 +753,8 @@ railing('z', STAIR_TOP, P1-0.02, STAIR_X0-0.02, parvi);         // beside the st
   cyl(0.11,0.08,0.3,mat.pot,4.55,0.95,P1+0.22); cyl(0.07,0.07,0.22,mat.white,5.85,0.91,P1+0.22);
 })();
 
-/* ---------- Living: where /3's kitchen was. Two 3-seaters in an L, a 65" TV on the west wall, a big coffee table ---------- */
-B(0.45, 3.3, 0, 0.012, 6.45, 9.45, mat.rugOlive, scene, {cast:false});
+/* ---------- Living: where /3's kitchen was. Two facing 3-seaters, a 65" TV on the west wall, a big coffee table ---------- */
+B(0.6, 3.6, 0, 0.012, 6.4, 9.45, mat.rugOlive, scene, {cast:false});
 function sofa(x, z, rot){
   const g = group(); place(g, x, z, rot);
   const L = 2.2, Dp = 0.85;
@@ -767,23 +767,23 @@ function sofa(x, z, rot){
     B(x0+0.01,x0+w-0.01,0.42,0.55,-Dp/2+0.2,Dp/2-0.02,mat.sofaL2,g);
     const bc = B(x0+0.02,x0+w-0.02,0.55,0.78,-Dp/2+0.2,-Dp/2+0.34,mat.sofaL2,g); bc.rotation.x = -0.12; }
 }
-sofa(SOFA_A[0], SOFA_A[1], -Math.PI/2);   // back to the passage, faces west to the TV
+sofa(SOFA_A[0], SOFA_A[1], 0);           // back to the bathroom, faces south
 sofa(SOFA_B[0], SOFA_B[1], Math.PI);      // back to the glass, faces north
-(function coffee(){                       // 1.0 x 1.3 m: dark-wood top on a black steel frame
+(function coffee(){                       // 1.3 x 0.6 m: dark-wood top on a black steel frame
   const [x0, x1, z0, z1] = CT;
   B(x0, x1, 0.37, 0.41, z0, z1, mat.oak);
   B(x0+0.06, x1-0.06, 0.12, 0.14, z0+0.06, z1-0.06, mat.oakDark);                 // lower shelf
   [[x0+0.04,z0+0.04],[x1-0.04,z0+0.04],[x0+0.04,z1-0.04],[x1-0.04,z1-0.04]].forEach(([x,z]) => B(x-0.02,x+0.02,0,0.37,z-0.02,z+0.02,mat.black));
-  B(x0+0.25, x0+0.55, 0.41, 0.45, z0+0.3, z0+0.55, mat.book1); cyl(0.09,0.06,0.08,mat.pot,x1-0.25,0.45,z1-0.3);
+  B(x0+0.2, x0+0.5, 0.41, 0.45, z0+0.15, z0+0.4, mat.book1); cyl(0.09,0.06,0.08,mat.pot,x1-0.25,0.45,(z0+z1)/2);
 })();
 // 65" TV (1.45 x 0.83 m) on the west wall, a low floating bench under it
 B(0, 0.42, 0.25, 0.6, TV_Z-1.05, TV_Z+1.05, mat.oakDark);
 B(0, 0.045, 1.0, 1.83, TV_Z-0.725, TV_Z+0.725, mat.screen);
 B(0.05, 0.28, 0.6, 0.66, TV_Z-0.3, TV_Z+0.3, mat.black);                              // soundbar on the bench
-// side table + floor lamp in the corner between the two sofas
-cyl(0.22, 0.22, 0.03, mat.oak, SOFA_A[0], 0.55, D-0.5); cyl(0.02, 0.02, 0.54, mat.black, SOFA_A[0], 0.27, D-0.5); cyl(0.16,0.16,0.02,mat.black,SOFA_A[0],0.01,D-0.5);
-rod(V(SOFA_A[0]+0.25,0,D-0.35), V(SOFA_A[0]+0.25,1.55,D-0.35), 0.012, mat.black);
-cyl(0.16, 0.2, 0.26, mat.shade, SOFA_A[0]+0.25, 1.62, D-0.35); lamps.push({pos:V(SOFA_A[0]+0.25,1.45,D-0.35), i:0.6, d:3});
+// side table + floor lamp at the west end of the glass-side sofa
+cyl(0.22, 0.22, 0.03, mat.oak, 0.7, 0.55, D-0.4); cyl(0.02, 0.02, 0.54, mat.black, 0.7, 0.27, D-0.4); cyl(0.16,0.16,0.02,mat.black,0.7,0.01,D-0.4);
+rod(V(0.55,0,D-0.25), V(0.55,1.55,D-0.25), 0.012, mat.black);
+cyl(0.16, 0.2, 0.26, mat.shade, 0.55, 1.62, D-0.25); lamps.push({pos:V(0.55,1.45,D-0.25), i:0.6, d:3});
 function ringPendant(x,z,y,r,n){
   const ring = new THREE.Mesh(new THREE.TorusGeometry(r,0.012,8,72), mat.chrome);
   ring.rotation.x = Math.PI/2; ring.position.set(x,y,z); scene.add(ring);
@@ -979,7 +979,7 @@ const views = {
   down:     {p:[5.3, 3.8, 4.25],  t:[5.7, 0.4, 1.2]},
   office:   {p:[4.4, 3.75, 3.85],  t:[4.4, 2.4, 8.9]},
   living:   {p:[5.2, 1.65, 9.35],  t:[0.4, 1.1, 7.3]},
-  sofa:     {p:[2.85, 1.15, 7.65], t:[0, 1.35, 7.65]},
+  sofa:     {p:[2.6, 1.15, 9.0],   t:[0, 1.35, TV_Z]},
   dining:   {p:[3.6, 1.65, 6.3],   t:[5.6, 0.8, 8.6]},
   passage:  {p:[3.45, 1.6, 7.0],   t:[3.4, 1.3, 0.0]},
   storage:  {p:[5.2, 6.2, 8.5],    t:[5.2, 0.4, 4.9], noParvi:true},
