@@ -157,7 +157,7 @@ a{color:var(--oak)}
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Entry + coat wardrobes<small>You come in through the east wall, by the north-east window. Straight away on the left is a 2.15 m run of oak wardrobes, the same length as the bathroom is wide and flush with its west face: 60 cm deep, 3.42 m tall to just under the duct, four doors with black bar pulls, and ladder-height top cupboards above 2.4 m. The entry between them and the window wall is 1.15 m wide, the front door's width.</small></td><td class="n">≈ 2.5 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Kitchen<small>Behind the wardrobes, between their back and the bathroom's north shaft: two graphite runs facing each other across a 1.3 m aisle, 2.15 m long and open at both ends. Nothing turns a corner, so there are no blind corner cupboards. On the wardrobes' back: the hob under a slatted hood box, about 1 m of worktop, wall units up to the same 3.42 m top, and the integrated fridge-freezer column in the east corner. On the shaft: the sink and tap, about 1 m of worktop, wall units to 2.4 m, and a column in the east corner with an oven-microwave combi at eye level, drawers under it and a cupboard over it. The east wall between the two columns is left clear. Pale stone worktop, travertine splashback.</small></td><td class="n">≈ 5.5 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Hall<small>1.8 m wide, between the bedroom wall and the kitchen, full height, with the French balcony at its north end. It leads south past the bathroom door to the rest of the flat.</small></td><td class="n">≈ 7 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>As in A21 /9, mirrored. The north-west corner with the west window, 2.83 × 3.5 m. The 180 × 200 bed has its low headboard on the west wall, with nightstands either side. There's 60 cm to walk on the window side and 59 cm at the foot. A concrete wall separates it from the hall, set 15 cm back from the French balcony's glass so it doesn't start right at the window, with a flush concrete door that opens into the room, hinged at its south end, so open it folds back over the wardrobes. Its south wall is six oak wardrobe doors, 3.4 m tall: long hanging, a double rail, and shelves over drawers. All six doors open into the bedroom; the open bedroom door covers the east two, which is fine. The hall between the bedroom wall and the kitchen is 1.8 m wide.</small></td><td class="n">≈ 10 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>As in A21 /9, mirrored. The north-west corner with the west window, 2.83 × 3.5 m. The 180 × 200 bed has its low headboard against the north window, kept under the 0.7 m sill, with 40 cm nightstands either side. That leaves 1.26 m between the foot and the wardrobes, so all six doors open freely. A concrete wall separates it from the hall, set 15 cm back from the French balcony's glass so it doesn't start right at the window, with a flush concrete door that opens into the room, hinged at its south end, so open it folds back over the wardrobes. Its south wall is six oak wardrobe doors, 3.4 m tall: long hanging, a double rail, and shelves over drawers. All six doors open into the bedroom; the open bedroom door covers the east two, which is fine. The hall between the bedroom wall and the kitchen is 1.8 m wide.</small></td><td class="n">≈ 10 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-live)"></span>The rest<small>Empty for now: about 6.9 × 7.3 m round the bathroom, from the bedroom wardrobes to the balcony glass.</small></td><td class="n">≈ 43 m²</td></tr>
       </table>
     </section>
@@ -167,7 +167,7 @@ a{color:var(--oak)}
       <ul class="notes">
         <li>The kitchen isn't in EKE's kitchen reservation, but it backs onto the bathroom's north shaft, so the water, the drain and the hood duct have the shortest possible run. Check with EKE that the shaft can take them.</li>
         <li>The bedroom wall stands just west of the French balcony, so the balcony door and its light belong to the hall, not the bedroom. Moving the wall east past it would leave the hall too narrow to reach the kitchen.</li>
-        <li>The bedroom is 2.83 m wide, so the wall stands 15 cm clear of the French balcony window. A 180 bed leaves 59 cm at the foot; a 160 bed would give 80 cm on the window side.</li>
+        <li>The bedroom is 2.83 m wide, so the wall stands 15 cm clear of the French balcony window. With the bed against the window there is about 47 cm on each side of a 180 bed: enough for slim nightstands, but tight to walk past. A 160 bed would give about 57 cm each side.</li>
         <li>The entry is 1.15 m wide. The front door opens outwards, so the full width stays clear.</li>
         <li>Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
         <li>"Evening, indirect" shows hidden warm-white LED lighting, each part on its own switch. The strips are drawn as soft area lights, so you can see where the glow lands. Light bouncing on from the lit ceiling isn't calculated: a warm fill stands in for it, so treat the overall brightness as indicative.</li>
@@ -193,7 +193,7 @@ const HALL_X = 4.75, WALL_T = 0.12;               // line of the bathroom's west
 const BW = [2.83, 2.83 + WALL_T];                 // new concrete wall: bedroom | hall, 15 cm clear of the French balcony's glass (from x 3.1); 59 cm at the bed's foot
 const BEDDOOR = [2.5, 3.4];                       // flush bedroom door in that wall (z extent)
 const WR_X = [0, BW[0]], WR_Z = [3.5, 4.1], WR_H = 3.4, WR_N = 6;   // tall wardrobes: the bedroom's south wall (as in A21 /9)
-const BED_C = [1.14, 1.55];                       // headboard on the west wall, bed runs east; 60 cm walkway on the window side
+const BED_C = [BW[0]/2, 1.14];                    // headboard on the north wall under the window (sill 0.7 m), bed runs south; 1.26 m to the wardrobes
 const WARD_TOP = 3.42;                            // 13 cm under the duct (its underside is at 3.55)
 const WE_X = [HALL_X, W], WE_Z = [1.15, 1.75];    // coat wardrobes left of the front door, as long as the bathroom is wide
 const K_Z = [WE_Z[1], SH_N[2]], K_D = 0.62, KS = SH_N[2] - K_D, KN = WE_Z[1] + K_D, KE = W - 0.6;   // kitchen behind them: north leg, east columns, south leg on the shaft
@@ -240,7 +240,7 @@ function planSVG(){
   R(5.2,KS+0.12,5.8,KS+0.5,'plan-thin');
   Tx(KE+0.3,K_Z[0]+0.36,'fridge','plan-ts'); Tx(KE+0.3,K_Z[1]-0.24,'oven','plan-ts');
   // bedroom
-  R(0.02,BED_C[1]-0.95,BED_C[0]+1.1,BED_C[1]+0.95,'plan-fix'); [-1,1].forEach(d => R(0,BED_C[1]+d*1.2-0.2,0.42,BED_C[1]+d*1.2+0.2,'plan-thin'));
+  R(BED_C[0]-0.95,0.02,BED_C[0]+0.95,BED_C[1]+1.1,'plan-fix'); [0.03, BW[0]-0.43].forEach(x => R(x,0.02,x+0.4,0.42,'plan-thin'));
   // labels
   Tx(1.5,3.0,'BEDROOM'); Tx(1.5,3.22,'≈ 10 m²','plan-ts');
   Tx(5.82,0.75,'ENTRY','plan-ts'); Tx(5.4,(KN+KS)/2+0.08,'KITCHEN','plan-ts');
@@ -554,27 +554,27 @@ rod(V(5.5,H,(KN+KS)/2),V(5.5,2.35,(KN+KS)/2),0.004,mat.black); B(4.95,6.05,2.3,2
 B(4.97,6.03,2.29,2.3,(KN+KS)/2-0.035,(KN+KS)/2+0.035,mat.bulb); lamps.push({pos:V(5.5,2.1,(KN+KS)/2), i:0.9, d:4});
 
 /* ---------- Bedroom (north-west), as in A21 /9 ---------- */
-B(0.35,BW[0]-0.12,0,0.012,BED_C[1]-1.33,BED_C[1]+1.33,mat.rugOlive,scene,{cast:false});
+B(0.2,BW[0]-0.2,0,0.012,0.75,3.1,mat.rugOlive,scene,{cast:false});
 (function bed(){
-  const g = group(); place(g, BED_C[0], BED_C[1], Math.PI/2);  // headboard on the west wall, faces east
+  const g = group(); place(g, BED_C[0], BED_C[1], 0);  // headboard on the north wall under the window, faces south
   B(-0.95,0.95,0,0.22,-1.05,1.1,mat.oakDark,g);
   B(-0.9,0.9,0.22,0.48,-1.03,1.05,mat.bedding,g);
   B(-0.92,0.92,0.48,0.56,-0.35,1.07,mat.bedding,g);
   B(-0.94,0.94,0.56,0.59,0.55,0.95,mat.throwM,g);
   [-0.45,0.45].forEach(x => { const p = B(x-0.38,x+0.38,0.48,0.66,-0.98,-0.68,mat.bedding,g); p.rotation.x = -0.25; });
-  B(-1.0,1.0,0.3,0.86,-1.12,-1.06,mat.fabric,g);               // low upholstered headboard
+  B(-1.0,1.0,0.3,0.68,-1.12,-1.06,mat.fabric,g);               // low upholstered headboard, just under the 0.7 m sill
 })();
-[-1, 1].forEach(d => {
-  const z = BED_C[1] + d*1.2;
-  B(0,0.42,0.3,0.5,z-0.2,z+0.2,mat.oakDark);
-  rod(V(0.02,1.25,z),V(0.25,1.25,z),0.006,mat.steel);
-  cyl(0.03,0.07,0.12,mat.steel,0.27,1.2,z);
-  lamps.push({pos:V(0.3,1.05,z), i:0.45, d:2.5});
+[0.03, BW[0]-0.43].forEach(x0 => {                              // nightstands either side, wall-arm reading lamps on the north wall beside the window
+  const x = x0 + 0.2;
+  B(x0,x0+0.4,0.3,0.5,0.02,0.42,mat.oakDark);
+  rod(V(x,1.25,0.02),V(x,1.25,0.25),0.006,mat.steel);
+  cyl(0.03,0.07,0.12,mat.steel,x,1.2,0.27);
+  lamps.push({pos:V(x,1.05,0.3), i:0.45, d:2.5});
 });
 B(0.89, 1.97, 3.18, 3.3, -0.1, -0.02, mat.steel);              // blackout roller blind in the window reveal, rolled up
 const pend = new THREE.Mesh(new THREE.SphereGeometry(0.28,40,24), mat.shade);
-pend.position.set(BED_C[0]+0.26,2.4,BED_C[1]); scene.add(pend); rod(V(BED_C[0]+0.26,2.68,BED_C[1]),V(BED_C[0]+0.26,H,BED_C[1]),0.004,mat.black);
-lamps.push({pos:V(BED_C[0]+0.26,2.3,BED_C[1]), i:1.0, d:5});
+pend.position.set(BED_C[0],2.4,BED_C[1]+0.26); scene.add(pend); rod(V(BED_C[0],2.68,BED_C[1]+0.26),V(BED_C[0],H,BED_C[1]+0.26),0.004,mat.black);
+lamps.push({pos:V(BED_C[0],2.3,BED_C[1]+0.26), i:1.0, d:5});
 
 function plant(x,z,s,parent,y0){
   const g = group(parent); place(g,x,z,0,y0||0);
@@ -657,9 +657,9 @@ element('kitchen', 'Kitchen: under the wall units + plinth glow', true, 0.02, [s
   areaLight(g, (HALL_X+KE)/2, 0.07, (KN+KS)/2, 'x', KE-HALL_X-0.1, KS-KN-0.1, 'down', 4);
 });
 element('bed', 'Glow under the bed and behind the headboard', true, 0.02, [scene], g => {
-  areaLight(g, BED_C[0], 0.05, BED_C[1], 'x', 2.0, 1.75, 'down', 6);
-  B(0.03, 0.07, 0.86, 0.868, BED_C[1]-0.95, BED_C[1]+0.95, ledMat, g, NC);
-  areaLight(g, 0.05, 0.875, BED_C[1], 'z', 1.9, 0.06, 'up', 30);
+  areaLight(g, BED_C[0], 0.05, BED_C[1], 'x', 1.75, 2.0, 'down', 6);
+  B(BED_C[0]-0.95, BED_C[0]+0.95, 0.68, 0.688, 0.03, 0.07, ledMat, g, NC);
+  areaLight(g, BED_C[0], 0.695, 0.05, 'x', 1.9, 0.06, 'up', 30);
 });
 const hemiDay = {c:hemi.color.clone(), g:hemi.groundColor.clone()}, groundDay = mat.ground.color.clone();
 let indirectOn = false;
@@ -692,7 +692,7 @@ const views = {
   kitchen:  {p:[3.5, 1.6, 3.0],    t:[6.6, 1.1, 3.0]},
   hall:     {p:[4.0, 1.6, 7.6],    t:[4.0, 1.4, 0.0]},
   doorway:  {p:[4.4, 1.6, 2.9],    t:[0.5, 0.9, 1.4], open:'bed'},
-  bedroom:  {p:[2.45, 1.65, 3.2],  t:[0.0, 0.8, 0.9]},
+  bedroom:  {p:[2.45, 1.7, 3.4],   t:[1.2, 0.7, 0.5]},
   wardrobes:{p:[1.6, 1.5, 0.8],    t:[1.5, 1.6, 3.6], open:'wr'},
   plan:     {p:[3.45, 19, 5.75],   t:[3.45, 0, 5.72]},
 };
@@ -818,7 +818,7 @@ function snapTurn(a){
   rig.position.sub(head).applyAxisAngle(UP, a).add(head); rig.rotation.y += a;
 }
 const heading = () => { const d = new THREE.Vector3(); camera.getWorldDirection(d); return Math.atan2(-d.x, -d.z); };
-const UPSTAIRS = V(3.9, 0, 2.6), DOWNSTAIRS = V(1.9, 0, 2.9);
+const UPSTAIRS = V(3.9, 0, 2.6), DOWNSTAIRS = V(2.0, 0, 2.8);
 function jumpLevel(){
   const up = rig.position.y < PF/2;
   teleport(up ? UPSTAIRS : DOWNSTAIRS);
