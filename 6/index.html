@@ -206,14 +206,17 @@ const K_Z = [WE_Z[1], SH_N[2]], K_D = 0.62, KS = SH_N[2] - K_D, KN = WE_Z[1] + K
 const DOOR_H = 2.05;
 const DESK_D = 0.8, DESK_TOP = 0.75, DESK_Z = [SH_S[1]+0.3, D-0.4];   // workstation on the east wall: 80 cm deep top, tight to the concrete
 const MON_Z = 9.35;                                                    // the 57" curved screen and the chair, centred on the legroom
-// backlit black welded mesh: two stock 1250 x 2500 mm sheets standing side by side, 50 mm squares, square to the frame,
-// centred on the desk and on the wall between the desk top and the ceiling (37.5 cm clear each way)
+// backlit black welded mesh: two pieces cut from 1500 x 3000 mm stock sheets of 40 x 40 x 3.0 mm mesh, the grid turned 5° the
+// same way in both. meshCut() works out the biggest square-to-the-room piece each stock sheet gives at that angle, within the
+// room the wall leaves (between the desk top and the ceiling, 20 cm clear each way after the step; half the desk each).
+const MESH_STOCK = [1.5, 3.0], MESH_C = 0.04, MESH_WIRE = 0.003, MESH_A = 5 * Math.PI/180;
 const MESH_ZC = (DESK_Z[0]+DESK_Z[1])/2, MESH_YC = (DESK_TOP+H)/2;
 const MESH_SEP = 0.15, MESH_STEP = 0.2;           // 15 cm between the sheets; the south one sits 20 cm higher
-// each sheet {z:[z0,z1], y:[y0,y1]}, each in its own frame with its own LED strips; the pair is centred on the desk and between top and ceiling
-const MESH_P = [{z:[MESH_ZC-MESH_SEP/2-1.25, MESH_ZC-MESH_SEP/2], y:[MESH_YC-MESH_STEP/2-1.25, MESH_YC-MESH_STEP/2+1.25]},
-                {z:[MESH_ZC+MESH_SEP/2, MESH_ZC+MESH_SEP/2+1.25], y:[MESH_YC+MESH_STEP/2-1.25, MESH_YC+MESH_STEP/2+1.25]}];
-const MESH_Z = [MESH_P[0].z[0], MESH_P[1].z[1]], MESH_Y = [MESH_P[0].y[0], MESH_P[1].y[1]], MESH_GAP = 0.025, MESH_C = 0.05, MESH_A = 0;
+const [MESH_W, MESH_H] = meshCut(MESH_STOCK, MESH_A, {maxW:(DESK_Z[1]-DESK_Z[0]-MESH_SEP)/2, maxH:H-DESK_TOP-MESH_STEP-0.4});
+// each sheet {z:[z0,z1], y:[y0,y1]}, each in its own frame with its own LED strip; the pair is centred on the desk and between top and ceiling
+const MESH_P = [{z:[MESH_ZC-MESH_SEP/2-MESH_W, MESH_ZC-MESH_SEP/2], y:[MESH_YC-MESH_STEP/2-MESH_H/2, MESH_YC-MESH_STEP/2+MESH_H/2]},
+                {z:[MESH_ZC+MESH_SEP/2, MESH_ZC+MESH_SEP/2+MESH_W], y:[MESH_YC+MESH_STEP/2-MESH_H/2, MESH_YC+MESH_STEP/2+MESH_H/2]}];
+const MESH_Z = [MESH_P[0].z[0], MESH_P[1].z[1]], MESH_Y = [MESH_P[0].y[0], MESH_P[1].y[1]], MESH_GAP = 0.025;
 
 /* ---------- Plan (SVG) ---------- */
 function planSVG(){
@@ -569,81 +572,192 @@ let wrTarget = 0, wrNow = 0;
   B(x0+0.1, x0+0.5, 0.11, 0.4, z0+0.03, z1-0.02, mat.rugJute);    // jute basket on the bottom shelf
   for(let i=0;i<10;i++) B(x0+0.5+i*0.03, x0+0.528+i*0.03, 1.79, 1.79+0.22+(i%4)*0.02, z0+0.05, z1-0.04, [mat.art, mat.book1, mat.leather][i%3]);
 })();
-/* ---------- Backlit welded mesh on the east concrete wall, south of the bathroom ---------- */
-// Two stock sheets of matt-black welded steel mesh, 1250 x 2500 mm, 50 mm squares, 4 mm wire, 15 cm apart and stepped 20 cm, each in a 30 mm angle frame, standing 25 mm off the concrete on hidden
-// spacers. LED strips run behind it along the top and bottom; the glow on the wall and the mesh's silhouette are part of the
-// evening indirect light ("Backlit mesh wall").
+/* ================= Reusable parts =================
+   Everything below builds in a WALL FRAME: local x runs along the wall, y is up, z comes out of the wall into the room
+   (z = 0 is the wall face). wallFrame(face) gives that frame for the N / E / S / W wall; frame.u(c) turns a world
+   coordinate along the wall (x for N/S, z for E/W) into local x. So a part is written once and goes on any wall.
+     meshSheet({face, at:[a, b], y:[y0, y1] | stock:[W, H], centre:[u, y], max:[w, h], cell, wire, angle, gap, edges, glowFloor})
+                                                     welded mesh cut from a stock sheet, framed, LED strip round it, backlit in the evening
+     meshCut(stock, angle, {maxW, maxH | w | h}) -> [w, h]   the biggest square-to-the-room piece a turned stock sheet gives
+     workDesk(frame, {at:[a, b], depth, top, pedestals})                           wall-fixed top with drawer pedestals
+     curvedMonitor(parent, u, z, y)  printer3D(parent, u, z, y)  taskChair(parent, u, z, rot)   (local coords; rot 0 faces the wall)
+*/
+function wallFrame(face, plane){
+  const g = group(), f = {N:[0, 0, 0, 1], S:[0, D, Math.PI, -1], E:[W, 0, -Math.PI/2, 1], W:[0, 0, Math.PI/2, -1]}[face];
+  if(face === 'N' || face === 'S'){ g.position.set(0, 0, plane ?? f[1]); } else { g.position.set(plane ?? f[0], 0, 0); }
+  g.rotation.y = f[2];
+  return {g, face, u: c => f[3]*c};
+}
 const meshMat = M({color:'#121212', roughness:0.55, metalness:0.35});
-(function(){
-  const xw = W - MESH_GAP, d = 0.004, geo = new THREE.BoxGeometry(1, 1, 1);
-  const bar = (x, ya, yb, za, zb) => { const m = new THREE.Mesh(geo, meshMat); m.scale.set(d, yb-ya, zb-za);
-    m.position.set(x, (ya+yb)/2, (za+zb)/2); m.castShadow = true; m.receiveShadow = true; scene.add(m); };
-  MESH_P.forEach(({z:[z0, z1], y:[y0, y1]}) => {
-    const nz = Math.round((z1-z0)/MESH_C), ny = Math.round((y1-y0)/MESH_C);
-    for(let i=0;i<=nz;i++){ const z = z0 + i*(z1-z0)/nz; bar(xw - d/2, y0, y1, z-d/2, z+d/2); }          // verticals, wall side
-    for(let j=0;j<=ny;j++){ const y = y0 + j*(y1-y0)/ny; bar(xw - 1.5*d, y-d/2, y+d/2, z0, z1); }        // horizontals, welded on in front
-    // angle frame round each sheet, its return hiding the LED strips and spacers
-    B(xw-2*d-0.004, W-0.004, y1, y1+0.03, z0-0.015, z1+0.015, meshMat); B(xw-2*d-0.004, W-0.004, y0-0.03, y0, z0-0.015, z1+0.015, meshMat);
-    B(xw-2*d-0.004, W-0.004, y0-0.03, y1+0.03, z0-0.03, z0-0.015, meshMat); B(xw-2*d-0.004, W-0.004, y0-0.03, y1+0.03, z1+0.015, z1+0.03, meshMat);
-  });
-})();
-/* ---------- Workstation on the mesh wall: 80 cm deep top fixed to the concrete, drawers and a cupboard under it ---------- */
-// The mesh is cut back to start 30 cm above the top (and runs up to 25 cm under the ceiling), so the top runs tight to the wall; its bottom LED strip now grazes
-// down onto the desk. North pedestal: three drawers. South pedestal: two drawers over a cupboard (filament, tools), with
-// the 3D printer on the top above it. One 57" 32:9 curved screen (1000R) on a centre stand, one task chair.
-(function(){
-  const x0 = W - DESK_D, [z0, z1] = DESK_Z, G = 0.0015, NC = {cast:false};
-  B(x0, W, DESK_TOP-0.04, DESK_TOP, z0, z1, mat.oak);                                  // the top, 40 mm, dark wood
-  B(x0-0.002, x0, DESK_TOP-0.04, DESK_TOP, z0, z1, mat.oakDark, scene, NC);
-  function pedestal(a, b, fronts){                                                   // fronts: heights of the joints between drawers
-    B(x0+0.06, W, 0, 0.08, a+0.02, b-0.02, mat.black);
-    B(x0+0.02, W, 0.08, DESK_TOP-0.045, a, b, mat.oak);
-    fronts.forEach(y => B(x0+0.018, x0+0.02, y-G, y+G, a+0.01, b-0.01, mat.oakDark, scene, NC));
-    fronts.concat([DESK_TOP-0.045]).forEach((y, i, arr) => { if(y - (i ? arr[i-1] : 0.08) > 0.25) return;      // short grip rails on the drawers
-      B(x0+0.002, x0+0.018, y-0.035, y-0.025, (a+b)/2-0.12, (a+b)/2+0.12, mat.black); });
+const meshSheets = [];
+// Cutting a framed piece out of a stock mesh sheet whose grid is turned by `angle`: the piece (w x h, square to the room) has
+// to lie inside the turned stock sheet (W x H), i.e.  w·cos + h·sin <= W  and  w·sin + h·cos <= H.
+function meshFits(stock, angle, w, h){
+  const c = Math.abs(Math.cos(angle)), s = Math.abs(Math.sin(angle));
+  return w*c + h*s <= stock[0] + 1e-9 && w*s + h*c <= stock[1] + 1e-9;
+}
+// The biggest piece (by area) a stock sheet gives at that angle, optionally capped: {maxW, maxH}, or a fixed {w} or {h}.
+// Returns [w, h] in metres, rounded down to whole millimetres. meshCut([1.5, 3.0], 5°, {maxH: 2.65}) -> [1.274, 2.65]
+function meshCut(stock, angle, o = {}){
+  const c = Math.abs(Math.cos(angle)), s = Math.abs(Math.sin(angle)), [SW, SH] = stock;
+  const hFor = w => Math.min(o.h ?? Infinity, o.maxH ?? Infinity, s > 1e-9 ? (SW - w*c)/s : Infinity, c > 1e-9 ? (SH - w*s)/c : Infinity);
+  let best = [0, 0];
+  for(let mm = 1; mm <= Math.round(Math.max(SW, SH)*1000); mm++){
+    const w = o.w ?? mm/1000; if(w > (o.maxW ?? Infinity) + 1e-9) break;
+    const h = Math.floor(hFor(w)*1000)/1000;
+    if(h > 0 && meshFits(stock, angle, w, h) && w*h > best[0]*best[1]) best = [w, h];
+    if(o.w !== undefined) break;
   }
-  pedestal(z0, z0+0.6, [0.3, 0.5]);                                                   // north: three drawers
-  pedestal(z1-0.8, z1, [0.45, 0.58]);                                                 // south: cupboard under two drawers
-  B(x0+0.002, x0+0.018, 0.36, 0.40, z1-0.2, z1-0.04, mat.black);                     // cupboard pull
-  // 57" curved monitor, 1.39 m wide along a 1.0 m radius, on a centre stand
-  const Rm = 1.0, arc = 1.39, hS = 0.40, yS = DESK_TOP + 0.13, xm = W - 0.32, n = 18;
+  return best;
+}
+// Matt-black welded steel mesh (default: 50 mm squares, 4 mm wire) standing `gap` off the wall on hidden spacers, in a 30 mm
+// Size it either by hand (at + y), or from a stock sheet: {stock:[W, H], centre:[u, y], max:[w, h]} cuts the biggest piece that
+// stock gives at `angle` and centres it there; with at + y and a stock it just warns (console) when the piece can't be cut.
+// angle frame whose return hides an LED strip running right round it (edges: 'all' by default, or 'tb' for top + bottom only).
+// `angle` turns the grid inside the square frame.
+function meshSheet(o){
+  const F = wallFrame(o.face, o.plane), cell = o.cell || 0.05, d = o.wire || 0.004, gap = o.gap ?? 0.025, ang = o.angle || 0;
+  let ua, ub, y0, y1;
+  if(o.at){ ua = Math.min(F.u(o.at[0]), F.u(o.at[1])); ub = Math.max(F.u(o.at[0]), F.u(o.at[1])); [y0, y1] = o.y; }
+  else { const [w, h] = meshCut(o.stock, ang, {maxW: o.max?.[0], maxH: o.max?.[1]}), uc = F.u(o.centre[0]);
+    ua = uc - w/2; ub = uc + w/2; y0 = o.centre[1] - h/2; y1 = o.centre[1] + h/2; }
+  if(o.stock && !meshFits(o.stock, ang, ub-ua, y1-y0)) console.warn(`meshSheet: ${(ub-ua).toFixed(3)} x ${(y1-y0).toFixed(3)} m can't be cut from a ${o.stock.join(' x ')} m sheet at ${(ang*180/Math.PI).toFixed(1)}°`);
+  const ca = Math.cos(ang), sa = Math.sin(ang), geo = new THREE.BoxGeometry(1, 1, 1);
+  // the grid runs through the stock sheet's corner (its edge wire), the piece cut from the middle of the sheet; without a stock, through the piece's corner
+  const st = o.stock || [ub-ua, y1-y0], uM = (ua+ub)/2, yM = (y0+y1)/2;
+  const pu0 = uM - (st[0]/2)*ca - (st[1]/2)*sa, py0 = yM + (st[0]/2)*sa - (st[1]/2)*ca;
+  function clip(pu, py, du, dy){                                   // the line p + t*dir inside the sheet: [t0, t1] or null
+    let t0 = -1e9, t1 = 1e9;
+    for(const [q, dv, lo, hi] of [[pu, du, ua, ub], [py, dy, y0, y1]]){
+      if(Math.abs(dv) < 1e-9){ if(q < lo-1e-6 || q > hi+1e-6) return null; continue; }
+      let a = (lo-1e-6-q)/dv, b = (hi+1e-6-q)/dv; if(a > b) [a, b] = [b, a];
+      t0 = Math.max(t0, a); t1 = Math.min(t1, b);
+    }
+    return t1 > t0 + 0.01 ? [t0, t1] : null;
+  }
+  function bar(pu, py, du, dy, z){
+    const t = clip(pu, py, du, dy); if(!t) return;
+    const m = new THREE.Mesh(geo, meshMat); m.scale.set(d, t[1]-t[0], d);
+    m.position.set(pu + du*(t[0]+t[1])/2, py + dy*(t[0]+t[1])/2, z); m.rotation.z = -Math.atan2(du, dy);
+    m.castShadow = true; m.receiveShadow = true; F.g.add(m);
+  }
+  const K = Math.ceil((Math.hypot(ub-ua, y1-y0) + Math.hypot(st[0], st[1]))/cell) + 1;
+  for(let k=-K;k<=K;k++){
+    bar(pu0 + k*cell*ca, py0 - k*cell*sa, sa, ca, gap + d/2);         // "verticals", wall side
+    bar(pu0 + k*cell*sa, py0 + k*cell*ca, ca, -sa, gap + 1.5*d);      // "horizontals", welded on in front
+  }
+  const fz0 = 0.004, fz1 = gap + 2*d + 0.004, BB = (a,b,c,e) => B(a, b, c, e, fz0, fz1, meshMat, F.g);
+  BB(ua-0.015, ub+0.015, y1, y1+0.03); BB(ua-0.015, ub+0.015, y0-0.03, y0);
+  BB(ua-0.03, ua-0.015, y0-0.03, y1+0.03); BB(ub+0.015, ub+0.03, y0-0.03, y1+0.03);
+  const sh = {F, ua, ub, y0, y1, cell, ang, wire: d, pu0, py0, glowFloor: o.glowFloor ?? 0, sides: (o.edges || 'all') === 'all'};
+  meshSheets.push(sh); return sh;
+}
+// the evening glow behind one sheet: an additive layer on the wall (the strip round the frame, with the mesh's soft shadow
+// lines painted in), the strips themselves, and a soft area light spilling into the room. Called by the 'mesh' element.
+function meshGlow(sh, g){
+  const {ua, ub, y0, y1, cell, ang} = sh, pad = 0.35, PX = 200;
+  const U0 = ua-pad, U1 = ub+pad, Y0 = Math.max(sh.glowFloor, y0-pad), Y1 = Math.min(H, y1+pad);
+  const cw = Math.round((U1-U0)*PX), ch = Math.round((Y1-Y0)*PX), cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
+  const cx = cv.getContext('2d'), img = cx.createImageData(cw, ch), dd = img.data, ca = Math.cos(ang), sa = Math.sin(ang);
+  const near = (v, step) => { const k = Math.abs(((v % step) + step) % step); return Math.min(k, step-k); };
+  for(let py=0; py<ch; py++){
+    const y = Y1 - (py+0.5)/PX;
+    const iy = 0.95*Math.exp(-Math.abs(y1 - y)/0.55) + 0.75*Math.exp(-Math.abs(y - y0)/0.45);   // top + bottom strips
+    const fy = y > y1 ? Math.exp(-(y-y1)/0.12) : y < y0 ? Math.exp(-(y0-y)/0.1) : 1;
+    for(let px=0; px<cw; px++){
+      const u = U0 + (px+0.5)/PX;
+      const iu = sh.sides ? 0.7*(Math.exp(-Math.abs(u - ua)/0.4) + Math.exp(-Math.abs(ub - u)/0.4)) : 0;   // side strips
+      const fu = u < ua ? Math.exp(-(ua-u)/0.1) : u > ub ? Math.exp(-(u-ub)/0.1) : 1;
+      let i = (iy + iu + 0.16) * fy * fu;
+      if(u > ua && u < ub && y > y0 && y < y1){                    // grazing light: each wire's line pushed away from the nearer strip
+        const shf = y > (y0+y1)/2 ? -0.01 : 0.01, shu = sh.sides ? (u > (ua+ub)/2 ? -0.01 : 0.01) : 0, a = u - sh.pu0 + shu, b = y - sh.py0;
+        const lv = near(a*ca - b*sa, cell), lh = near(a*sa + b*ca + shf, cell);
+        i *= 0.35 + 0.65*Math.min(Math.min(1, lv/sh.wire), Math.min(1, lh/(sh.wire*1.25)));
+      }
+      const k = (py*cw + px)*4, v = Math.min(1, i*0.85);
+      dd[k] = 255*v; dd[k+1] = 196*v; dd[k+2] = 128*v; dd[k+3] = 255;
+    }
+  }
+  cx.putImageData(img, 0, 0);
+  const tex = new THREE.CanvasTexture(cv); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 4;
+  const glow = new THREE.Mesh(new THREE.PlaneGeometry(U1-U0, Y1-Y0),
+    new THREE.MeshBasicMaterial({map:tex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false}));
+  glow.position.set((U0+U1)/2, (Y0+Y1)/2, 0.002); g.add(glow);
+  [y1+0.012, y0-0.012].forEach(y => B(ua, ub, y-0.004, y+0.004, 0.008, 0.02, ledMat, g, {cast:false}));
+  if(sh.sides) [ua-0.012, ub+0.012].forEach(u => B(u-0.004, u+0.004, y0, y1, 0.008, 0.02, ledMat, g, {cast:false}));
+  const l = new THREE.RectAreaLight('#ffc98a', 1.7, ub-ua, y1-y0);   // emits along its -z: turn it to face the room
+  l.position.set((ua+ub)/2, (y0+y1)/2, 0.03); l.rotation.y = Math.PI; g.add(l);
+}
+// wall-fixed desk top with drawer pedestals; pedestals: [{at:[a, b], joints:[y...], cupboard:true}] (world coords along the wall)
+function workDesk(F, o){
+  const [ua, ub] = [F.u(o.at[0]), F.u(o.at[1])].sort((p, q) => p-q), dp = o.depth, top = o.top, G = 0.0015, NC = {cast:false}, P = F.g;
+  B(ua, ub, top-0.04, top, 0, dp, mat.oak, P); B(ua, ub, top-0.04, top, dp, dp+0.002, mat.oakDark, P, NC);
+  (o.pedestals || []).forEach(pd => {
+    const [a, b] = [F.u(pd.at[0]), F.u(pd.at[1])].sort((p, q) => p-q), fr = dp-0.02;
+    B(a+0.02, b-0.02, 0, 0.08, 0, dp-0.06, mat.black, P);
+    B(a, b, 0.08, top-0.045, 0, fr, mat.oak, P);
+    pd.joints.forEach(y => B(a+0.01, b-0.01, y-G, y+G, fr, fr+0.002, mat.oakDark, P, NC));
+    pd.joints.concat([top-0.045]).forEach((y, i, arr) => { if(y - (i ? arr[i-1] : 0.08) > 0.25) return;      // grip rails on drawers
+      B((a+b)/2-0.12, (a+b)/2+0.12, y-0.035, y-0.025, fr+0.002, fr+0.018, mat.black, P); });
+    if(pd.cupboard) B(b-0.2, b-0.04, 0.36, 0.40, fr+0.002, fr+0.018, mat.black, P);
+  });
+}
+// 57" 32:9 curved screen (1000R, 1.39 m arc) on a centre stand; u = its centre along the wall, z = distance of the screen centre from the wall
+function curvedMonitor(P, u, z, y){
+  const Rm = 1.0, arc = 1.39, hS = 0.40, yS = y + 0.13, n = 18;
   for(let i=0;i<n;i++){
     const a0 = -arc/2/Rm + i*arc/Rm/n, a1 = a0 + arc/Rm/n, am = (a0+a1)/2, w = 2*Rm*Math.sin((a1-a0)/2);
-    const g = group(); g.position.set(xm - Rm + Rm*Math.cos(am), 0, MON_Z + Rm*Math.sin(am)); g.rotation.y = -am;
-    B(0, 0.025, yS-0.012, yS+hS+0.012, -w/2-0.001, w/2+0.001, mat.black, g);         // shell
-    B(-0.002, 0, yS, yS+hS, -w/2, w/2, mat.screen, g, NC);                           // panel, faces the chair
+    const g = group(P); g.position.set(u + Rm*Math.sin(am), 0, z + Rm - Rm*Math.cos(am)); g.rotation.y = -am;
+    B(-w/2-0.001, w/2+0.001, yS-0.012, yS+hS+0.012, -0.025, 0, mat.black, g);       // shell
+    B(-w/2, w/2, yS, yS+hS, 0, 0.002, mat.screen, g, {cast:false});                 // panel, faces the room
   }
-  B(xm+0.03, xm+0.07, DESK_TOP, yS+0.12, MON_Z-0.05, MON_Z+0.05, mat.steel);            // stand neck
-  B(xm-0.12, xm+0.12, DESK_TOP, DESK_TOP+0.015, MON_Z-0.17, MON_Z+0.17, mat.steel);     // foot
-  B(x0+0.12, x0+0.58, DESK_TOP, DESK_TOP+0.015, MON_Z-0.23, MON_Z+0.23, mat.leather);  // desk mat
-  B(x0+0.2, x0+0.34, DESK_TOP+0.015, DESK_TOP+0.035, MON_Z-0.22, MON_Z+0.14, mat.art);   // keyboard
-  B(x0+0.22, x0+0.32, DESK_TOP+0.015, DESK_TOP+0.05, MON_Z+0.24, MON_Z+0.3, mat.art);    // mouse
-  // enclosed 3D printer on the south pedestal: black frame, smoked glass, build plate and toolhead inside
-  const pz = z1 - 0.42, px = W - 0.45, ps = 0.39, ph = 0.46, y0 = DESK_TOP;
+  B(u-0.05, u+0.05, y, yS+0.12, z-0.07, z-0.03, mat.steel, P);                      // neck
+  B(u-0.17, u+0.17, y, y+0.015, z-0.12, z+0.12, mat.steel, P);                      // foot
+}
+// enclosed 3D printer (~39 cm cube): black frame, smoked glass, build plate, gantry and toolhead; filament spool beside it
+function printer3D(P, u, z, y){
+  const ps = 0.39, ph = 0.46, NC = {cast:false};
   const smoke = M({color:'#2b2b2b', roughness:0.05, transparent:true, opacity:0.45, depthWrite:false});
-  B(px-ps/2, px+ps/2, y0, y0+0.06, pz-ps/2, pz+ps/2, mat.black);                     // base
-  B(px-ps/2, px+ps/2, y0+ph-0.03, y0+ph, pz-ps/2, pz+ps/2, mat.black);               // lid frame
-  [[-1,-1],[-1,1],[1,-1],[1,1]].forEach(([a,b]) => B(px+a*ps/2-(a>0?0.02:0), px+a*ps/2+(a<0?0.02:0), y0+0.06, y0+ph-0.03, pz+b*ps/2-(b>0?0.02:0), pz+b*ps/2+(b<0?0.02:0), mat.black));
-  B(px-ps/2-0.003, px-ps/2+0.003, y0+0.06, y0+ph-0.03, pz-ps/2+0.02, pz+ps/2-0.02, smoke, scene, NC);   // front door
-  [-1,1].forEach(b => B(px-ps/2+0.02, px+ps/2-0.02, y0+0.06, y0+ph-0.03, pz+b*(ps/2-0.003)-0.003, pz+b*(ps/2-0.003)+0.003, smoke, scene, NC));
-  B(px-ps/2+0.02, px+ps/2-0.02, y0+ph-0.003, y0+ph+0.002, pz-ps/2+0.02, pz+ps/2-0.02, smoke, scene, NC);
-  B(px+ps/2-0.02, px+ps/2, y0+0.06, y0+ph-0.03, pz-ps/2, pz+ps/2, mat.black);        // back panel
-  B(px-0.13, px+0.13, y0+0.14, y0+0.15, pz-0.13, pz+0.13, mat.steel);                 // build plate
-  B(px-0.17, px+0.17, y0+0.36, y0+0.38, pz-0.012, pz+0.012, mat.steel);               // gantry
-  B(px-0.04, px+0.03, y0+0.31, y0+0.39, pz+0.02, pz+0.08, mat.white);                  // toolhead
-  B(px-0.05, px+0.05, y0+0.15, y0+0.19, pz-0.06, pz+0.04, mat.sage);                   // a print on the plate
-  cyl(0.1, 0.1, 0.07, mat.black, px+0.02, y0+0.035, pz-ps/2-0.16).rotation.z = Math.PI/2;   // filament spool beside it
-  cyl(0.1, 0.1, 0.06, mat.rugOlive, px+0.02, y0+0.035, pz-ps/2-0.16).rotation.z = Math.PI/2;
-  taskChairHere(x0 - 0.35, MON_Z);
-})();
-function taskChairHere(x, z){                       // task chair facing east, to the screen
-  const ch = group(); place(ch, x, z, -Math.PI/2, 0);
+  const BX = (a,b,c,e,f,g2,m,opt) => B(u+a, u+b, y+c, y+e, z+f, z+g2, m, P, opt);
+  BX(-ps/2, ps/2, 0, 0.06, -ps/2, ps/2, mat.black); BX(-ps/2, ps/2, ph-0.03, ph, -ps/2, ps/2, mat.black);
+  [[-1,-1],[-1,1],[1,-1],[1,1]].forEach(([a,b]) => BX(a*ps/2-(a>0?0.02:0), a*ps/2+(a<0?0.02:0), 0.06, ph-0.03, b*ps/2-(b>0?0.02:0), b*ps/2+(b<0?0.02:0), mat.black));
+  BX(-ps/2+0.02, ps/2-0.02, 0.06, ph-0.03, ps/2-0.003, ps/2+0.003, smoke, NC);                   // front door
+  [-1,1].forEach(a => BX(a*(ps/2-0.003)-0.003, a*(ps/2-0.003)+0.003, 0.06, ph-0.03, -ps/2+0.02, ps/2-0.02, smoke, NC));
+  BX(-ps/2+0.02, ps/2-0.02, ph-0.003, ph+0.002, -ps/2+0.02, ps/2-0.02, smoke, NC);
+  BX(-ps/2, ps/2, 0.06, ph-0.03, -ps/2, -ps/2+0.02, mat.black);                                  // back panel
+  BX(-0.13, 0.13, 0.14, 0.15, -0.13, 0.13, mat.steel);                                            // build plate
+  BX(-0.012, 0.012, 0.36, 0.38, -0.17, 0.17, mat.steel);                                           // gantry
+  BX(0.02, 0.08, 0.31, 0.39, -0.03, 0.04, mat.white);                                              // toolhead
+  BX(-0.06, 0.04, 0.15, 0.19, -0.05, 0.05, mat.sage);                                              // a print
+  [[mat.black, 0.07], [mat.rugOlive, 0.06]].forEach(([m, h]) => { const c = cyl(0.1, 0.1, h, m, u-ps/2-0.16, y+0.035, z-0.02, P); c.rotation.x = Math.PI/2; });
+}
+// task chair; rot 0 = the sitter faces the wall (local -z)
+function taskChair(P, u, z, rot){
+  const ch = group(P); place(ch, u, z, rot || 0, 0);
   B(-0.25,0.25,0.44,0.51,-0.24,0.24,mat.leather,ch); B(-0.23,0.23,0.53,1.05,0.2,0.25,mat.leather,ch);
   B(-0.26,-0.22,0.6,0.64,-0.18,0.15,mat.black,ch); B(0.22,0.26,0.6,0.64,-0.18,0.15,mat.black,ch);
   cyl(0.03,0.03,0.4,mat.chrome,0,0.22,0,ch);
   for(let k=0;k<5;k++){ const a = k*2*Math.PI/5; B(-0.015,0.015,0.03,0.06,0,0.3,mat.black,group(ch)).parent.rotation.y = a; }
   return ch;
 }
+/* ================= end of reusable parts ================= */
+
+/* ---------- Workstation on the east concrete wall, south of the bathroom, under two backlit mesh sheets ---------- */
+// 80 cm deep top tight to the concrete. North pedestal: three drawers. South pedestal: two drawers over a cupboard (filament,
+// tools), the 3D printer on the top above it. One 57" curved screen, one task chair. Two mesh pieces cut from 1500 x 3000 stock (40 mm, turned 5°),
+// 15 cm apart, the south one 20 cm higher, centred on the desk and between its top and the ceiling; LED strip right round each.
+MESH_P.forEach(m => meshSheet({face:'E', at:m.z, y:m.y, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE, angle:MESH_A, gap:MESH_GAP, glowFloor:DESK_TOP}));
+(function(){
+  const F = wallFrame('E'), [z0, z1] = DESK_Z, top = DESK_TOP;
+  workDesk(F, {at:DESK_Z, depth:DESK_D, top, pedestals:[{at:[z0, z0+0.6], joints:[0.3, 0.5]}, {at:[z1-0.8, z1], joints:[0.45, 0.58], cupboard:true}]});
+  const u = F.u(MON_Z);
+  curvedMonitor(F.g, u, 0.32, top);
+  B(u-0.23, u+0.23, top, top+0.015, DESK_D-0.58, DESK_D-0.12, mat.leather, F.g);    // desk mat
+  B(u-0.22, u+0.14, top+0.015, top+0.035, DESK_D-0.34, DESK_D-0.2, mat.art, F.g);   // keyboard
+  B(u+0.24, u+0.3, top+0.015, top+0.05, DESK_D-0.32, DESK_D-0.22, mat.art, F.g);    // mouse
+  printer3D(F.g, F.u(z1-0.42), 0.45, top);
+  taskChair(F.g, u, DESK_D + 0.35, 0);
+})();
 B(HALL_X+0.1, W-0.1, 0, 0.012, 0.2, 0.95, mat.rugJute, scene, {cast:false});   // runner in the entry
 
 /* ---------- Kitchen behind the coat wardrobes: two matt anthracite runs facing each other, nothing at the east end ---------- */
@@ -797,44 +911,7 @@ element('bed', 'Glow under the bed and behind the headboard', true, 0.02, [scene
   B(BED_C[0]-0.95, BED_C[0]+0.95, 0.68, 0.688, 0.03, 0.07, ledMat, g, NC);
   areaLight(g, BED_C[0], 0.695, 0.05, 'x', 1.9, 0.06, 'up', 30);
 });
-element('mesh', 'Backlit mesh wall', true, 0.03, [scene], g => {
-  // the glow the strips throw on the concrete behind the mesh, with the mesh's soft shadow lines, painted into an additive layer
-  const [z0, z1] = MESH_Z, [y0, y1] = MESH_Y, pad = 0.35, PX = 200;                 // 5 mm per pixel
-  const Z0 = z0-pad, Z1 = z1+pad, Y0 = Math.max(DESK_TOP, y0-pad), Y1 = Math.min(H, y1+pad);
-  const cw = Math.round((Z1-Z0)*PX), ch = Math.round((Y1-Y0)*PX), cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
-  const cx = cv.getContext('2d'), img = cx.createImageData(cw, ch), dd = img.data;
-  const near = (v, step) => { const k = Math.abs(((v % step) + step) % step); return Math.min(k, step-k); };
-  function sheet(m, z, y){                                                          // one sheet's glow at (z, y), with its shadow lines
-    const [za, zb] = m.z, [ya, yb] = m.y;
-    let i = 0.95*Math.exp(-Math.abs(yb - y)/0.55) + 0.75*Math.exp(-Math.abs(y - ya)/0.45) + 0.16;   // top and bottom strips
-    if(y > yb) i *= Math.exp(-(y-yb)/0.12); if(y < ya) i *= Math.exp(-(ya-y)/0.1);
-    if(z < za) i *= Math.exp(-(za-z)/0.1); else if(z > zb) i *= Math.exp(-(z-zb)/0.1);
-    if(z > za && z < zb && y > ya && y < yb){
-      // grazing light: verticals throw thin lines straight behind; horizontals throw lines pushed away from the nearer strip
-      const sh = y > (ya+yb)/2 ? -0.01 : 0.01, lv = near(z - za, MESH_C), lh = near(y - ya + sh, MESH_C);
-      i *= 0.35 + 0.65*Math.min(Math.min(1, lv/0.004), Math.min(1, lh/0.005));
-    }
-    return i;
-  }
-  for(let py=0; py<ch; py++){
-    const y = Y1 - (py+0.5)/PX;
-    for(let px=0; px<cw; px++){
-      const z = Z0 + (px+0.5)/PX, i = sheet(MESH_P[0], z, y) + sheet(MESH_P[1], z, y);
-      const k = (py*cw + px)*4, v = Math.min(1, i*0.85);
-      dd[k] = 255*v; dd[k+1] = 196*v; dd[k+2] = 128*v; dd[k+3] = 255;
-    }
-  }
-  cx.putImageData(img, 0, 0);
-  const tex = new THREE.CanvasTexture(cv); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 4;
-  const glow = new THREE.Mesh(new THREE.PlaneGeometry(Z1-Z0, Y1-Y0),
-    new THREE.MeshBasicMaterial({map:tex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false}));
-  glow.position.set(W-0.002, (Y0+Y1)/2, (Z0+Z1)/2); glow.rotation.y = -Math.PI/2; g.add(glow);
-  MESH_P.forEach(({z:[za, zb], y:[ya, yb]}) => {
-    [yb+0.012, ya-0.012].forEach(y => B(W-0.02, W-0.008, y-0.004, y+0.004, za, zb, ledMat, g, NC));   // the strips, tucked behind the frame
-    const l = new THREE.RectAreaLight('#ffc98a', 1.7, zb-za, yb-ya);                 // spill into the room
-    l.position.set(W-0.03, (ya+yb)/2, (za+zb)/2); l.lookAt(W-2, (ya+yb)/2, (za+zb)/2); g.add(l);
-  });
-});
+element('mesh', 'Backlit mesh wall', true, 0.03, meshSheets.map(m => m.F.g), (...gs) => gs.forEach((g, i) => meshGlow(meshSheets[i], g)));
 const hemiDay = {c:hemi.color.clone(), g:hemi.groundColor.clone()}, groundDay = mat.ground.color.clone();
 let indirectOn = false;
 function applyIndirect(){
