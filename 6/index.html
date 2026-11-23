@@ -115,7 +115,7 @@ a{color:var(--oak)}
     <header>
       <div class="eyebrow">Vanha talvitie 31 A33 · 6th floor · version 14 · new concept</div>
       <h1>Artus A33 Kitchen Behind Coats</h1>
-      <p class="lede">A new start. Step in from the front door and the coat wardrobes are straight away on your left: one dark-wood block, out to the same front line as new cabinets on the bathroom wall. The kitchen is built behind them: two matt anthracite runs facing each other, one on the wardrobes' back and one on the bathroom's shaft, open to a hall by the French balcony. The bedroom takes the north-west corner the way A21 /9 does it: a concrete wall with a hidden flush door, the bed's headboard on the outer wall, and tall wardrobes as its south wall. The rest of the flat is left empty for now. No parvi; 4 m everywhere.</p>
+      <p class="lede">A new start. Step in from the front door and the coat wardrobes are straight away on your left: one dark-wood block, out to the same front line as new cabinets on the bathroom wall. The kitchen is built behind them: two matt anthracite runs facing each other, one on the wardrobes' back and one on the bathroom's shaft, open to a hall by the French balcony. The bedroom takes the north-west corner the way A21 /9 does it: a concrete wall with a hidden flush door, the bed's headboard on the outer wall, and tall wardrobes as its south wall. The living room has the long west concrete wall: a 65" picture TV over a floating oak bench, a backlit black mesh sheet either side, and a low corner sofa facing it. A workstation with its own mesh sheets is on the east wall. No parvi; 4 m everywhere.</p>
       <div class="stats">
         <div class="stat"><b>~10 m²</b><span>bedroom</span></div>
         <div class="stat"><b>2.7 m</b><span>coat wardrobes</span></div>
@@ -135,6 +135,9 @@ a{color:var(--oak)}
         <button type="button" id="v-wardrobes" data-view="wardrobes">Bedroom wardrobes</button>
         <button type="button" id="v-meshwall" data-view="meshwall">Mesh wall, evening</button>
         <button type="button" id="v-desk" data-view="desk">Workstation</button>
+<button type="button" id="v-living" data-view="living">Living room</button>
+<button type="button" id="v-tvwall" data-view="tvwall">TV wall, evening</button>
+<button type="button" id="v-sofa" data-view="sofa">Sofa from the TV</button>
         <button type="button" id="v-plan" data-view="plan">Plan from above</button>
       </div>
       <div class="toggles">
@@ -160,7 +163,7 @@ a{color:var(--oak)}
         <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Kitchen<small>Behind the wardrobes, between their back and the bathroom's north shaft: two matt anthracite runs facing each other across a 1.3 m aisle, 2.7 m long and open at both ends. Nothing turns a corner, so there are no blind corner cupboards. On the wardrobes' back: the hob under a slatted hood box, about 1.5 m of worktop, wall units up to the same 3.42 m top, and the integrated fridge-freezer column in the east corner. On the shaft: the sink and tap, about 1.5 m of worktop, wall units to 2.4 m, and a column in the east corner with an oven-microwave combi at eye level, drawers under it and a cupboard over it. The east wall between the two columns is left clear. Satin dark-grey worktop and splashback, stainless sink.</small></td><td class="n">≈ 5.5 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-core)"></span>Hall<small>1.25 m wide, centred on the French balcony: 15 cm of wall either side of the glass, the bedroom wall on the west and the line of the kitchen and cabinets on the east. Full height. It leads south past the bathroom door, which sits in a 55 cm niche between two blocks of dark-wood cabinets on the bathroom wall: three doors north of it, two south. The south block runs on to the grey shaft's face, and the 95 cm gap between it and the shaft, south of the bathroom, is open shelving to the living area.</small></td><td class="n">≈ 5 m²</td></tr>
         <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>As in A21 /9, mirrored. The north-west corner with the west window, 2.83 × 3.5 m. The 180 × 200 bed has its low headboard against the north window, kept under the 0.7 m sill, with 40 cm nightstands either side. That leaves 1.26 m between the foot and the wardrobes, so all six doors open freely. A concrete wall separates it from the hall, set 15 cm back from the French balcony's glass so it doesn't start right at the window, with a flush concrete door that opens into the room, hinged at its south end, so open it folds back over the wardrobes. Its south wall is six oak wardrobe doors, 3.4 m tall: long hanging, a double rail, and shelves over drawers. All six doors open into the bedroom; the open bedroom door covers the east two, which is fine. The hall between the bedroom wall and the kitchen is 1.8 m wide.</small></td><td class="n">≈ 10 m²</td></tr>
-        <tr><td><span class="sw" style="background:var(--zone-live)"></span>The rest<small>Empty for now: about 6.9 × 7.3 m round the bathroom, from the bedroom wardrobes to the balcony glass.</small></td><td class="n">≈ 43 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-live)"></span>Living + work<small>About 6.9 × 7.3 m round the bathroom, from the bedroom wardrobes to the balcony glass: TV wall and corner sofa on the west, workstation on the east.</small></td><td class="n">≈ 43 m²</td></tr>
       </table>
     </section>
 
@@ -171,6 +174,8 @@ a{color:var(--oak)}
         <li>The kitchen isn't in EKE's kitchen reservation, but it backs onto the bathroom's north shaft, so the water, the drain and the hood duct have the shortest possible run. Check with EKE that the shaft can take them.</li>
         <li>The bedroom wall stands just west of the French balcony, so the balcony door and its light belong to the hall, not the bedroom. Moving the wall east past it would leave the hall too narrow to reach the kitchen.</li>
         <li>The bedroom is 2.83 m wide, so the wall stands 15 cm clear of the French balcony window. With the bed against the window there is about 47 cm on each side of a 180 bed: enough for slim nightstands, but tight to walk past. A 160 bed would give about 57 cm each side.</li>
+        <li>TV wall: the 65" picture TV (1.45 × 0.82 m) is centred on the sofa at 1.15 m, about 2.9 m from the seated eye. The two mesh pieces are cut from the same 1500 × 3000 stock as the desk's, grid turned 5°; each comes out at 1.25 × 2.90 m, 20 cm clear of the bench and the ceiling. The south one sits 20 cm higher, as on the desk wall. Run power and HDMI in the wall behind the TV, and the LED feeds behind the bench.</li>
+        <li>The sofa is 3.4 m long and 1.05 m deep, with a 1.75 m chaise at the window end. Its back leaves about 85 cm to the bathroom-wall cabinets.</li>
         <li>The entry is 1.15 m wide. The front door opens outwards, so the full width stays clear.</li>
         <li>Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
         <li>"Evening, indirect" shows hidden warm-white LED lighting, each part on its own switch. The strips are drawn as soft area lights, so you can see where the glow lands. Light bouncing on from the lit ceiling isn't calculated: a warm fill stands in for it, so treat the overall brightness as indicative.</li>
@@ -217,6 +222,14 @@ const [MESH_W, MESH_H] = meshCut(MESH_STOCK, MESH_A, {maxW:(DESK_Z[1]-DESK_Z[0]-
 const MESH_P = [{z:[MESH_ZC-MESH_SEP/2-MESH_W, MESH_ZC-MESH_SEP/2], y:[MESH_YC-MESH_STEP/2-MESH_H/2, MESH_YC-MESH_STEP/2+MESH_H/2]},
                 {z:[MESH_ZC+MESH_SEP/2, MESH_ZC+MESH_SEP/2+MESH_W], y:[MESH_YC+MESH_STEP/2-MESH_H/2, MESH_YC+MESH_STEP/2+MESH_H/2]}];
 const MESH_Z = [MESH_P[0].z[0], MESH_P[1].z[1]], MESH_Y = [MESH_P[0].y[0], MESH_P[1].y[1]], MESH_GAP = 0.025;
+// living room on the 7.35 m west concrete wall south of the bedroom wardrobes: a 65" picture TV over a floating oak bench, centred
+// on a low corner sofa, a backlit mesh sheet either side (same stock + angle as the desk's, cut by meshCut; the south one 20 cm higher again)
+const LIV_ZC = 7.75, TV_Y = 1.15, TVB_D = 0.42, TVB_Y = [0.22, 0.46], LM_OFF = 1.7;
+const [LM_W, LM_H] = meshCut(MESH_STOCK, MESH_A, {maxW:1.3, maxH:H-TVB_Y[1]-MESH_STEP-0.4}), LM_YC = (TVB_Y[1]+H)/2;
+const LIV_P = [-1, 1].map(k => ({z:[LIV_ZC+k*LM_OFF-LM_W/2, LIV_ZC+k*LM_OFF+LM_W/2], y:[LM_YC+k*MESH_STEP/2-LM_H/2, LM_YC+k*MESH_STEP/2+LM_H/2]}));
+const TVB_Z = [LIV_P[0].z[0]-0.03, LIV_P[1].z[1]+0.03];              // the bench runs the whole composition
+const SOFA = {x:3.35, z:[LIV_ZC-1.7, LIV_ZC+1.7], depth:1.05, chaise:[1.0, 1.75]};   // back x, run along z; chaise at the south end
+const CT = {x:[1.25, 1.95], z:[6.7, 7.95]};                         // coffee table, on the seats' centre
 
 /* ---------- Plan (SVG) ---------- */
 function planSVG(){
@@ -237,8 +250,8 @@ function planSVG(){
   R(HALL_X,0,W,WE_Z[0],'plan-zone','style="fill:var(--zone-core)" data-view="entry"');
   R(HALL_X,WE_Z[1],W,SH_N[2],'plan-zone','style="fill:var(--zone-kit)" data-view="kitchen"');
   R(BW[1],0,HALL_X,WR_Z[1],'plan-zone','style="fill:var(--zone-core)" data-view="hall"');
-  R(0,WR_Z[1],HALL_X,D,'plan-zone','style="fill:var(--zone-live)" data-view="rest"');
-  R(HALL_X,BATH_Z1,W,D,'plan-zone','style="fill:var(--zone-live)" data-view="rest"');
+  R(0,WR_Z[1],HALL_X,D,'plan-zone','style="fill:var(--zone-live)" data-view="living"');
+  R(HALL_X,BATH_Z1,W,D,'plan-zone','style="fill:var(--zone-live)" data-view="desk"');
   // shafts + bathroom
   R(SH_N[0],SH_N[2],SH_N[1],BATH_Z0,'plan-dark'); R(SH_S[0],BATH_Z1,W,SH_S[1],'plan-dark');
   R(BATH_X,BATH_Z0,W,BATH_Z1,'plan-fix'); Tx((BATH_X+W)/2,6.2,'KPH');
@@ -266,7 +279,10 @@ function planSVG(){
   Tx(1.5,3.0,'BEDROOM'); Tx(1.5,3.22,'≈ 10 m²','plan-ts');
   Tx(5.82,0.75,'ENTRY','plan-ts'); Tx(5.4,(KN+KS)/2+0.08,'KITCHEN','plan-ts');
   Tx(3.9,2.0,'HALL','plan-ts'); Tx((BW[1]+HALL_X)/2,K_Z[0]+0.6,(HALL_X-BW[1]).toFixed(2),'plan-ts');
-  Tx(2.4,8.0,'EMPTY FOR NOW','plan-ts');
+  R(0,TVB_Z[0],TVB_D,TVB_Z[1],'plan-fix'); LIV_P.forEach(m => R(0,m.z[0],0.04,m.z[1],'plan-dark')); L(0.03,LIV_ZC-0.74,0.03,LIV_ZC+0.74,'plan-thin');
+  R(SOFA.x-SOFA.depth,SOFA.z[0],SOFA.x,SOFA.z[1],'plan-fix'); R(SOFA.x-SOFA.chaise[1],SOFA.z[1]-SOFA.chaise[0],SOFA.x-SOFA.depth,SOFA.z[1],'plan-fix');
+  R(CT.x[0],CT.z[0],CT.x[1],CT.z[1],'plan-thin'); C(1.45,5.0,0.38,'plan-thin');
+  Tx(0.55,LIV_ZC+0.05,'TV 65"','plan-ts','start'); Tx(SOFA.x-0.5,SOFA.z[0]+1.2,'sofa','plan-ts'); Tx(2.0,10.6,'LIVING','plan-ts');
   R(W-DESK_D,DESK_Z[0],W,DESK_Z[1],'plan-fix'); MESH_P.forEach(m => R(W-0.04,m.z[0],W,m.z[1],'plan-dark'));
   Tx(W-DESK_D-0.08,MON_Z+0.05,'desk + mesh','plan-ts','end'); C(W-DESK_D-0.3,MON_Z,0.28,'plan-thin');
   Tx(W+0.16,DOOR1+0.5,'entry','plan-ts','start');
@@ -369,6 +385,9 @@ const mat = {
   bulb:    M({color:'#fff6e0', emissive:'#fff1cf', emissiveIntensity:0.0}),
   screen:  M({color:'#0d0f12', roughness:0.2, emissive:'#1b2633', emissiveIntensity:0.0}),
   ground:  M({color:'#8f928a', roughness:1}),
+  sofa:    M({map:noiseTex('#4a4741', 17, 0.8, 5000), roughness:1}),   // heavy charcoal-taupe wool
+  cognac:  M({color:'#6e4127', roughness:0.55}),
+  rugDark: M({map:noiseTex('#33322f', 37, 0.8, 7000), roughness:1}),
   art:     M({color:'#2c2e2b', roughness:0.9}),
   artLine: M({color:'#e8e4da', roughness:0.9}),
   book1:   M({color:'#e9e5dc', roughness:0.9}),
@@ -740,6 +759,71 @@ function taskChair(P, u, z, rot){
   for(let k=0;k<5;k++){ const a = k*2*Math.PI/5; B(-0.015,0.015,0.03,0.06,0,0.3,mat.black,group(ch)).parent.rotation.y = a; }
   return ch;
 }
+// art for a picture TV in art mode: an abstract in the room's rust / moss / black, on a paper mount
+function artTex(seed = 77){
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 576; const g = c.getContext('2d'), rnd = rng(seed);
+  g.fillStyle = '#e4ded2'; g.fillRect(0, 0, 1024, 576); g.fillStyle = '#cfc5b2'; g.fillRect(70, 60, 884, 456);
+  for(let i=0;i<9000;i++){ g.fillStyle = `rgba(60,50,40,${rnd()*0.07})`; g.fillRect(70+rnd()*884, 60+rnd()*456, 2, 2); }
+  g.fillStyle = '#87482a'; g.fillRect(190, 130, 280, 300);
+  g.fillStyle = '#585d3f'; g.fillRect(420, 220, 190, 240);
+  g.fillStyle = 'rgba(28,26,24,0.93)'; g.beginPath(); g.arc(690, 250, 140, 0, Math.PI*2); g.fill();
+  g.fillStyle = '#c49c55'; g.fillRect(770, 320, 80, 140);
+  g.strokeStyle = '#1e1c1a'; g.lineWidth = 5; g.beginPath(); g.moveTo(130, 462); g.lineTo(900, 462); g.stroke();
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+}
+const tvArt = (() => { const t = artTex(); return M({map:t, emissive:'#ffffff', emissiveMap:t, emissiveIntensity:0.12, roughness:0.85}); })();
+// picture TV ("taulutelevisio", 16:9, `inch` diagonal) hung flush on a wall frame F: u, y = its centre; 26 mm deep, thin black frame, art on
+function frameTV(F, u, y, inch = 65){
+  const dg = inch*0.0254, w = dg*16/Math.hypot(16, 9), h = dg*9/Math.hypot(16, 9), fr = 0.018, dz = 0.026;
+  B(u-w/2-fr, u+w/2+fr, y-h/2-fr, y+h/2+fr, 0.003, dz, mat.black, F.g);
+  B(u-w/2, u+w/2, y-h/2, y+h/2, dz, dz+0.002, tvArt, F.g, {cast:false});
+  return {w: w+2*fr, h: h+2*fr};
+}
+// wall-hung (floating) bench on a wall frame F from wall coordinate a to b: oak, n flap fronts with shadow joints
+function floatBench(F, a, b, y, depth, n = 4){
+  const ua = Math.min(F.u(a), F.u(b)), ub = Math.max(F.u(a), F.u(b));
+  B(ua, ub, y[0], y[1], 0, depth, mat.oak, F.g);
+  for(let k=1;k<n;k++){ const u = ua + (ub-ua)*k/n; B(u-0.002, u+0.002, y[0]+0.01, y[1]-0.01, depth, depth+0.002, mat.oakDark, F.g, {cast:false}); }
+  return {ua, ub};
+}
+// low modular corner sofa. Local frame: the back runs along +x from 0 to len, the seat faces +z, the chaise ([w, d]) at the +x end.
+// place it with (x, z, rot) as place(): rot -PI/2 puts the back along +z world, facing west.
+function cornerSofa(P, x, z, rot, o = {}){
+  const len = o.len ?? 3.4, dep = o.depth ?? 1.05, [cw, cd] = o.chaise ?? [1.0, 1.75], m = o.mat ?? mat.sofa, g = place(group(P), x, z, rot);
+  const S = 0.32, C = 0.13, BK = 0.24, BH = 0.72, AW = 0.16, AH = 0.56;
+  B(0.08, len-0.08, 0, 0.05, 0.08, dep-0.08, mat.black, g); B(len-cw+0.08, len-0.08, 0, 0.05, dep-0.1, cd-0.08, mat.black, g);   // recessed plinth
+  B(0, len, 0.05, S, 0, dep, m, g); B(len-cw, len, 0.05, S, dep, cd, m, g);                     // base + chaise base
+  B(0, len, S, BH, 0, BK, m, g); B(0, AW, S, AH, BK, dep, m, g);                                 // back, arm at the open end
+  const a0 = AW+0.006, a1 = len-cw, n = Math.max(1, Math.round((a1-a0)/0.85)), cu = [];
+  for(let i=0;i<n;i++) cu.push([a0 + (a1-a0)*i/n + 0.004, a0 + (a1-a0)*(i+1)/n - 0.004]);
+  cu.forEach(([s0, s1]) => B(s0, s1, S, S+C, BK+0.01, dep-0.008, m, g));
+  B(a1+0.004, len-0.006, S, S+C, BK+0.01, cd-0.008, m, g);                                       // chaise cushion
+  cu.concat([[a1+0.004, len-0.006]]).forEach(([s0, s1]) => {                                     // back cushions, leaning
+    const p = place(group(g), (s0+s1)/2, BK+0.02, 0, S+C); p.rotation.x = -0.14;
+    B(-(s1-s0)/2, (s1-s0)/2, 0, BH-S-C+0.1, 0, 0.17, m, p); });
+  (o.cushions ?? [[a0+0.25, mat.rugOlive, 0.3], [a1-0.25, mat.cognac, -0.25], [len-0.3, mat.throwM, 0.2]]).forEach(([cx, cm, r]) => {
+    const p = place(group(g), cx, BK+0.2, r, S+C); p.rotation.x = -0.3; B(-0.24, 0.24, 0, 0.44, -0.06, 0.06, cm, p); });
+  return g;
+}
+// low lounge chair: black steel sled frame, cognac leather seat and back; faces local +z
+function loungeChair(P, x, z, rot){
+  const g = place(group(P), x, z, rot);
+  [-0.37, 0.37].forEach(a => {
+    rod(V(a, 0.012, -0.36), V(a, 0.012, 0.4), 0.012, mat.steel, g); rod(V(a, 0.012, 0.4), V(a, 0.52, 0.3), 0.012, mat.steel, g);
+    rod(V(a, 0.52, 0.3), V(a, 0.52, -0.2), 0.012, mat.steel, g); rod(V(a, 0.012, -0.36), V(a, 0.52, -0.2), 0.012, mat.steel, g); });
+  const st = B(-0.34, 0.34, 0.3, 0.42, -0.3, 0.38, mat.cognac, g); st.rotation.x = -0.08;
+  const bp = place(group(g), 0, -0.3, 0, 0.38); bp.rotation.x = -0.32; B(-0.34, 0.34, 0, 0.58, -0.11, 0, mat.cognac, bp);
+  return g;
+}
+// low coffee table: oak top on a blackened steel frame with a lower shelf; a book stack and a bowl
+function coffeeTable(P, x0, x1, z0, z1, h = 0.36){
+  B(x0, x1, h-0.04, h, z0, z1, mat.oak, P);
+  [[x0, z0], [x0, z1-0.03], [x1-0.03, z0], [x1-0.03, z1-0.03]].forEach(([x, z]) => B(x+0.02, x+0.05, 0, h-0.04, z+0.02, z+0.05, mat.steel, P));
+  B(x0+0.04, x1-0.04, 0.09, 0.105, z0+0.04, z1-0.04, mat.steel, P);
+  const xc = (x0+x1)/2, zc = (z0+z1)/2;
+  [[0.02, mat.cognac], [0.025, mat.throwM], [0.018, mat.black]].reduce((y, [t, m], i) => { B(xc-0.14+i*0.01, xc+0.1, y, y+t, zc-0.3, zc-0.08+i*0.01, m, P); return y+t; }, h);
+  cyl(0.11, 0.06, 0.07, mat.potDark, xc, h+0.035, zc+0.25, P);
+}
 /* ================= end of reusable parts ================= */
 
 /* ---------- Workstation on the east concrete wall, south of the bathroom, under two backlit mesh sheets ---------- */
@@ -757,6 +841,24 @@ MESH_P.forEach(m => meshSheet({face:'E', at:m.z, y:m.y, stock:MESH_STOCK, cell:M
   B(u+0.24, u+0.3, top+0.015, top+0.05, DESK_D-0.32, DESK_D-0.22, mat.art, F.g);    // mouse
   printer3D(F.g, F.u(z1-0.42), 0.45, top);
   taskChair(F.g, u, DESK_D + 0.35, 0);
+})();
+/* ---------- Living room on the west concrete wall: 65" picture TV over a floating oak bench, a mesh sheet either side, corner sofa ---------- */
+LIV_P.forEach(m => meshSheet({face:'W', at:m.z, y:m.y, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE, angle:MESH_A, gap:MESH_GAP, glowFloor:TVB_Y[1]}));
+(function(){
+  const F = wallFrame('W');
+  floatBench(F, TVB_Z[0], TVB_Z[1], TVB_Y, TVB_D, 6);
+  frameTV(F, F.u(LIV_ZC), TV_Y, 65);
+  B(F.u(LIV_ZC)-0.2, F.u(LIV_ZC)+0.2, TVB_Y[1], TVB_Y[1]+0.03, 0.12, 0.3, mat.black, F.g);   // soundbar-free: a slim streamer box only
+  B(0.6, 3.1, 0, 0.012, 5.35, 10.1, mat.rugDark, scene, {cast:false});                       // big wool rug under the group
+  cornerSofa(scene, SOFA.x, SOFA.z[0], -Math.PI/2, {len:SOFA.z[1]-SOFA.z[0], depth:SOFA.depth, chaise:SOFA.chaise});
+  coffeeTable(scene, CT.x[0], CT.x[1], CT.z[0], CT.z[1]);
+  loungeChair(scene, 1.45, 5.0, -0.55);
+  // black reading lamp at the chaise's foot by the south window, its arm reaching over the chaise
+  const lx = 2.0, lz = 9.85, hx = lx+0.05, hz = lz-0.5;
+  cyl(0.14, 0.14, 0.02, mat.black, lx, 0.01, lz); rod(V(lx, 0.02, lz), V(lx, 1.6, lz), 0.01, mat.black);
+  rod(V(lx, 1.6, lz), V(hx, 1.65, hz), 0.008, mat.black);
+  cyl(0.06, 0.16, 0.2, mat.black, hx, 1.55, hz); cyl(0.05, 0.05, 0.02, mat.bulb, hx, 1.45, hz);
+  lamps.push({pos:V(hx, 1.35, hz), i:0.6, d:3.5});
 })();
 B(HALL_X+0.1, W-0.1, 0, 0.012, 0.2, 0.95, mat.rugJute, scene, {cast:false});   // runner in the entry
 
@@ -869,6 +971,7 @@ function setEvening(on){
   pts.forEach(o => o.p.intensity = on ? o.i*2.2 : 0);
   mat.bulb.emissiveIntensity = on ? 2.2 : 0;
   mat.screen.emissiveIntensity = on ? 1.2 : 0;
+  tvArt.emissiveIntensity = on ? 0.5 : 0.12;
   mat.glass.color.set(on ? '#2c3b52' : '#cfe2e8'); mat.glass.opacity = on ? 0.55 : 0.16;
   viewerBg();
 }
@@ -911,7 +1014,11 @@ element('bed', 'Glow under the bed and behind the headboard', true, 0.02, [scene
   B(BED_C[0]-0.95, BED_C[0]+0.95, 0.68, 0.688, 0.03, 0.07, ledMat, g, NC);
   areaLight(g, BED_C[0], 0.695, 0.05, 'x', 1.9, 0.06, 'up', 30);
 });
-element('mesh', 'Backlit mesh wall', true, 0.03, meshSheets.map(m => m.F.g), (...gs) => gs.forEach((g, i) => meshGlow(meshSheets[i], g)));
+element('tvbench', 'Glow under the floating TV bench', true, 0.01, [scene], g => {
+  B(TVB_D-0.06, TVB_D-0.04, TVB_Y[0]-0.008, TVB_Y[0]-0.002, TVB_Z[0]+0.05, TVB_Z[1]-0.05, ledMat, g, NC);
+  areaLight(g, TVB_D/2, TVB_Y[0]-0.01, (TVB_Z[0]+TVB_Z[1])/2, 'z', TVB_Z[1]-TVB_Z[0]-0.1, TVB_D-0.1, 'down', 5);
+});
+element('mesh', 'Backlit mesh walls (desk + TV)', true, 0.03, meshSheets.map(m => m.F.g), (...gs) => gs.forEach((g, i) => meshGlow(meshSheets[i], g)));
 const hemiDay = {c:hemi.color.clone(), g:hemi.groundColor.clone()}, groundDay = mat.ground.color.clone();
 let indirectOn = false;
 function applyIndirect(){
@@ -946,6 +1053,9 @@ const views = {
   bedroom:  {p:[2.45, 1.7, 3.4],   t:[1.2, 0.7, 0.5]},
   wardrobes:{p:[1.6, 1.5, 0.8],    t:[1.5, 1.6, 3.6], open:'wr'},
   meshwall: {p:[2.0, 1.6, 10.9],    t:[6.9, 1.4, 9.4], ind:true},
+  living:   {p:[4.1, 1.75, 4.55],    t:[0.9, 0.8, 8.5]},
+  tvwall:   {p:[4.45, 1.5, 9.0],     t:[0.0, 1.8, 7.3], ind:true},
+  sofa:     {p:[0.55, 1.45, 5.4],    t:[3.0, 0.6, 8.4]},
   desk:     {p:[3.7, 1.7, 11.1],    t:[6.9, 1.0, 9.3]},
   plan:     {p:[3.45, 19, 5.75],   t:[3.45, 0, 5.72]},
 };
