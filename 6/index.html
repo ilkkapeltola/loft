@@ -174,7 +174,7 @@ a{color:var(--oak)}
         <li>The kitchen isn't in EKE's kitchen reservation, but it backs onto the bathroom's north shaft, so the water, the drain and the hood duct have the shortest possible run. Check with EKE that the shaft can take them.</li>
         <li>The bedroom wall stands just west of the French balcony, so the balcony door and its light belong to the hall, not the bedroom. Moving the wall east past it would leave the hall too narrow to reach the kitchen.</li>
         <li>The bedroom is 2.83 m wide, so the wall stands 15 cm clear of the French balcony window. With the bed against the window there is about 47 cm on each side of a 180 bed: enough for slim nightstands, but tight to walk past. A 160 bed would give about 57 cm each side.</li>
-        <li>TV wall: the 65" picture TV (1.45 × 0.82 m) is centred on the sofa at 1.15 m, about 2.9 m from the seated eye. Every mesh sheet in the flat is cut from the same 1500 × 3000 stock of 30 × 30 × 3.0 mm, grid turned 5°. The TV-wall pieces are 1.25 × 2.90 m, the desk's 1.26 × 2.85 m (the turn costs about 25 cm of the 1.5 m width) and both sheets stand 31 cm from the TV, 20 cm clear of the bench and the ceiling. The south one sits 20 cm higher. Run power and HDMI in the wall behind the TV, and the LED feeds behind the bench.</li>
+        <li>TV wall: the 65" picture TV (1.45 × 0.82 m) is centred on the sofa at 1.15 m, about 2.9 m from the seated eye. Every mesh sheet in the flat is cut from the same 1500 × 3000 stock of 30 × 30 × 3.0 mm, grid turned 5°. The desk's piece is 1.26 × 2.85 m (the 5° turn costs about 25 cm of the 1.5 m width). The TV wall is deliberately not mirrored: north of the TV a full-width 1.25 × 2.90 m piece 31 cm from it, grid at 5°; south a 45 cm strip 70 cm from it, grid at 9°, 20 cm higher. Both are 20 cm clear of the bench and the ceiling. Run power and HDMI in the wall behind the TV, and the LED feeds behind the bench.</li>
         <li>The sofa is 3.4 m long and 1.05 m deep, with a 1.75 m chaise at the window end. Its back leaves about 85 cm to the bathroom-wall cabinets.</li>
         <li>The entry is 1.15 m wide. The front door opens outwards, so the full width stays clear.</li>
         <li>Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
@@ -221,13 +221,14 @@ const [MESH_W, MESH_H] = meshCut(MESH_STOCK, MESH_A, {maxW:DESK_Z[1]-DESK_Z[0], 
 const MESH_P = [{z:[MESH_ZC-MESH_W/2, MESH_ZC+MESH_W/2], y:[MESH_YC-MESH_H/2, MESH_YC+MESH_H/2]}];
 const MESH_Z = MESH_P[0].z, MESH_Y = MESH_P[0].y, MESH_GAP = 0.025;
 // living room on the 7.35 m west concrete wall south of the bedroom wardrobes: a 65" picture TV over a floating oak bench, centred
-// on a low corner sofa, a backlit mesh sheet either side, cut by meshCut from the desk's stock (grid turned 5°), 31 cm from the TV,
-// the south one 20 cm higher. LIV_P keeps a stock / cell / wire per sheet, so one can be swapped for a different mesh.
-const LIV_ZC = 7.75, TV_Y = 1.15, TVB_D = 0.42, TVB_Y = [0.22, 0.46], LM_IN = 1.05, LM_YC = (TVB_Y[1]+H)/2;
-const LIV_P = [-1, 1].map(k => ({k, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE})).map(m => {
-  const [w, h] = meshCut(m.stock, MESH_A, {maxW:1.3, maxH:H-TVB_Y[1]-MESH_STEP-0.4}), a = LIV_ZC + m.k*LM_IN, yc = LM_YC + m.k*MESH_STEP/2;
-  return {...m, z: m.k < 0 ? [a-w, a] : [a, a+w], y:[yc-h/2, yc+h/2]}; });
-const TVB_Z = [LIV_P[0].z[0]-0.03, LIV_P[1].z[1]+0.03];              // the bench runs the whole composition
+// on a low corner sofa, and two backlit mesh pieces from the desk's stock that deliberately don't mirror each other: north, a full-width
+// piece 31 cm from the TV, grid at 5°; south, a narrow 45 cm strip 70 cm from the TV, 20 cm higher, its grid at 9°.
+// Each entry: k (-1 north, +1 south), inner = edge distance from the TV centre line, maxW, angle; meshCut sizes it.
+const LIV_ZC = 7.75, TV_Y = 1.15, TVB_D = 0.42, TVB_Y = [0.22, 0.46], LM_YC = (TVB_Y[1]+H)/2;
+const LIV_P = [{k:-1, inner:1.05, maxW:1.3, angle:MESH_A}, {k:1, inner:1.45, maxW:0.45, angle:9*Math.PI/180}].map(m => {
+  const [w, h] = meshCut(MESH_STOCK, m.angle, {maxW:m.maxW, maxH:H-TVB_Y[1]-MESH_STEP-0.4}), a = LIV_ZC + m.k*m.inner, yc = LM_YC + m.k*MESH_STEP/2;
+  return {...m, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE, z: m.k < 0 ? [a-w, a] : [a, a+w], y:[yc-h/2, yc+h/2]}; });
+const TVB_Z = [LIV_P[0].z[0]-0.03, 2*LIV_ZC-LIV_P[0].z[0]+0.03];     // the bench stays centred on the TV, as long as the north piece reaches
 const SOFA = {x:3.35, z:[LIV_ZC-1.7, LIV_ZC+1.7], depth:1.05, chaise:[1.0, 1.75]};   // back x, run along z; chaise at the south end
 const CT = {x:[1.25, 1.95], z:[6.7, 7.95]};                         // coffee table, on the seats' centre
 
@@ -843,7 +844,7 @@ MESH_P.forEach(m => meshSheet({face:'E', at:m.z, y:m.y, stock:MESH_STOCK, cell:M
   taskChair(F.g, u, DESK_D + 0.35, 0);
 })();
 /* ---------- Living room on the west concrete wall: 65" picture TV over a floating oak bench, a mesh sheet either side, corner sofa ---------- */
-LIV_P.forEach(m => meshSheet({face:'W', at:m.z, y:m.y, stock:m.stock, cell:m.cell, wire:m.wire, angle:MESH_A, gap:MESH_GAP, glowFloor:TVB_Y[1]}));
+LIV_P.forEach(m => meshSheet({face:'W', at:m.z, y:m.y, stock:m.stock, cell:m.cell, wire:m.wire, angle:m.angle, gap:MESH_GAP, glowFloor:TVB_Y[1]}));
 (function(){
   const F = wallFrame('W');
   floatBench(F, TVB_Z[0], TVB_Z[1], TVB_Y, TVB_D, 6);
