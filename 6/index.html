@@ -133,7 +133,8 @@ a{color:var(--oak)}
         <button type="button" id="v-doorway" data-view="doorway">Hall → bedroom</button>
         <button type="button" id="v-bedroom" data-view="bedroom">Bedroom</button>
         <button type="button" id="v-wardrobes" data-view="wardrobes">Bedroom wardrobes</button>
-        <button type="button" id="v-meshwall" data-view="meshwall">Backlit mesh wall</button>
+        <button type="button" id="v-meshwall" data-view="meshwall">Mesh wall, evening</button>
+        <button type="button" id="v-desk" data-view="desk">Workstation</button>
         <button type="button" id="v-plan" data-view="plan">Plan from above</button>
       </div>
       <div class="toggles">
@@ -203,7 +204,9 @@ const WARD_TOP = 3.42;                            // 13 cm under the duct (its u
 const WE_X = [HALL_X, W], WE_Z = [1.15, 1.75];    // coat wardrobes left of the front door, out to the same front line as the bathroom-wall cabinets
 const K_Z = [WE_Z[1], SH_N[2]], K_D = 0.62, KS = SH_N[2] - K_D, KN = WE_Z[1] + K_D, KE = W - 0.6;   // kitchen behind them: north leg, east columns, south leg on the shaft
 const DOOR_H = 2.05;
-const MESH_Z = [SH_S[1]+0.3, D-0.4], MESH_Y = [0.2, 3.4], MESH_GAP = 0.025, MESH_C = 0.05, MESH_A = 6 * Math.PI/180;   // 50 mm squares, grid turned 6° inside the square frame   // backlit black welded-mesh panel on the east concrete wall, south of the bathroom
+const DESK_D = 0.8, DESK_TOP = 0.75, DESK_Z = [SH_S[1]+0.3, D-0.4];   // workstation on the east wall: 80 cm deep top, tight to the concrete
+const MON_Z = 9.35;                                                    // the 57" curved screen and the chair, centred on the legroom
+const MESH_Z = DESK_Z, MESH_Y = [DESK_TOP+0.12, 3.4], MESH_GAP = 0.025, MESH_C = 0.05, MESH_A = 6 * Math.PI/180;   // 50 mm squares, grid turned 6° inside the square frame   // backlit black welded-mesh panel on the east concrete wall, south of the bathroom
 
 /* ---------- Plan (SVG) ---------- */
 function planSVG(){
@@ -254,7 +257,8 @@ function planSVG(){
   Tx(5.82,0.75,'ENTRY','plan-ts'); Tx(5.4,(KN+KS)/2+0.08,'KITCHEN','plan-ts');
   Tx(3.9,2.0,'HALL','plan-ts'); Tx((BW[1]+HALL_X)/2,K_Z[0]+0.6,(HALL_X-BW[1]).toFixed(2),'plan-ts');
   Tx(2.4,8.0,'EMPTY FOR NOW','plan-ts');
-  R(W-0.04,MESH_Z[0],W,MESH_Z[1],'plan-dark'); Tx(W-0.12,(MESH_Z[0]+MESH_Z[1])/2,'backlit mesh','plan-ts','end');
+  R(W-DESK_D,DESK_Z[0],W,DESK_Z[1],'plan-fix'); R(W-0.04,MESH_Z[0],W,MESH_Z[1],'plan-dark');
+  Tx(W-DESK_D-0.08,MON_Z+0.05,'desk + mesh','plan-ts','end'); C(W-DESK_D-0.3,MON_Z,0.28,'plan-thin');
   Tx(W+0.16,DOOR1+0.5,'entry','plan-ts','start');
   L(0,-0.55,W,-0.55,'plan-thin'); Tx(W/2,-0.65,'6.90');
   L(-0.55,0,-0.55,D,'plan-thin');
@@ -591,6 +595,63 @@ const meshMat = M({color:'#121212', roughness:0.55, metalness:0.35});
   B(xw-2*d-0.004, W-0.004, y1, y1+0.03, z0-0.015, z1+0.015, meshMat); B(xw-2*d-0.004, W-0.004, y0-0.03, y0, z0-0.015, z1+0.015, meshMat);
   B(xw-2*d-0.004, W-0.004, y0-0.03, y1+0.03, z0-0.03, z0-0.015, meshMat); B(xw-2*d-0.004, W-0.004, y0-0.03, y1+0.03, z1+0.015, z1+0.03, meshMat);
 })();
+/* ---------- Workstation on the mesh wall: 80 cm deep top fixed to the concrete, drawers and a cupboard under it ---------- */
+// The mesh is cut back to start 12 cm above the top, so the top runs tight to the wall; its bottom LED strip now grazes
+// down onto the desk. North pedestal: three drawers. South pedestal: two drawers over a cupboard (filament, tools), with
+// the 3D printer on the top above it. One 57" 32:9 curved screen (1000R) on a centre stand, one task chair.
+(function(){
+  const x0 = W - DESK_D, [z0, z1] = DESK_Z, G = 0.0015, NC = {cast:false};
+  B(x0, W, DESK_TOP-0.04, DESK_TOP, z0, z1, mat.oak);                                  // the top, 40 mm, dark wood
+  B(x0-0.002, x0, DESK_TOP-0.04, DESK_TOP, z0, z1, mat.oakDark, scene, NC);
+  function pedestal(a, b, fronts){                                                   // fronts: heights of the joints between drawers
+    B(x0+0.06, W, 0, 0.08, a+0.02, b-0.02, mat.black);
+    B(x0+0.02, W, 0.08, DESK_TOP-0.045, a, b, mat.oak);
+    fronts.forEach(y => B(x0+0.018, x0+0.02, y-G, y+G, a+0.01, b-0.01, mat.oakDark, scene, NC));
+    fronts.concat([DESK_TOP-0.045]).forEach((y, i, arr) => { if(y - (i ? arr[i-1] : 0.08) > 0.25) return;      // short grip rails on the drawers
+      B(x0+0.002, x0+0.018, y-0.035, y-0.025, (a+b)/2-0.12, (a+b)/2+0.12, mat.black); });
+  }
+  pedestal(z0, z0+0.6, [0.3, 0.5]);                                                   // north: three drawers
+  pedestal(z1-0.8, z1, [0.45, 0.58]);                                                 // south: cupboard under two drawers
+  B(x0+0.002, x0+0.018, 0.36, 0.40, z1-0.2, z1-0.04, mat.black);                     // cupboard pull
+  // 57" curved monitor, 1.39 m wide along a 1.0 m radius, on a centre stand
+  const Rm = 1.0, arc = 1.39, hS = 0.40, yS = DESK_TOP + 0.13, xm = W - 0.32, n = 18;
+  for(let i=0;i<n;i++){
+    const a0 = -arc/2/Rm + i*arc/Rm/n, a1 = a0 + arc/Rm/n, am = (a0+a1)/2, w = 2*Rm*Math.sin((a1-a0)/2);
+    const g = group(); g.position.set(xm - Rm + Rm*Math.cos(am), 0, MON_Z + Rm*Math.sin(am)); g.rotation.y = -am;
+    B(0, 0.025, yS-0.012, yS+hS+0.012, -w/2-0.001, w/2+0.001, mat.black, g);         // shell
+    B(-0.002, 0, yS, yS+hS, -w/2, w/2, mat.screen, g, NC);                           // panel, faces the chair
+  }
+  B(xm+0.03, xm+0.07, DESK_TOP, yS+0.12, MON_Z-0.05, MON_Z+0.05, mat.steel);            // stand neck
+  B(xm-0.12, xm+0.12, DESK_TOP, DESK_TOP+0.015, MON_Z-0.17, MON_Z+0.17, mat.steel);     // foot
+  B(x0+0.12, x0+0.58, DESK_TOP, DESK_TOP+0.015, MON_Z-0.23, MON_Z+0.23, mat.leather);  // desk mat
+  B(x0+0.2, x0+0.34, DESK_TOP+0.015, DESK_TOP+0.035, MON_Z-0.22, MON_Z+0.14, mat.art);   // keyboard
+  B(x0+0.22, x0+0.32, DESK_TOP+0.015, DESK_TOP+0.05, MON_Z+0.24, MON_Z+0.3, mat.art);    // mouse
+  // enclosed 3D printer on the south pedestal: black frame, smoked glass, build plate and toolhead inside
+  const pz = z1 - 0.42, px = W - 0.45, ps = 0.39, ph = 0.46, y0 = DESK_TOP;
+  const smoke = M({color:'#2b2b2b', roughness:0.05, transparent:true, opacity:0.45, depthWrite:false});
+  B(px-ps/2, px+ps/2, y0, y0+0.06, pz-ps/2, pz+ps/2, mat.black);                     // base
+  B(px-ps/2, px+ps/2, y0+ph-0.03, y0+ph, pz-ps/2, pz+ps/2, mat.black);               // lid frame
+  [[-1,-1],[-1,1],[1,-1],[1,1]].forEach(([a,b]) => B(px+a*ps/2-(a>0?0.02:0), px+a*ps/2+(a<0?0.02:0), y0+0.06, y0+ph-0.03, pz+b*ps/2-(b>0?0.02:0), pz+b*ps/2+(b<0?0.02:0), mat.black));
+  B(px-ps/2-0.003, px-ps/2+0.003, y0+0.06, y0+ph-0.03, pz-ps/2+0.02, pz+ps/2-0.02, smoke, scene, NC);   // front door
+  [-1,1].forEach(b => B(px-ps/2+0.02, px+ps/2-0.02, y0+0.06, y0+ph-0.03, pz+b*(ps/2-0.003)-0.003, pz+b*(ps/2-0.003)+0.003, smoke, scene, NC));
+  B(px-ps/2+0.02, px+ps/2-0.02, y0+ph-0.003, y0+ph+0.002, pz-ps/2+0.02, pz+ps/2-0.02, smoke, scene, NC);
+  B(px+ps/2-0.02, px+ps/2, y0+0.06, y0+ph-0.03, pz-ps/2, pz+ps/2, mat.black);        // back panel
+  B(px-0.13, px+0.13, y0+0.14, y0+0.15, pz-0.13, pz+0.13, mat.steel);                 // build plate
+  B(px-0.17, px+0.17, y0+0.36, y0+0.38, pz-0.012, pz+0.012, mat.steel);               // gantry
+  B(px-0.04, px+0.03, y0+0.31, y0+0.39, pz+0.02, pz+0.08, mat.white);                  // toolhead
+  B(px-0.05, px+0.05, y0+0.15, y0+0.19, pz-0.06, pz+0.04, mat.sage);                   // a print on the plate
+  cyl(0.1, 0.1, 0.07, mat.black, px+0.02, y0+0.035, pz-ps/2-0.16).rotation.z = Math.PI/2;   // filament spool beside it
+  cyl(0.1, 0.1, 0.06, mat.rugOlive, px+0.02, y0+0.035, pz-ps/2-0.16).rotation.z = Math.PI/2;
+  taskChairHere(x0 - 0.35, MON_Z);
+})();
+function taskChairHere(x, z){                       // task chair facing east, to the screen
+  const ch = group(); place(ch, x, z, -Math.PI/2, 0);
+  B(-0.25,0.25,0.44,0.51,-0.24,0.24,mat.leather,ch); B(-0.23,0.23,0.53,1.05,0.2,0.25,mat.leather,ch);
+  B(-0.26,-0.22,0.6,0.64,-0.18,0.15,mat.black,ch); B(0.22,0.26,0.6,0.64,-0.18,0.15,mat.black,ch);
+  cyl(0.03,0.03,0.4,mat.chrome,0,0.22,0,ch);
+  for(let k=0;k<5;k++){ const a = k*2*Math.PI/5; B(-0.015,0.015,0.03,0.06,0,0.3,mat.black,group(ch)).parent.rotation.y = a; }
+  return ch;
+}
 B(HALL_X+0.1, W-0.1, 0, 0.012, 0.2, 0.95, mat.rugJute, scene, {cast:false});   // runner in the entry
 
 /* ---------- Kitchen behind the coat wardrobes: two matt anthracite runs facing each other, nothing at the east end ---------- */
@@ -747,7 +808,7 @@ element('bed', 'Glow under the bed and behind the headboard', true, 0.02, [scene
 element('mesh', 'Backlit mesh wall', true, 0.03, [scene], g => {
   // the glow the strips throw on the concrete behind the mesh, with the mesh's soft shadow lines, painted into an additive layer
   const [z0, z1] = MESH_Z, [y0, y1] = MESH_Y, pad = 0.35, PX = 200;                 // 5 mm per pixel
-  const Z0 = z0-pad, Z1 = z1+pad, Y0 = Math.max(0, y0-pad), Y1 = Math.min(H, y1+pad);
+  const Z0 = z0-pad, Z1 = z1+pad, Y0 = Math.max(DESK_TOP, y0-pad), Y1 = Math.min(H, y1+pad);
   const cw = Math.round((Z1-Z0)*PX), ch = Math.round((Y1-Y0)*PX), cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
   const cx = cv.getContext('2d'), img = cx.createImageData(cw, ch), dd = img.data;
   const ca = Math.cos(MESH_A), sa = Math.sin(MESH_A), zc = (z0+z1)/2, yc = (y0+y1)/2;
@@ -814,7 +875,8 @@ const views = {
   doorway:  {p:[4.4, 1.6, 2.9],    t:[0.5, 0.9, 1.4], open:'bed'},
   bedroom:  {p:[2.45, 1.7, 3.4],   t:[1.2, 0.7, 0.5]},
   wardrobes:{p:[1.6, 1.5, 0.8],    t:[1.5, 1.6, 3.6], open:'wr'},
-  meshwall: {p:[1.6, 1.55, 10.6],   t:[6.9, 1.7, 9.4], ind:true},
+  meshwall: {p:[2.0, 1.6, 10.9],    t:[6.9, 1.4, 9.4], ind:true},
+  desk:     {p:[3.7, 1.7, 11.1],    t:[6.9, 1.0, 9.3]},
   plan:     {p:[3.45, 19, 5.75],   t:[3.45, 0, 5.72]},
 };
 let fly = null;
@@ -940,7 +1002,7 @@ function snapTurn(a){
   rig.position.sub(head).applyAxisAngle(UP, a).add(head); rig.rotation.y += a;
 }
 const heading = () => { const d = new THREE.Vector3(); camera.getWorldDirection(d); return Math.atan2(-d.x, -d.z); };
-const UPSTAIRS = V(3.6, 0, 2.6), DOWNSTAIRS = V(2.0, 0, 2.8);
+const UPSTAIRS = V(3.6, 0, 2.6), DOWNSTAIRS = V(5.6, 0, MON_Z);
 function jumpLevel(){
   const up = rig.position.y < PF/2;
   teleport(up ? UPSTAIRS : DOWNSTAIRS);
