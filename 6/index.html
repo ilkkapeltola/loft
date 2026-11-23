@@ -206,7 +206,7 @@ const K_Z = [WE_Z[1], SH_N[2]], K_D = 0.62, KS = SH_N[2] - K_D, KN = WE_Z[1] + K
 const DOOR_H = 2.05;
 const DESK_D = 0.8, DESK_TOP = 0.75, DESK_Z = [SH_S[1]+0.3, D-0.4];   // workstation on the east wall: 80 cm deep top, tight to the concrete
 const MON_Z = 9.35;                                                    // the 57" curved screen and the chair, centred on the legroom
-const MESH_Z = DESK_Z, MESH_Y = [DESK_TOP+0.12, 3.4], MESH_GAP = 0.025, MESH_C = 0.05, MESH_A = 6 * Math.PI/180;   // 50 mm squares, grid turned 6° inside the square frame   // backlit black welded-mesh panel on the east concrete wall, south of the bathroom
+const MESH_Z = DESK_Z, MESH_Y = [DESK_TOP+0.3, H-0.25], MESH_GAP = 0.025, MESH_C = 0.05, MESH_A = 6 * Math.PI/180;   // 50 mm squares, grid turned 6° inside the square frame   // backlit black welded-mesh panel on the east concrete wall, south of the bathroom
 
 /* ---------- Plan (SVG) ---------- */
 function planSVG(){
@@ -596,7 +596,7 @@ const meshMat = M({color:'#121212', roughness:0.55, metalness:0.35});
   B(xw-2*d-0.004, W-0.004, y0-0.03, y1+0.03, z0-0.03, z0-0.015, meshMat); B(xw-2*d-0.004, W-0.004, y0-0.03, y1+0.03, z1+0.015, z1+0.03, meshMat);
 })();
 /* ---------- Workstation on the mesh wall: 80 cm deep top fixed to the concrete, drawers and a cupboard under it ---------- */
-// The mesh is cut back to start 12 cm above the top, so the top runs tight to the wall; its bottom LED strip now grazes
+// The mesh is cut back to start 30 cm above the top (and runs up to 25 cm under the ceiling), so the top runs tight to the wall; its bottom LED strip now grazes
 // down onto the desk. North pedestal: three drawers. South pedestal: two drawers over a cupboard (filament, tools), with
 // the 3D printer on the top above it. One 57" 32:9 curved screen (1000R) on a centre stand, one task chair.
 (function(){
