@@ -115,7 +115,7 @@ a{color:var(--oak)}
     <header>
       <div class="eyebrow">Vanha talvitie 31 A33 · 6th floor · version 14 · new concept</div>
       <h1>Artus A33 Kitchen Behind Coats</h1>
-      <p class="lede">A new start. Step in from the front door and the coat wardrobes are straight away on your left: one dark-wood block, out to the same front line as new cabinets on the bathroom wall. The kitchen is built behind them: two matt anthracite runs facing each other, one on the wardrobes' back and one on the bathroom's shaft, open to a hall by the French balcony. The bedroom takes the north-west corner the way A21 /9 does it: a concrete wall with a hidden flush door, the bed's headboard on the outer wall, and tall wardrobes as its south wall. The lounge sits in the south-west window corner: a low, deep modular sofa floating on a big rug, its chaise towards the glass, one big soft bouclé armchair and a round table. The TV is left out for now. A workstation under one backlit mesh sheet is on the east wall. No parvi; 4 m everywhere.</p>
+      <p class="lede">A new start. Step in from the front door and the coat wardrobes are straight away on your left: one dark-wood block, out to the same front line as new cabinets on the bathroom wall. The kitchen is built behind them: two matt anthracite runs facing each other, one on the wardrobes' back and one on the bathroom's shaft, open to a hall by the French balcony. The bedroom takes the north-west corner the way A21 /9 does it: a concrete wall with a hidden flush door, the bed's headboard on the outer wall, and tall wardrobes as its south wall. The lounge sits in the south-west window corner: the low corner sofa floating on a big rug, facing the west wall with its chaise at the window end, one big soft bouclé armchair and a round table. The TV is left out for now. A workstation under one backlit mesh sheet is on the east wall. No parvi; 4 m everywhere.</p>
       <div class="stats">
         <div class="stat"><b>~10 m²</b><span>bedroom</span></div>
         <div class="stat"><b>2.7 m</b><span>coat wardrobes</span></div>
@@ -175,7 +175,7 @@ a{color:var(--oak)}
         <li>The bedroom wall stands just west of the French balcony, so the balcony door and its light belong to the hall, not the bedroom. Moving the wall east past it would leave the hall too narrow to reach the kitchen.</li>
         <li>The bedroom is 2.83 m wide, so the wall stands 15 cm clear of the French balcony window. With the bed against the window there is about 47 cm on each side of a 180 bed: enough for slim nightstands, but tight to walk past. A 160 bed would give about 57 cm each side.</li>
         <li>The TV, its bench and the TV-side mesh sheets are left out while the seating is worked out. The sofa faces the west wall, so the TV can go back there, about 2.6 m from the seats. Every mesh sheet in the flat is cut from the same 1500 × 3000 stock of 30 × 30 × 3.0 mm; the desk's piece is 1.26 × 2.85 m with the grid turned 5°.</li>
-        <li>The sofa floats off the walls: 2.6 m long and 1.26 m deep, seat 40 cm, back 72 cm, with a 1.1 m chaise towards the window. Behind it there is about 2 m of free floor to the desk chair and the balcony door. The armchair is about 1 m wide and stands 40 cm off the west wall.</li>
+        <li>The sofa floats off the walls: 3.1 m long and 1.05 m deep, with a 1.75 m chaise at the window end, 60 cm off the glass. Behind it there is about 2 m of free floor to the desk chair, and the balcony door stays reachable past the chaise. The armchair is about 1 m wide and stands 40 cm off the west wall.</li>
         <li>The entry is 1.15 m wide. The front door opens outwards, so the full width stays clear.</li>
         <li>Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
         <li>"Evening, indirect" shows hidden warm-white LED lighting, each part on its own switch. The strips are drawn as soft area lights, so you can see where the glow lands. Light bouncing on from the lit ceiling isn't calculated: a warm fill stands in for it, so treat the overall brightness as indicative.</li>
@@ -233,8 +233,8 @@ const TVB_Z = [LIV_P[0].z[0]-0.03, LIV_ZC+0.78];                     // the benc
 // (where the TV goes back later), its chaise towards the window; one big soft armchair at the north end; a round table between.
 // The TV, its bench and the TV-side mesh sheets are switched off for now (LIV_TV) and come back once the seating works.
 const LIV_TV = false;
-const ISL = {x:[2.08, 3.34], z:[8.16, 10.74], seat:0.40, back:0.32, chaise:{x:1.02, z:9.72}};   // sofa footprint; seat top; back cushion depth
-const CT = {x:1.38, z:8.85, r:0.4};                                    // round coffee table
+const ISL = {x:[2.3, 3.35], z:[7.75, 10.85], chaise:{x:1.6, z:9.85}};   // the low corner sofa: footprint, chaise at the window end
+const CT = {x:1.6, z:8.85, r:0.4};                                    // round coffee table
 const ARM = {x:0.92, z:7.72, rot:0.34};                                 // big soft armchair, turned towards the table and the window
 
 /* ---------- Plan (SVG) ---------- */
@@ -883,26 +883,14 @@ if(LIV_TV) LIV_P.forEach(m => meshSheet({face:'W', at:m.z, y:m.y, stock:m.stock,
     B(F.u(LIV_ZC)-0.2, F.u(LIV_ZC)+0.2, TVB_Y[1], TVB_Y[1]+0.03, 0.12, 0.3, mat.black, F.g);
   }
   B(0.3, 3.55, 0, 0.012, 7.05, 11.2, mat.rugDark, scene, {cast:false});                       // big wool rug under the whole group
-  // low, deep modular sofa (Extrasoft-like): pillowy blocks set a touch out of line, back cushions on the east (room) side, a low arm at the
-  // north end, the chaise module towards the window. Seat 40 cm, back 72 cm, seat depth about 0.95 m in front of the back cushions.
-  const S = ISL, sm = mat.sofaSoft, zm = 9.46;
-  B(S.x[0]+0.1, S.x[1]-0.1, 0, 0.06, S.z[0]+0.1, S.z[1]-0.1, mat.black); B(S.chaise.x+0.1, S.x[0]+0.1, 0, 0.06, S.chaise.z+0.1, S.z[1]-0.1, mat.black);
-  softBox(S.x[0], S.x[1]-0.02, 0.06, S.seat, S.z[0], zm-0.01, 0.09, sm);
-  softBox(S.x[0]+0.03, S.x[1], 0.06, S.seat-0.01, zm+0.01, S.z[1], 0.09, sm);
-  softBox(S.chaise.x, S.x[0]+0.02, 0.06, S.seat-0.015, S.chaise.z, S.z[1]-0.01, 0.09, sm);          // chaise towards the window
-  softBox(S.x[1]-S.back, S.x[1]+0.01, S.seat-0.04, 0.73, S.z[0]+0.01, zm-0.02, 0.1, sm);            // back cushions, slightly different heights
-  softBox(S.x[1]-S.back-0.02, S.x[1], S.seat-0.04, 0.71, zm+0.02, S.z[1]-0.01, 0.1, sm);
-  softBox(S.x[0]+0.02, S.x[1]-S.back+0.02, S.seat-0.04, 0.62, S.z[0]-0.01, S.z[0]+0.24, 0.09, sm);  // low arm at the north end
-  [[9.0, mat.cognac, 0.25], [10.2, mat.rugOlive, -0.2]].forEach(([z, cm, r]) => {                   // two loose cushions against the back
-    const p = place(group(scene), S.x[1]-S.back-0.08, z, -Math.PI/2+r, S.seat-0.02); p.rotation.z = 0.28;
-    softBox(-0.24, 0.24, 0, 0.44, -0.07, 0.07, 0.05, cm, p); });
-  B(S.chaise.x+0.12, S.x[0]-0.1, S.seat-0.015, S.seat+0.005, 10.05, 10.55, mat.throwM);              // folded throw on the chaise
+  // the low corner sofa, floating: back to the room, facing the west wall, its 1.75 m chaise at the window end
+  cornerSofa(scene, ISL.x[1], ISL.z[0], -Math.PI/2, {len:ISL.z[1]-ISL.z[0], depth:ISL.x[1]-ISL.x[0], chaise:[ISL.z[1]-ISL.chaise.z, ISL.x[1]-ISL.chaise.x]});
   cyl(CT.r, CT.r, 0.035, mat.oak, CT.x, 0.345, CT.z, scene, 40);                              // round oak top on a black steel drum base
   cyl(0.2, 0.24, 0.33, mat.black, CT.x, 0.165, CT.z, scene, 24);
   B(CT.x-0.12, CT.x+0.1, 0.36, 0.4, CT.z-0.25, CT.z-0.03, mat.cognac); cyl(0.11, 0.06, 0.07, mat.potDark, CT.x+0.08, 0.4, CT.z+0.18);
   softArmchair(scene, ARM.x, ARM.z, ARM.rot);
   // black reading lamp in the window corner, its arm reaching over the chaise
-  const lx = 0.45, lz = 11.15, hx = 1.3, hz = 10.6;
+  const lx = 1.25, lz = 11.15, hx = 1.95, hz = 10.45;
   cyl(0.14, 0.14, 0.02, mat.black, lx, 0.01, lz); rod(V(lx, 0.02, lz), V(lx, 1.6, lz), 0.01, mat.black);
   rod(V(lx, 1.6, lz), V(hx, 1.65, hz), 0.008, mat.black);
   cyl(0.06, 0.16, 0.2, mat.black, hx, 1.55, hz); cyl(0.05, 0.05, 0.02, mat.bulb, hx, 1.45, hz);
