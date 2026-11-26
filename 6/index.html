@@ -115,7 +115,7 @@ a{color:var(--oak)}
     <header>
       <div class="eyebrow">Vanha talvitie 31 A33 · 6th floor · version 14 · new concept</div>
       <h1>Artus A33 Kitchen Behind Coats</h1>
-      <p class="lede">A new start. Step in from the front door and the coat wardrobes are straight away on your left: one dark-wood block, out to the same front line as new cabinets on the bathroom wall. The kitchen is built behind them: two matt anthracite runs facing each other, one on the wardrobes' back and one on the bathroom's shaft, open to a hall by the French balcony. The bedroom takes the north-west corner the way A21 /9 does it: a concrete wall with a hidden flush door, the bed's headboard on the outer wall, and tall wardrobes as its south wall. The lounge sits in the south-west window corner: the low corner sofa floating on a big rug, facing the west wall with its chaise at the window end, one big soft bouclé armchair and a round table. The TV is left out for now. A workstation under one backlit mesh sheet is on the east wall. No parvi; 4 m everywhere.</p>
+      <p class="lede">A new start. Step in from the front door and the coat wardrobes are straight away on your left: one dark-wood block, out to the same front line as new cabinets on the bathroom wall. The kitchen is built behind them: two matt anthracite runs facing each other, one on the wardrobes' back and one on the bathroom's shaft, open to a hall by the French balcony. The bedroom takes the north-west corner the way A21 /9 does it: a concrete wall with a hidden flush door, the bed's headboard on the outer wall, and tall wardrobes as its south wall. The lounge sits in the south-west window corner: a green corduroy Blok-style L corner sofa (290 × 230 cm) floating on a big rug, facing the west wall with its short leg along the window, and a rectangular oak table in the L. The TV is left out for now. A workstation under one backlit mesh sheet is on the east wall. No parvi; 4 m everywhere.</p>
       <div class="stats">
         <div class="stat"><b>~10 m²</b><span>bedroom</span></div>
         <div class="stat"><b>2.7 m</b><span>coat wardrobes</span></div>
@@ -175,7 +175,7 @@ a{color:var(--oak)}
         <li>The bedroom wall stands just west of the French balcony, so the balcony door and its light belong to the hall, not the bedroom. Moving the wall east past it would leave the hall too narrow to reach the kitchen.</li>
         <li>The bedroom is 2.83 m wide, so the wall stands 15 cm clear of the French balcony window. With the bed against the window there is about 47 cm on each side of a 180 bed: enough for slim nightstands, but tight to walk past. A 160 bed would give about 57 cm each side.</li>
         <li>The TV, its bench and the TV-side mesh sheets are left out while the seating is worked out. The sofa faces the west wall, so the TV can go back there, about 2.6 m from the seats. Every mesh sheet in the flat is cut from the same 1500 × 3000 stock of 30 × 30 × 3.0 mm; the desk's piece is 1.26 × 2.85 m with the grid turned 5°.</li>
-        <li>The sofa floats off the walls: 3.1 m long and 1.05 m deep, with a 1.75 m chaise at the window end, 60 cm off the glass. Behind it there is about 2 m of free floor to the desk chair, and the balcony door stays reachable past the chaise. The armchair is about 1 m wide and stands 40 cm off the west wall.</li>
+        <li>The sofa is modelled on Kave Home's Blok corner sofa, 290 × 230 cm in green corduroy: 69 cm high with the arms as high as the back, a 41 cm seat 70 cm deep. The long leg's back faces the room at x 3.35, so it floats off the walls with about 2 m of free floor behind it to the desk chair; the 2.3 m short leg runs along the window with its low back about 60 cm off the glass, so the balcony door stays reachable. The coffee table is 120 × 60 cm, about 35 cm from both seat fronts.</li>
         <li>The entry is 1.15 m wide. The front door opens outwards, so the full width stays clear.</li>
         <li>Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
         <li>"Evening, indirect" shows hidden warm-white LED lighting, each part on its own switch. The strips are drawn as soft area lights, so you can see where the glow lands. Light bouncing on from the lit ceiling isn't calculated: a warm fill stands in for it, so treat the overall brightness as indicative.</li>
@@ -230,12 +230,14 @@ const LIV_P = [{k:-1, inner:1.05, maxW:1.3, angle:MESH_A}, {k:1, inner:1.45, max
   return {...m, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE, z: m.k < 0 ? [a-w, a] : [a, a+w], y:[yc-h/2, yc+h/2]}; });
 const TVB_Z = [LIV_P[0].z[0]-0.03, LIV_ZC+0.78];                     // the bench runs from the north piece to just past the TV, clear of the sofa
 // lounge in the south-west window corner (option A): a low, deep modular sofa floating off the walls on a big rug, facing the west wall
-// (where the TV goes back later), its chaise towards the window; one big soft armchair at the north end; a round table between.
+// (where the TV goes back later), its short leg along the window; a rectangular table in the L. No armchair.
 // The TV, its bench and the TV-side mesh sheets are switched off for now (LIV_TV) and come back once the seating works.
 const LIV_TV = false;
-const ISL = {x:[2.3, 3.35], z:[7.75, 10.85], chaise:{x:1.6, z:9.85}};   // the low corner sofa: footprint, chaise at the window end
-const CT = {x:1.6, z:8.85, r:0.4};                                    // round coffee table
-const ARM = {x:0.92, z:7.72, rot:0.34};                                 // big soft armchair, turned towards the table and the window
+// Kave Home Blok corner sofa, 290 x 230 cm, green corduroy: 69 cm high (arms = back), seat 41 cm high and 70 cm deep, legs ~98 cm deep.
+// Long leg's back to the room (x 3.35), facing the west wall; short leg along the window, its back to the glass, facing north.
+const BLOK = {x:3.35, z:[7.95, 10.85], long:2.9, short:2.3, depth:0.98};
+const ISL = {x:[BLOK.x-BLOK.depth, BLOK.x], z:BLOK.z, short:{x:BLOK.x-BLOK.short, z:BLOK.z[1]-BLOK.depth}};
+const CT = {x:[1.4, 2.0], z:[8.3, 9.5]};                              // rectangular coffee table, 120 x 60, in the L
 
 /* ---------- Plan (SVG) ---------- */
 function planSVG(){
@@ -286,8 +288,8 @@ function planSVG(){
   Tx(5.82,0.75,'ENTRY','plan-ts'); Tx(5.4,(KN+KS)/2+0.08,'KITCHEN','plan-ts');
   Tx(3.9,2.0,'HALL','plan-ts'); Tx((BW[1]+HALL_X)/2,K_Z[0]+0.6,(HALL_X-BW[1]).toFixed(2),'plan-ts');
   if(LIV_TV){ R(0,TVB_Z[0],TVB_D,TVB_Z[1],'plan-fix'); LIV_P.forEach(m => R(0,m.z[0],0.04,m.z[1],'plan-dark')); L(0.03,LIV_ZC-0.74,0.03,LIV_ZC+0.74,'plan-thin'); }
-  R(0.3,7.05,3.55,11.2,'plan-thin'); R(ISL.x[0],ISL.z[0],ISL.x[1],ISL.z[1],'plan-fix'); R(ISL.chaise.x,ISL.chaise.z,ISL.x[0],ISL.z[1],'plan-fix');
-  C(CT.x,CT.z,CT.r,'plan-thin'); C(ARM.x,ARM.z,0.48,'plan-fix');
+  R(0.3,7.05,3.55,11.2,'plan-thin'); R(ISL.x[0],ISL.z[0],ISL.x[1],ISL.z[1],'plan-fix'); R(ISL.short.x,ISL.short.z,ISL.x[0],ISL.z[1],'plan-fix');
+  R(CT.x[0],CT.z[0],CT.x[1],CT.z[1],'plan-thin');
   if(LIV_TV) Tx(0.55,LIV_ZC+0.05,'TV 65"','plan-ts','start'); Tx(2.7,9.5,'sofa','plan-ts'); Tx(2.0,6.8,'LOUNGE','plan-ts');
   R(W-DESK_D,DESK_Z[0],W,DESK_Z[1],'plan-fix'); MESH_P.forEach(m => R(W-0.04,m.z[0],W,m.z[1],'plan-dark'));
   Tx(W-DESK_D-0.08,MON_Z+0.05,'desk + mesh','plan-ts','end'); C(W-DESK_D-0.3,MON_Z,0.28,'plan-thin');
@@ -395,7 +397,9 @@ const mat = {
   cognac:  M({color:'#6e4127', roughness:0.55}),
   rugDark: M({map:noiseTex('#33322f', 37, 0.8, 7000), roughness:1}),
 boucle:  M({color:'#a99d88', roughness:1}),
-sofaSoft:M({color:'#4f4b45', roughness:0.95}),   // the island sofa's wool, flat so it reads on the rounded blocks   // oat wool bouclé, the big armchair
+sofaSoft:M({color:'#4f4b45', roughness:0.95}),
+cord:    M({color:'#4e5a41', roughness:0.92}),   // Blok's green corduroy
+cordDark:M({color:'#3d4734', roughness:0.95}),   // its seat bases, a shade darker
   art:     M({color:'#2c2e2b', roughness:0.9}),
   artLine: M({color:'#e8e4da', roughness:0.9}),
   book1:   M({color:'#e9e5dc', roughness:0.9}),
@@ -855,6 +859,28 @@ function softArmchair(P, x, z, rot, m = mat.boucle){
   softBox(-0.3, 0.3, 0.42, 0.72, 0.12, 0.26, 0.08, m, bk);                              // head/lumbar cushion
   return g;
 }
+// Kave Home "Blok"-style L corner sofa: chunky upholstered blocks on a recessed plinth, arms as high as the back.
+// Local frame as cornerSofa: the long back runs along +x from 0 to len, seats face +z; the short leg sits at the +x end, reaching
+// `short` along +z with its own back on the +x side. Corduroy ribs run front to back on the seats.
+function blokSofa(P, x, z, rot, o = {}){
+  const L = o.long || 2.9, S = o.short || 2.3, D = o.depth || 0.98, m = o.mat || mat.cord, md = mat.cordDark;
+  const g = place(group(P), x, z, rot), bd = 0.26, aw = 0.2, sy = 0.41, ty = 0.69, r = 0.06;
+  B(0.04, L-0.04, 0, 0.05, 0.04, D-0.06, mat.black, g); B(L-D+0.04, L-0.04, 0, 0.05, D-0.06, S-0.06, mat.black, g);   // recessed plinth
+  softBox(0, L, 0.05, ty, 0, bd, r, m, g);                                     // long back block
+  softBox(L-bd, L, 0.05, ty, bd-0.02, S, r, m, g);                             // short back block, along the glass
+  softBox(0, aw, 0.05, ty, bd-0.02, D, r, m, g);                               // arm at the open end of the long leg
+  softBox(L-D, L-bd+0.02, 0.05, ty, S-aw, S, r, m, g);                         // arm at the end of the short leg
+  softBox(aw-0.01, L-bd+0.01, 0.05, 0.25, bd-0.01, D, 0.04, md, g);            // seat bases
+  softBox(L-D, L-bd+0.01, 0.05, 0.25, D-0.02, S-aw+0.01, 0.04, md, g);
+  const seat = (x0, x1, z0, z1) => softBox(x0+0.005, x1-0.005, 0.25, sy, z0+0.005, z1-0.005, 0.07, m, g);
+  const xa = aw, xc = L-D, xe = L-bd, n = 2, w = (xc-xa)/n;
+  for(let i=0;i<n;i++) seat(xa+i*w, xa+(i+1)*w, bd, D);                         // two long-leg seats
+  seat(xc, xe, bd, D);                                                         // corner seat
+  seat(xc, xe, D, S-aw);                                                       // short-leg seat
+  [[xa+0.35, bd+0.1, 0.25], [xe-0.25, bd+0.1, -0.5]].forEach(([cx, cz, a]) => {   // two loose cushions
+    const c = place(group(g), cx, cz, a, sy); c.rotation.x = -0.25; softBox(-0.22, 0.22, 0, 0.42, -0.07, 0.07, 0.06, mat.rugOlive, c); });
+  return g;
+}
 /* ================= end of reusable parts ================= */
 
 /* ---------- Workstation on the east concrete wall, south of the bathroom, under a backlit mesh sheet ---------- */
@@ -883,12 +909,14 @@ if(LIV_TV) LIV_P.forEach(m => meshSheet({face:'W', at:m.z, y:m.y, stock:m.stock,
     B(F.u(LIV_ZC)-0.2, F.u(LIV_ZC)+0.2, TVB_Y[1], TVB_Y[1]+0.03, 0.12, 0.3, mat.black, F.g);
   }
   B(0.3, 3.55, 0, 0.012, 7.05, 11.2, mat.rugDark, scene, {cast:false});                       // big wool rug under the whole group
-  // the low corner sofa, floating: back to the room, facing the west wall, its 1.75 m chaise at the window end
-  cornerSofa(scene, ISL.x[1], ISL.z[0], -Math.PI/2, {len:ISL.z[1]-ISL.z[0], depth:ISL.x[1]-ISL.x[0], chaise:[ISL.z[1]-ISL.chaise.z, ISL.x[1]-ISL.chaise.x]});
-  cyl(CT.r, CT.r, 0.035, mat.oak, CT.x, 0.345, CT.z, scene, 40);                              // round oak top on a black steel drum base
-  cyl(0.2, 0.24, 0.33, mat.black, CT.x, 0.165, CT.z, scene, 24);
-  B(CT.x-0.12, CT.x+0.1, 0.36, 0.4, CT.z-0.25, CT.z-0.03, mat.cognac); cyl(0.11, 0.06, 0.07, mat.potDark, CT.x+0.08, 0.4, CT.z+0.18);
-  softArmchair(scene, ARM.x, ARM.z, ARM.rot);
+  // Blok corner sofa: back to the room, facing the west wall; its short leg along the window
+  blokSofa(scene, BLOK.x, BLOK.z[0], -Math.PI/2, {long:BLOK.z[1]-BLOK.z[0], short:BLOK.short, depth:BLOK.depth});
+  // rectangular coffee table, 120 x 60 x 36: oak top on a black steel frame, a book and a bowl
+  const [tx0, tx1] = CT.x, [tz0, tz1] = CT.z;
+  B(tx0, tx1, 0.33, 0.36, tz0, tz1, mat.oak);
+  [[tx0+0.03, tz0+0.03], [tx1-0.05, tz0+0.03], [tx0+0.03, tz1-0.05], [tx1-0.05, tz1-0.05]].forEach(([a, b]) => B(a, a+0.02, 0, 0.33, b, b+0.02, mat.black));
+  [tz0+0.03, tz1-0.05].forEach(b => B(tx0+0.03, tx1-0.03, 0.29, 0.31, b, b+0.02, mat.black));
+  B(tx0+0.12, tx0+0.34, 0.36, 0.4, tz0+0.15, tz0+0.45, mat.cognac); cyl(0.11, 0.06, 0.07, mat.potDark, (tx0+tx1)/2+0.05, 0.4, tz1-0.3);
   // black reading lamp in the window corner, its arm reaching over the chaise
   const lx = 1.25, lz = 11.15, hx = 1.95, hz = 10.45;
   cyl(0.14, 0.14, 0.02, mat.black, lx, 0.01, lz); rod(V(lx, 0.02, lz), V(lx, 1.6, lz), 0.01, mat.black);
@@ -1054,7 +1082,7 @@ if(LIV_TV) element('tvbench', 'Glow under the floating TV bench', true, 0.01, [s
   B(TVB_D-0.06, TVB_D-0.04, TVB_Y[0]-0.008, TVB_Y[0]-0.002, TVB_Z[0]+0.05, TVB_Z[1]-0.05, ledMat, g, NC);
   areaLight(g, TVB_D/2, TVB_Y[0]-0.01, (TVB_Z[0]+TVB_Z[1])/2, 'z', TVB_Z[1]-TVB_Z[0]-0.1, TVB_D-0.1, 'down', 5);
 });
-element('sofa', 'Glow under the floating sofa', true, 0.01, [scene], g => {
+element('sofa', 'Glow under the sofa', true, 0.01, [scene], g => {
   areaLight(g, (ISL.x[0]+ISL.x[1])/2, 0.05, (ISL.z[0]+ISL.z[1])/2, 'z', ISL.z[1]-ISL.z[0]-0.25, ISL.x[1]-ISL.x[0]-0.25, 'down', 4);
 });
 element('mesh', LIV_TV ? 'Backlit mesh walls (desk + TV)' : 'Backlit mesh wall over the desk', true, 0.03, meshSheets.map(m => m.F.g), (...gs) => gs.forEach((g, i) => meshGlow(meshSheets[i], g)));
