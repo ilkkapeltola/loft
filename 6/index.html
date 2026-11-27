@@ -859,26 +859,26 @@ function softArmchair(P, x, z, rot, m = mat.boucle){
   softBox(-0.3, 0.3, 0.42, 0.72, 0.12, 0.26, 0.08, m, bk);                              // head/lumbar cushion
   return g;
 }
-// Kave Home "Blok"-style L corner sofa: chunky upholstered blocks on a recessed plinth, arms as high as the back.
+// Kave Home "Blok"-style L corner sofa: square-edged upholstered blocks on a recessed plinth, arms as high as the back.
 // Local frame as cornerSofa: the long back runs along +x from 0 to len, seats face +z; the short leg sits at the +x end, reaching
 // `short` along +z with its own back on the +x side. Corduroy ribs run front to back on the seats.
 function blokSofa(P, x, z, rot, o = {}){
   const L = o.long || 2.9, S = o.short || 2.3, D = o.depth || 0.98, m = o.mat || mat.cord, md = mat.cordDark;
-  const g = place(group(P), x, z, rot), bd = 0.26, aw = 0.2, sy = 0.41, ty = 0.69, r = 0.06;
-  B(0.04, L-0.04, 0, 0.05, 0.04, D-0.06, mat.black, g); B(L-D+0.04, L-0.04, 0, 0.05, D-0.06, S-0.06, mat.black, g);   // recessed plinth
-  softBox(0, L, 0.05, ty, 0, bd, r, m, g);                                     // long back block
-  softBox(L-bd, L, 0.05, ty, bd-0.02, S, r, m, g);                             // short back block, along the glass
-  softBox(0, aw, 0.05, ty, bd-0.02, D, r, m, g);                               // arm at the open end of the long leg
-  softBox(L-D, L-bd+0.02, 0.05, ty, S-aw, S, r, m, g);                         // arm at the end of the short leg
-  softBox(aw-0.01, L-bd+0.01, 0.05, 0.25, bd-0.01, D, 0.04, md, g);            // seat bases
-  softBox(L-D, L-bd+0.01, 0.05, 0.25, D-0.02, S-aw+0.01, 0.04, md, g);
-  const seat = (x0, x1, z0, z1) => softBox(x0+0.005, x1-0.005, 0.25, sy, z0+0.005, z1-0.005, 0.07, m, g);
+  const g = place(group(P), x, z, rot), bd = 0.26, aw = 0.2, sy = 0.41, ty = 0.69;
+  const K = (x0, x1, y0, y1, z0, z1, mm, par) => B(x0, x1, y0, y1, z0, z1, mm, par || g);
+  K(0.04, L-0.04, 0, 0.05, 0.04, D-0.06, mat.black); K(L-D+0.04, L-0.04, 0, 0.05, D-0.06, S-0.06, mat.black);   // recessed plinth
+  K(0, L, 0.05, ty, 0, bd, m);                                         // long back block
+  K(L-bd, L, 0.05, ty, bd, S, m);                                      // short back block, along the glass
+  K(0, aw, 0.05, ty, bd, D, m);                                        // arm at the open end of the long leg
+  K(L-D, L-bd, 0.05, ty, S-aw, S, m);                                  // arm at the end of the short leg
+  K(aw, L-bd, 0.05, 0.25, bd, D, md); K(L-D, L-bd, 0.05, 0.25, D, S-aw, md);   // seat bases
+  const seat = (x0, x1, z0, z1) => K(x0+0.004, x1-0.004, 0.25, sy, z0, z1-0.004, m);
   const xa = aw, xc = L-D, xe = L-bd, n = 2, w = (xc-xa)/n;
-  for(let i=0;i<n;i++) seat(xa+i*w, xa+(i+1)*w, bd, D);                         // two long-leg seats
-  seat(xc, xe, bd, D);                                                         // corner seat
-  seat(xc, xe, D, S-aw);                                                       // short-leg seat
+  for(let i=0;i<n;i++) seat(xa+i*w, xa+(i+1)*w, bd, D);              // two long-leg seats
+  seat(xc, xe, bd, D);                                                 // corner seat
+  seat(xc, xe, D, S-aw);                                               // short-leg seat
   [[xa+0.35, bd+0.1, 0.25], [xe-0.25, bd+0.1, -0.5]].forEach(([cx, cz, a]) => {   // two loose cushions
-    const c = place(group(g), cx, cz, a, sy); c.rotation.x = -0.25; softBox(-0.22, 0.22, 0, 0.42, -0.07, 0.07, 0.06, mat.rugOlive, c); });
+    const c = place(group(g), cx, cz, a, sy); c.rotation.x = -0.25; K(-0.22, 0.22, 0, 0.42, -0.07, 0.07, mat.rugOlive, c); });
   return g;
 }
 /* ================= end of reusable parts ================= */
