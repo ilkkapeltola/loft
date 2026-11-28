@@ -1,0 +1,1420 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artus A33 Four Metres</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Figtree:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one screen — live 3D model on the left, a drawing-sheet panel on the right (stacks on phones) */
+:root{
+  --bg:#e6e5df;
+  --panel:#f4f3ef;
+  --ink:#20211d;
+  --muted:#66675e;
+  --line:#d3d1c8;
+  --oak:#9a6b3d;
+  --olive:#565b2f;
+  --viewer:#d7d6cf;
+  --sheet:#fbfbf8;
+  --zone-kit:#e2e1d3;
+  --zone-core:#d9c3a3;
+  --zone-live:#dfe1cf;
+  --zone-bed:#ece5d6;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171815; --panel:#1f201c; --ink:#ecebe4; --muted:#a3a497; --line:#383931;
+    --oak:#d09a62; --olive:#a9b06a; --viewer:#2a2b27; --sheet:#262722;
+    --zone-kit:#34352c; --zone-core:#5a4630; --zone-live:#34372a; --zone-bed:#433c31; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171815; --panel:#1f201c; --ink:#ecebe4; --muted:#a3a497; --line:#383931;
+  --oak:#d09a62; --olive:#a9b06a; --viewer:#2a2b27; --sheet:#262722;
+  --zone-kit:#34352c; --zone-core:#5a4630; --zone-live:#34372a; --zone-bed:#433c31; color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.app{display:grid;grid-template-columns:minmax(0,1fr) 380px;height:100%;}
+.viewer{position:relative;background:var(--viewer);min-height:0;overflow:hidden}
+.viewer canvas{display:block;width:100%;height:100%;touch-action:none}
+.vrbtn{position:absolute;left:50%;top:14px;transform:translateX(-50%);font:600 15px var(--f-body);padding:10px 22px;border-radius:4px;border:0;background:var(--ink);color:var(--panel);cursor:pointer;z-index:2}
+.vrbtn[disabled]{opacity:.55;cursor:default}
+.hint{position:absolute;left:calc(14px + env(safe-area-inset-left,0px));bottom:12px;font:12px/1.3 var(--f-mono);color:var(--ink);background:color-mix(in srgb,var(--panel) 82%,transparent);padding:6px 10px;border-radius:4px;pointer-events:none}
+.loading{position:absolute;inset:0;display:grid;place-items:center;font:13px var(--f-mono);color:var(--muted)}
+.panel{background:var(--panel);border-left:1px solid var(--line);overflow-y:auto;min-width:0;
+  padding-block:22px 40px;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:26px}
+.eyebrow{font:500 11px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 34px/1.02 var(--f-display);letter-spacing:-.02em;margin:6px 0 10px;text-wrap:balance}
+h2{font:700 13px/1.2 var(--f-display);letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px}
+p{margin:0;max-width:62ch}
+.lede{color:var(--muted)}
+.stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px}
+.stat b{display:block;font:700 22px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.stat span{font:11px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.views button{font:500 13px var(--f-body);text-align:left;padding:8px 10px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:3px;cursor:pointer}
+.views button:hover{border-color:var(--oak)}
+.views button[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--oak);outline-offset:2px}
+.toggles{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:14px}
+.toggles label{display:flex;gap:7px;align-items:center;cursor:pointer}
+.toggles[hidden]{display:none}
+.toggles.sub{font-size:13px;gap:6px 16px;margin-top:10px;padding-left:12px;border-left:2px solid var(--line)}
+.toggles input{accent-color:var(--olive);width:16px;height:16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td{padding:7px 0;border-top:1px solid var(--line);vertical-align:top}
+td.n{text-align:right;font:500 13px var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;padding-left:12px}
+td small{display:block;color:var(--muted);font-size:12.5px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:8px;vertical-align:0}
+.sheet{background:var(--sheet);border:1px solid var(--line);padding:10px;border-radius:3px}
+.sheet svg{display:block;width:100%;height:auto}
+.plan-wall{fill:var(--ink)}
+.plan-floor{fill:var(--sheet)}
+.plan-zone{cursor:pointer;transition:opacity .15s}
+.plan-zone:hover{opacity:.75}
+.plan-fix{fill:none;stroke:var(--ink);stroke-width:.025}
+.plan-solid{fill:var(--oak);opacity:.55}
+.plan-dark{fill:var(--muted)}
+.plan-thin{fill:none;stroke:var(--muted);stroke-width:.015}
+.plan-parvi{fill:none;stroke:var(--olive);stroke-width:.04;stroke-dasharray:.14 .09}
+.plan-curtain{fill:none;stroke:var(--muted);stroke-width:.04;stroke-dasharray:.05 .06}
+.plan-glass{stroke:var(--sheet);stroke-width:.12}
+.plan-door{fill:none;stroke:var(--ink);stroke-width:.02}
+.plan-t{font-family:var(--f-mono);font-size:.28px;fill:var(--ink)}
+.plan-ts{font-family:var(--f-mono);font-size:.2px;fill:var(--muted)}
+.plan-tp{font-family:var(--f-mono);font-size:.22px;fill:var(--olive)}
+ul.notes{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+ul.notes li::marker{color:var(--oak)}
+a{color:var(--oak)}
+.src{font-size:12.5px;color:var(--muted)}
+@media (max-width:860px){
+  .app{grid-template-columns:1fr;grid-template-rows:62vh auto;height:auto}
+  html,body{height:auto}
+  .panel{border-left:0;border-top:1px solid var(--line);overflow:visible}
+  h1{font-size:30px}
+}
+@media (prefers-reduced-motion: reduce){ .plan-zone{transition:none} }
+</style>
+
+<div class="app">
+  <div class="viewer" id="viewer">
+    <div class="loading" id="loading">Building the model…</div>
+    <button type="button" class="vrbtn" id="vrbtn" disabled>Checking for VR…</button>
+    <div class="hint">VR: point at any floor, step, bed or sofa and pull the trigger to teleport · A/X jumps up to the parvi and back · thumbstick left/right to turn</div>
+    <div id="m-labels" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+  </div>
+
+  <aside class="panel">
+    <header>
+      <div class="eyebrow">Vanha talvitie 31 A33 · 6th floor · version 15 · four metres</div>
+      <h1>Artus A33 Four Metres</h1>
+      <p class="lede">Version 14 tuned to make the 4 m height felt: a low dark-wood lid over the entry and kitchen, all joinery stopping at its 2.45 m line, 4 m linen curtains along the glass, one oversized pendant, a tall tree and walls lit from the floor. The rest as before. A new start. Step in from the front door and the coat wardrobes are straight away on your left: one dark-wood block, out to the same front line as new cabinets on the bathroom wall. The kitchen is built behind them: two matt anthracite runs facing each other, one on the wardrobes' back and one on the bathroom's shaft, open to a hall by the French balcony. The bedroom takes the north-west corner the way A21 /9 does it: a concrete wall with a hidden flush door, the bed's headboard on the outer wall, and tall wardrobes as its south wall. The lounge sits in the south-west window corner: a green corduroy Blok-style L corner sofa (290 × 230 cm) floating on a big rug, facing the west wall with its short leg along the window, and a rectangular oak table in the L. The TV is left out for now. A workstation under one backlit mesh sheet is on the east wall. No parvi; 4 m everywhere.</p>
+      <div class="stats">
+        <div class="stat"><b>~10 m²</b><span>bedroom</span></div>
+        <div class="stat"><b>2.7 m</b><span>coat wardrobes</span></div>
+        <div class="stat"><b>~4 m²</b><span>kitchen</span></div>
+      </div>
+    </header>
+
+    <section>
+      <h2>Views</h2>
+      <div class="views" id="views">
+        <button type="button" id="v-overview" data-view="overview" aria-pressed="true">Overview</button>
+        <button type="button" id="v-entry" data-view="entry">From the front door</button>
+        <button type="button" id="v-kitchen" data-view="kitchen">Kitchen</button>
+        <button type="button" id="v-hall" data-view="hall">Hall, looking north</button>
+        <button type="button" id="v-doorway" data-view="doorway">Hall → bedroom</button>
+        <button type="button" id="v-bedroom" data-view="bedroom">Bedroom</button>
+        <button type="button" id="v-wardrobes" data-view="wardrobes">Bedroom wardrobes</button>
+        <button type="button" id="v-meshwall" data-view="meshwall">Mesh wall, evening</button>
+        <button type="button" id="v-desk" data-view="desk">Workstation</button>
+<button type="button" id="v-living" data-view="living">Lounge corner</button>
+<button type="button" id="v-tvwall" data-view="tvwall">Lounge, evening</button>
+<button type="button" id="v-sofa" data-view="sofa">Sofa from the west wall</button>
+                <button type="button" id="v-arrival" data-view="arrival">The lid from the hall</button>
+        <button type="button" id="v-height" data-view="height">4 m, evening</button>
+        <button type="button" id="v-plan" data-view="plan">Plan from above</button>
+      </div>
+      <div class="toggles">
+        <label><input type="checkbox" id="t-bdoor"> Open bedroom door</label>
+        <label><input type="checkbox" id="t-wr"> Open the wardrobes</label>
+        <label><input type="checkbox" id="t-measure"> Measure: click two points</label>
+        <label><input type="checkbox" id="t-curtain"> Draw the curtains</label>
+        <label><input type="checkbox" id="t-evening"> Evening light</label>
+        <label><input type="checkbox" id="t-indirect"> Evening, indirect</label>
+      </div>
+      <div class="toggles sub" id="indirect-opts" hidden></div>
+    </section>
+
+    <section>
+      <h2>Making the 4 m count</h2>
+      <ul class="notes">
+        <li><b>Low, then high.</b> The entry and the kitchen block sit under one lid, with a 30 cm slot of full height left along the north wall for the entry window (and the duct). Coming in, you walk under a dark-wood lid at 2.45 m, then step out into the full 4 m. The contrast is what makes the height land (compression and release).</li>
+        <li><b>One datum line.</b> All built joinery (coat cabinets, kitchen wall units and columns, bathroom-wall cabinets, the shelving) stops at the lid's 2.45 m. Above that line it's raw concrete only, so the top 1.55 m of every wall reads as pure height.</li>
+        <li><b>4 m curtains.</b> Linen on a ceiling track, the full height in front of the glass. Open, they stack at the ends as two 4 m pleated columns; drawn (toggle), the whole window wall becomes one soft 4 m surface, and it tames the echo.</li>
+        <li><b>One big thing instead of many small ones.</b> A 1 m black dome pendant on a long cable over the lounge, and a 2.8 m tree by the glass. The low sofa keeps everything else under 70 cm.</li>
+        <li><b>Light the walls, not the floor.</b> In the evening, an LED line in a floor slot grazes the west concrete wall behind the sofa from the floor to the ceiling, and the lid's edge is washed from below. No downlights in the 4 m ceiling.</li>
+        <li>Not modelled: taller doors (2.4–2.6 m pivot or full-height flush doors would add to it), and a lid this size needs the ventilation and any services above it planned with EKE.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Plan</h2>
+      <div class="sheet" id="plan"></div>
+      <p class="src" style="margin-top:6px">Click a zone to move the camera there. The heavy line is the new concrete bedroom wall. Solid oak = wardrobes; dark = tall kitchen columns.</p>
+    </section>
+
+    <section>
+      <h2>Spaces</h2>
+      <table>
+        <tr><td><span class="sw" style="background:var(--zone-core)"></span>Entry + coat wardrobes<small>You come in through the east wall, by the north-east window. Straight away on the left is a 2.7 m run of dark-wood wardrobes, out to the same front line as the cabinets on the bathroom wall: 60 cm deep, 3.42 m tall to just under the duct, five doors with black bar pulls, and ladder-height top cupboards above 2.4 m. The entry between them and the window wall is 1.15 m wide, the front door's width.</small></td><td class="n">≈ 2.5 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-kit)"></span>Kitchen<small>Behind the wardrobes, between their back and the bathroom's north shaft: two matt anthracite runs facing each other across a 1.3 m aisle, 2.7 m long and open at both ends. Nothing turns a corner, so there are no blind corner cupboards. On the wardrobes' back: the hob under a slatted hood box, about 1.5 m of worktop, wall units up to the same 3.42 m top, and the integrated fridge-freezer column in the east corner. On the shaft: the sink and tap, about 1.5 m of worktop, wall units to 2.4 m, and a column in the east corner with an oven-microwave combi at eye level, drawers under it and a cupboard over it. The east wall between the two columns is left clear. Satin dark-grey worktop and splashback, stainless sink.</small></td><td class="n">≈ 5.5 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-core)"></span>Hall<small>1.25 m wide, centred on the French balcony: 15 cm of wall either side of the glass, the bedroom wall on the west and the line of the kitchen and cabinets on the east. Full height. It leads south past the bathroom door, which sits in a 55 cm niche between two blocks of dark-wood cabinets on the bathroom wall: three doors north of it, two south. The south block runs on to the grey shaft's face, and the 95 cm gap between it and the shaft, south of the bathroom, is open shelving to the living area.</small></td><td class="n">≈ 5 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-bed)"></span>Bedroom<small>As in A21 /9, mirrored. The north-west corner with the west window, 2.83 × 3.5 m. The 180 × 200 bed has its low headboard against the north window, kept under the 0.7 m sill, with 40 cm nightstands either side. That leaves 1.26 m between the foot and the wardrobes, so all six doors open freely. A concrete wall separates it from the hall, set 15 cm back from the French balcony's glass so it doesn't start right at the window, with a flush concrete door that opens into the room, hinged at its south end, so open it folds back over the wardrobes. Its south wall is six oak wardrobe doors, 3.4 m tall: long hanging, a double rail, and shelves over drawers. All six doors open into the bedroom; the open bedroom door covers the east two, which is fine. The hall between the bedroom wall and the kitchen is 1.8 m wide.</small></td><td class="n">≈ 10 m²</td></tr>
+        <tr><td><span class="sw" style="background:var(--zone-live)"></span>Living + work<small>About 6.9 × 7.3 m round the bathroom, from the bedroom wardrobes to the balcony glass: a floating lounge group in the south-west window corner, workstation on the east, open floor north of it.</small></td><td class="n">≈ 43 m²</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Check before building</h2>
+      <ul class="notes">
+        <li>The palette is the dark "Rouhea" one used in versions 6 and 12: raw grey concrete walls, ceiling and floor, dark brown wood for all the joinery, a matt anthracite kitchen with a stainless sink, black steel and a moss-green jute rug. The bathroom box stays white.</li>
+        <li>The kitchen isn't in EKE's kitchen reservation, but it backs onto the bathroom's north shaft, so the water, the drain and the hood duct have the shortest possible run. Check with EKE that the shaft can take them.</li>
+        <li>The bedroom wall stands just west of the French balcony, so the balcony door and its light belong to the hall, not the bedroom. Moving the wall east past it would leave the hall too narrow to reach the kitchen.</li>
+        <li>The bedroom is 2.83 m wide, so the wall stands 15 cm clear of the French balcony window. With the bed against the window there is about 47 cm on each side of a 180 bed: enough for slim nightstands, but tight to walk past. A 160 bed would give about 57 cm each side.</li>
+        <li>The TV, its bench and the TV-side mesh sheets are left out while the seating is worked out. The sofa faces the west wall, so the TV can go back there, about 2.6 m from the seats. Every mesh sheet in the flat is cut from the same 1500 × 3000 stock of 30 × 30 × 3.0 mm; the desk's piece is 1.26 × 2.85 m with the grid turned 5°.</li>
+        <li>The sofa is modelled on Kave Home's Blok corner sofa, 290 × 230 cm in green corduroy: 69 cm high with the arms as high as the back, a 41 cm seat 70 cm deep. The long leg's back faces the room at x 3.35, so it floats off the walls with about 2 m of free floor behind it to the desk chair; the 2.3 m short leg runs along the window with its low back about 60 cm off the glass, so the balcony door stays reachable. The coffee table is 120 × 60 cm, about 35 cm from both seat fronts.</li>
+        <li>The entry is 1.15 m wide. The front door opens outwards, so the full width stays clear.</li>
+        <li>Dimensions come from A33's 1:100 sales plan, good to about 10 cm.</li>
+        <li>"Evening, indirect" shows hidden warm-white LED lighting, each part on its own switch. The strips are drawn as soft area lights, so you can see where the glow lands. Light bouncing on from the lit ceiling isn't calculated: a warm fill stands in for it, so treat the overall brightness as indicative.</li>
+      </ul>
+    </section>
+
+    <p class="src">Source: <a href="https://www.ekerakennus.fi/asunnot/vanha-talvitie-31-a33/?apartment=Vanha+talvitie+31+A33" target="_blank" rel="noopener">A33 listing and floor plan</a>. A new concept; the bedroom follows A21 /9.</p>
+  </aside>
+</div>
+
+<script src="../lib/three.min.js"></script>
+<script src="../lib/OrbitControls.js"></script>
+<script src="../lib/RectAreaLightUniformsLib.js"></script>
+<script>
+(function(){
+/* ---------- Dimensions (metres) from the A33 sales plan (1:100). x = east, z = south, y = up ---------- */
+const W = 6.9, D = 11.45, H = 4.0, T = 0.25;
+const DOOR0 = 0.12, DOOR1 = 1.08;                 // front door in the east wall
+const BATH_X = 4.75, BATH_Z0 = 4.65, BATH_Z1 = 7.5; // bathroom box, full height
+const SH_N = [4.75, 6.7, 4.3], SH_S = [5.7, 7.8]; // shafts: north (x0, x1, z0), south (x0, z1)
+const BDOOR = [5.9, 6.7];                         // bathroom door
+const WALL_T = 0.12;
+const BW = [2.83, 2.83 + WALL_T];                 // new concrete wall: bedroom | hall, 15 cm clear of the French balcony's glass (from x 3.1); 59 cm at the bed's foot
+const BALC = [3.1, 4.05];                         // French balcony glass in the north wall
+const HALL_X = BALC[1] + (BALC[0] - BW[1]);       // front line of the cabinets on the bathroom wall, the coat wardrobes and the kitchen: the hall sits symmetric on the French balcony
+const BC_N = [SH_N[2], BDOOR[0]-0.06], BC_S = [BDOOR[1]+0.06, SH_S[1]];   // bathroom-wall cabinets either side of its door; the south ones run on to the shaft's south face
+const BEDDOOR = [2.5, 3.4];                       // flush bedroom door in that wall (z extent)
+const WR_X = [0, BW[0]], WR_Z = [3.5, 4.1], WR_H = 3.4, WR_N = 6;   // tall wardrobes: the bedroom's south wall (as in A21 /9)
+const BED_C = [BW[0]/2, 1.14];                    // headboard on the north wall under the window (sill 0.7 m), bed runs south; 1.26 m to the wardrobes
+const LID_Y = 2.45, WARD_TOP = LID_Y - 0.03;   // all built joinery stops at the entry lid's underside (2.45 m)
+                            // 13 cm under the duct (its underside is at 3.55)
+const WE_X = [HALL_X, W], WE_Z = [1.15, 1.75];    // coat wardrobes left of the front door, out to the same front line as the bathroom-wall cabinets
+const K_Z = [WE_Z[1], SH_N[2]], K_D = 0.62, KS = SH_N[2] - K_D, KN = WE_Z[1] + K_D, KE = W - 0.6;   // kitchen behind them: north leg, east columns, south leg on the shaft
+const DOOR_H = 2.05;
+const DESK_D = 0.8, DESK_TOP = 0.75, DESK_Z = [SH_S[1]+0.3, D-0.4];   // workstation on the east wall: 80 cm deep top, tight to the concrete
+const MON_Z = 9.35;                                                    // the 57" curved screen and the chair, centred on the legroom
+// backlit black welded mesh over the desk: one piece cut from a 1500 x 3000 mm stock sheet of 30 x 30 x 3.0 mm mesh (the same stock for every mesh sheet in the flat), the grid turned 5°.
+// meshCut() works out the biggest square-to-the-room piece the stock sheet gives at that angle, 20 cm clear of the desk top and the ceiling.
+const MESH_STOCK = [1.5, 3.0], MESH_C = 0.03, MESH_WIRE = 0.003, MESH_A = 5 * Math.PI/180;
+const MESH_ZC = (DESK_Z[0]+DESK_Z[1])/2, MESH_YC = (DESK_TOP+H)/2;
+const MESH_STEP = 0.2;                            // the TV wall's pair: the south sheet sits 20 cm higher
+const [MESH_W, MESH_H] = meshCut(MESH_STOCK, MESH_A, {maxW:DESK_Z[1]-DESK_Z[0], maxH:H-DESK_TOP-0.4});
+// {z:[z0,z1], y:[y0,y1]}: centred on the desk and between its top and the ceiling, in its own frame with its LED strip right round
+const MESH_P = [{z:[MESH_ZC-MESH_W/2, MESH_ZC+MESH_W/2], y:[MESH_YC-MESH_H/2, MESH_YC+MESH_H/2]}];
+const MESH_Z = MESH_P[0].z, MESH_Y = MESH_P[0].y, MESH_GAP = 0.025;
+// living room on the 7.35 m west concrete wall south of the bedroom wardrobes: a 65" picture TV over a floating oak bench, centred
+// on a low corner sofa, and two backlit mesh pieces from the desk's stock that deliberately don't mirror each other: north, a full-width
+// piece 31 cm from the TV, grid at 5°; south, a narrow 45 cm strip 70 cm from the TV, 20 cm higher, its grid at 9°.
+// Each entry: k (-1 north, +1 south), inner = edge distance from the TV centre line, maxW, angle; meshCut sizes it.
+const LIV_ZC = 7.75, TV_Y = 1.15, TVB_D = 0.42, TVB_Y = [0.22, 0.46], LM_YC = (TVB_Y[1]+H)/2;
+const LIV_P = [{k:-1, inner:1.05, maxW:1.3, angle:MESH_A}, {k:1, inner:1.45, maxW:0.45, angle:9*Math.PI/180}].map(m => {
+  const [w, h] = meshCut(MESH_STOCK, m.angle, {maxW:m.maxW, maxH:H-TVB_Y[1]-MESH_STEP-0.4}), a = LIV_ZC + m.k*m.inner, yc = LM_YC + m.k*MESH_STEP/2;
+  return {...m, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE, z: m.k < 0 ? [a-w, a] : [a, a+w], y:[yc-h/2, yc+h/2]}; });
+const TVB_Z = [LIV_P[0].z[0]-0.03, LIV_ZC+0.78];                     // the bench runs from the north piece to just past the TV, clear of the sofa
+// lounge in the south-west window corner (option A): a low, deep modular sofa floating off the walls on a big rug, facing the west wall
+// (where the TV goes back later), its short leg along the window; a rectangular table in the L. No armchair.
+// The TV, its bench and the TV-side mesh sheets are switched off for now (LIV_TV) and come back once the seating works.
+const LIV_TV = false;
+// Kave Home Blok corner sofa, 290 x 230 cm, green corduroy: 69 cm high (arms = back), seat 41 cm high and 70 cm deep, legs ~98 cm deep.
+// Long leg's back to the room (x 3.35), facing the west wall; short leg along the window, its back to the glass, facing north.
+const BLOK = {x:3.35, z:[7.95, 10.85], long:2.9, short:2.3, depth:0.98};
+const ISL = {x:[BLOK.x-BLOK.depth, BLOK.x], z:BLOK.z, short:{x:BLOK.x-BLOK.short, z:BLOK.z[1]-BLOK.depth}};
+const CT = {x:[1.4, 2.0], z:[8.3, 9.5]};                              // rectangular coffee table, 120 x 60, in the L
+
+/* ---------- Plan (SVG) ---------- */
+function planSVG(){
+  const s = [];
+  const R = (x0,z0,x1,z1,cls,extra='') => s.push(`<rect x="${x0}" y="${z0}" width="${(x1-x0).toFixed(3)}" height="${(z1-z0).toFixed(3)}" class="${cls}" ${extra}/>`);
+  const L = (x0,z0,x1,z1,cls) => s.push(`<line x1="${x0}" y1="${z0}" x2="${x1}" y2="${z1}" class="${cls}"/>`);
+  const C = (x,z,r,cls) => s.push(`<circle cx="${x}" cy="${z}" r="${r}" class="${cls}"/>`);
+  const Tx = (x,z,t,cls='plan-t',anchor='middle') => s.push(`<text x="${x}" y="${z}" class="${cls}" text-anchor="${anchor}">${t}</text>`);
+  R(-T,-T,W+T,D+T,'plan-wall');
+  R(0,0,W,D,'plan-floor');
+  [[0.89,1.97],[3.1,4.05],[5.2,6.16]].forEach(([a,b]) => L(a,-T/2,b,-T/2,'plan-glass'));
+  L(0.83,D+T/2,6.01,D+T/2,'plan-glass');
+  R(W,DOOR0,W+T,DOOR1,'plan-floor');
+  s.push(`<path d="M${W+T} ${DOOR0} A${DOOR1-DOOR0} ${DOOR1-DOOR0} 0 0 1 ${W+T+DOOR1-DOOR0} ${DOOR1}" class="plan-door"/>`);
+  L(W+T,DOOR1,W+T+DOOR1-DOOR0,DOOR1,'plan-door');
+  // zones
+  R(0,0,BW[0],WR_Z[1],'plan-zone','style="fill:var(--zone-bed)" data-view="bedroom"');
+  R(HALL_X,0,W,WE_Z[0],'plan-zone','style="fill:var(--zone-core)" data-view="entry"');
+  R(HALL_X,WE_Z[1],W,SH_N[2],'plan-zone','style="fill:var(--zone-kit)" data-view="kitchen"');
+  R(BW[1],0,HALL_X,WR_Z[1],'plan-zone','style="fill:var(--zone-core)" data-view="hall"');
+  R(0,WR_Z[1],HALL_X,D,'plan-zone','style="fill:var(--zone-live)" data-view="living"');
+  R(HALL_X,BATH_Z1,W,D,'plan-zone','style="fill:var(--zone-live)" data-view="desk"');
+  // shafts + bathroom
+  R(SH_N[0],SH_N[2],SH_N[1],BATH_Z0,'plan-dark'); R(SH_S[0],BATH_Z1,W,SH_S[1],'plan-dark');
+  R(BATH_X,BATH_Z0,W,BATH_Z1,'plan-fix'); Tx((BATH_X+W)/2,6.2,'KPH');
+  R(BATH_X-0.03,BDOOR[0],BATH_X,BDOOR[1],'plan-floor');
+  // bedroom wall + door
+  R(BW[0],0,BW[1],BEDDOOR[0],'plan-wall'); R(BW[0],BEDDOOR[1],BW[1],WR_Z[1],'plan-wall');
+  const swing = (hx, hz, a0, r, dir) => { const p = []; for(let k=0;k<=12;k++){ const a = a0 + dir*k*Math.PI/24; p.push(`${(hx+r*Math.cos(a)).toFixed(3)},${(hz+r*Math.sin(a)).toFixed(3)}`); }
+    s.push(`<polyline points="${hx},${hz} ${p.join(' ')}" class="plan-door" style="fill:none"/>`); };
+  swing(BW[0], BEDDOOR[1], -Math.PI/2, BEDDOOR[1]-BEDDOOR[0], -1);   // opens into the bedroom, hinged south
+  // bedroom wardrobes
+  R(WR_X[0],WR_Z[0],WR_X[1],WR_Z[1],'plan-solid');
+  for(let k=1;k<WR_N;k++){ const x = WR_X[0] + k*(WR_X[1]-WR_X[0])/WR_N; L(x,WR_Z[0],x,WR_Z[0]+(k%2 ? 0.1 : 0.6),'plan-door'); }
+  // coat wardrobes + kitchen
+  R(WE_X[0],WE_Z[0],WE_X[1],WE_Z[1],'plan-solid');
+  [BC_N, BC_S].forEach(([a,b]) => R(HALL_X,a,BATH_X,b,'plan-solid'));
+  R(BATH_X,BATH_Z1,SH_S[0],SH_S[1],'plan-thin'); Tx((BATH_X+SH_S[0])/2,SH_S[1]+0.22,'shelves','plan-ts');
+  for(let k=1;k<5;k++){ const x = WE_X[0] + k*(WE_X[1]-WE_X[0])/5; L(x,WE_Z[0],x,WE_Z[0]+0.1,'plan-door'); }
+  R(HALL_X,K_Z[0],KE,KN,'plan-fix'); R(HALL_X,KS,KE,K_Z[1],'plan-fix'); R(KE,K_Z[0],W,KN,'plan-dark'); R(KE,KS,W,K_Z[1],'plan-dark');
+  [[5.1,KN-0.42],[5.5,KN-0.42],[5.1,KN-0.2],[5.5,KN-0.2]].forEach(([x,z]) => C(x,z,.09,'plan-thin'));
+  R(5.2,KS+0.12,5.8,KS+0.5,'plan-thin');
+  Tx(KE+0.3,K_Z[0]+0.36,'fridge','plan-ts'); Tx(KE+0.3,K_Z[1]-0.24,'oven','plan-ts');
+  // bedroom
+  R(BED_C[0]-0.95,0.02,BED_C[0]+0.95,BED_C[1]+1.1,'plan-fix'); [0.03, BW[0]-0.43].forEach(x => R(x,0.02,x+0.4,0.42,'plan-thin'));
+  // labels
+  Tx(1.5,3.0,'BEDROOM'); Tx(1.5,3.22,'≈ 10 m²','plan-ts');
+  Tx(5.82,0.75,'ENTRY','plan-ts'); Tx(5.4,(KN+KS)/2+0.08,'KITCHEN','plan-ts');
+  Tx(3.9,2.0,'HALL','plan-ts'); Tx((BW[1]+HALL_X)/2,K_Z[0]+0.6,(HALL_X-BW[1]).toFixed(2),'plan-ts');
+  if(LIV_TV){ R(0,TVB_Z[0],TVB_D,TVB_Z[1],'plan-fix'); LIV_P.forEach(m => R(0,m.z[0],0.04,m.z[1],'plan-dark')); L(0.03,LIV_ZC-0.74,0.03,LIV_ZC+0.74,'plan-thin'); }
+  R(0.3,7.05,3.55,11.2,'plan-thin'); R(ISL.x[0],ISL.z[0],ISL.x[1],ISL.z[1],'plan-fix'); R(ISL.short.x,ISL.short.z,ISL.x[0],ISL.z[1],'plan-fix');
+  R(CT.x[0],CT.z[0],CT.x[1],CT.z[1],'plan-thin');
+  if(LIV_TV) Tx(0.55,LIV_ZC+0.05,'TV 65"','plan-ts','start'); Tx(2.7,9.5,'sofa','plan-ts'); Tx(2.0,6.8,'LOUNGE','plan-ts');
+  R(W-DESK_D,DESK_Z[0],W,DESK_Z[1],'plan-fix'); MESH_P.forEach(m => R(W-0.04,m.z[0],W,m.z[1],'plan-dark'));
+  Tx(W-DESK_D-0.08,MON_Z+0.05,'desk + mesh','plan-ts','end'); C(W-DESK_D-0.3,MON_Z,0.28,'plan-thin');
+  Tx(W+0.16,DOOR1+0.5,'entry','plan-ts','start');
+  L(0,-0.55,W,-0.55,'plan-thin'); Tx(W/2,-0.65,'6.90');
+  L(-0.55,0,-0.55,D,'plan-thin');
+  s.push(`<text x="-0.7" y="${D/2}" class="plan-t" text-anchor="middle" transform="rotate(-90 -0.7 ${D/2})">11.45</text>`);
+  return `<svg viewBox="-1 -1 8.9 13.2" role="img" aria-label="Floor plan of A33 version 14: coat wardrobes left of the front door with a galley kitchen behind them, a hall by the French balcony, the bedroom in the north-west corner behind a concrete wall and tall wardrobes, and the rest of the flat empty">${s.join('')}</svg>`;
+}
+document.getElementById('plan').innerHTML = planSVG();
+
+if(!window.THREE){ document.getElementById('loading').textContent = 'The 3D library could not load. Check your connection and reload.'; return; }
+
+/* ---------- Renderer / scene ---------- */
+const host = document.getElementById('viewer');
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true;
+renderer.xr.enabled = true; renderer.xr.setReferenceSpaceType('local-floor');
+host.prepend(renderer.domElement);
+document.getElementById('loading').remove();
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(55, 1, 0.05, 200);
+const rig = new THREE.Group(); rig.add(camera); scene.add(rig);   // in VR the headset moves the camera inside this rig; teleport moves the rig
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08;
+controls.minDistance = 0.3; controls.maxDistance = 45;
+
+/* ---------- Procedural textures ---------- */
+function rng(seed){ let r = seed; return () => (r = (r * 16807) % 2147483647) / 2147483647; }
+function woodTex(base, seed){
+  const c = document.createElement('canvas'); c.width = 256; c.height = 1024;
+  const g = c.getContext('2d'); g.fillStyle = base; g.fillRect(0,0,256,1024);
+  const rnd = rng(seed);
+  for(let i=0;i<260;i++){
+    const a = 0.03 + rnd()*0.11;
+    g.strokeStyle = rnd() < 0.62 ? `rgba(70,40,15,${a})` : `rgba(255,236,205,${a})`;
+    g.lineWidth = 0.5 + rnd()*2.4;
+    let x = rnd()*256; g.beginPath(); g.moveTo(x,0);
+    for(let y=0;y<=1024;y+=32){ x += (rnd()-0.5)*1.6; g.lineTo(x,y); }
+    g.stroke();
+  }
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 8; return t;
+}
+function noiseTex(base, seed, blot, specks){
+  const c = document.createElement('canvas'); c.width = c.height = 512;
+  const g = c.getContext('2d'); g.fillStyle = base; g.fillRect(0,0,512,512);
+  const rnd = rng(seed);
+  for(let i=0;i<180;i++){
+    const x = rnd()*512, y = rnd()*512, r = 20 + rnd()*90;
+    const gr = g.createRadialGradient(x,y,0,x,y,r);
+    gr.addColorStop(0, rnd() < 0.5 ? `rgba(60,60,55,${0.05*blot})` : `rgba(255,255,250,${0.06*blot})`);
+    gr.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = gr; g.fillRect(x-r,y-r,2*r,2*r);
+  }
+  for(let i=0;i<specks;i++){ g.fillStyle = `rgba(40,40,35,${rnd()*0.14})`; g.fillRect(rnd()*512, rnd()*512, 1.4, 1.4); }
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+}
+
+/* ---------- Materials ---------- */
+const M = (o) => new THREE.MeshStandardMaterial(o);
+const mat = {
+  wall:    M({map:noiseTex('#8e8c86', 7, 1.6, 2600), roughness:0.95}),
+  ceil:    M({map:noiseTex('#86847f', 11, 1.4, 2600), roughness:0.95}),
+  floor:   M({map:noiseTex('#86847e', 23, 0.9, 1800), roughness:0.42}),
+  terrazzo:M({map:noiseTex('#86847e', 41, 0.8, 6000), roughness:0.6}),
+  slabX:   M({map:noiseTex('#9e9d97', 5, 1, 1500), roughness:0.95}),
+  oak:     M({map:woodTex('#3e342b', 3), roughness:0.7}),    // dark neutral brown (the old TV-bench tone), used for all the wood
+  oakDark: M({map:woodTex('#1b1713', 9), roughness:0.8}),   // shadow joints
+  steel:   M({color:'#1c1c1d', roughness:0.45, metalness:0.6}),
+  black:   M({color:'#1f1f1f', roughness:0.35, metalness:0.2}),
+  plaster: M({map:noiseTex('#86847f', 13, 1.3, 2400), roughness:0.92}),   // new walls: concrete-look microcement to sit with the raw concrete
+  white:   M({color:'#f0f0ed', roughness:0.5}),
+  stone:   M({color:'#e6e1d7', roughness:0.35}),
+  travert: M({map:noiseTex('#e3dccd', 31, 0.9, 5000), roughness:0.45}),
+  leather: M({color:'#2d2b28', roughness:0.5}),
+  leather2:M({color:'#353230', roughness:0.55}),
+  fabric:  M({color:'#b7a48d', roughness:0.95}),
+  sage:    M({color:'#8f9283', roughness:0.95}),
+  linen:   M({color:'#e4d9c6', roughness:1, side:THREE.DoubleSide, transparent:true, opacity:0.9}),
+  bedding: M({color:'#eeebe4', roughness:1}),
+  throwM:  M({color:'#bcae98', roughness:1}),
+  rugOlive:M({map:noiseTex('#4d5233', 29, 0.7, 9000), roughness:1}),   // moss-green jute
+  rugJute: M({color:'#a5855a', roughness:1}),
+  glass:   M({color:'#cfe2e8', roughness:0.05, metalness:0.1, transparent:true, opacity:0.16, depthWrite:false}),
+  frost:   M({color:'#9fb0a6', roughness:0.25, transparent:true, opacity:0.8}),
+  frame:   M({color:'#f0f0ed', roughness:0.5}),
+  chrome:  M({color:'#d6d6d4', roughness:0.28, metalness:0.55}),   // no environment map, so full metalness would render black
+  duct:    M({color:'#9a9a96', roughness:0.5, metalness:0.7}),
+  green:   M({color:'#3e5a31', roughness:0.8}),
+  green2:  M({color:'#567343', roughness:0.8}),
+  pot:     M({color:'#d8d5ce', roughness:0.9, side:THREE.DoubleSide}),
+  potDark: M({color:'#2a2a28', roughness:0.8}),
+  shade:   M({color:'#f3f1ec', roughness:0.9, side:THREE.DoubleSide}),
+  bulb:    M({color:'#fff6e0', emissive:'#fff1cf', emissiveIntensity:0.0}),
+  screen:  M({color:'#0d0f12', roughness:0.2, emissive:'#1b2633', emissiveIntensity:0.0}),
+  ground:  M({color:'#8f928a', roughness:1}),
+  sofa:    M({map:noiseTex('#4a4741', 17, 0.8, 5000), roughness:1}),   // heavy charcoal-taupe wool
+  cognac:  M({color:'#6e4127', roughness:0.55}),
+  rugDark: M({map:noiseTex('#33322f', 37, 0.8, 7000), roughness:1}),
+boucle:  M({color:'#a99d88', roughness:1}),
+sofaSoft:M({color:'#4f4b45', roughness:0.95}),
+cord:    M({color:'#4e5a41', roughness:0.92}),   // Blok's green corduroy
+cordDark:M({color:'#3d4734', roughness:0.95}),   // its seat bases, a shade darker
+  art:     M({color:'#2c2e2b', roughness:0.9}),
+  artLine: M({color:'#e8e4da', roughness:0.9}),
+  book1:   M({color:'#e9e5dc', roughness:0.9}),
+  hob:     M({color:'#0b0b0b', roughness:0.1}),
+  sink:    M({color:'#8d8d8b', roughness:0.3, metalness:0.8}),
+  ovenGl:  M({color:'#060606', roughness:0.1, metalness:0.3}),
+  kitchen: M({color:'#363636', roughness:0.6}),                           // matt anthracite kitchen: fronts, tall units, wall units
+  kitPlinth:M({color:'#161616', roughness:0.6}),
+  kitTop:  M({color:'#2c2c2c', roughness:0.4}),                           // satin dark-grey worktop + splashback
+  kitJoint:M({color:'#5e5e5e', roughness:0.6}),                           // front joints, a touch lighter so the doors read
+  paint:   M({color:'#e4e3df', roughness:0.9}),                            // the bathroom box, white as delivered
+};
+
+// hex colours are sRGB: convert the flat-colour materials so dark leather, black steel etc. render as dark as specified (textures are already sRGB)
+Object.values(mat).forEach(m => { if(!m.map) m.color.convertSRGBToLinear(); });
+
+/* ---------- Helpers ---------- */
+function B(x0,x1,y0,y1,z0,z1,m,parent,opt){
+  const o = opt || {};
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(x1-x0, y1-y0, z1-z0), m);
+  mesh.position.set((x0+x1)/2, (y0+y1)/2, (z0+z1)/2);
+  mesh.castShadow = o.cast !== false; mesh.receiveShadow = true;
+  (parent || scene).add(mesh); return mesh;
+}
+function cyl(r0,r1,h,m,x,y,z,parent,seg){
+  const mesh = new THREE.Mesh(new THREE.CylinderGeometry(r0,r1,h,seg||24), m);
+  mesh.position.set(x,y,z); mesh.castShadow = true; mesh.receiveShadow = true;
+  (parent || scene).add(mesh); return mesh;
+}
+const UP = new THREE.Vector3(0,1,0);
+function rod(a,b,r,m,parent){
+  const v = new THREE.Vector3().subVectors(b,a); const len = v.length();
+  const mesh = new THREE.Mesh(new THREE.CylinderGeometry(r,r,len,10), m);
+  mesh.position.copy(a).addScaledVector(v,0.5);
+  mesh.quaternion.setFromUnitVectors(UP, v.normalize());
+  mesh.castShadow = true; (parent || scene).add(mesh); return mesh;
+}
+function group(parent){ const g = new THREE.Group(); (parent || scene).add(g); return g; }
+function place(g,x,z,rot,y){ g.position.set(x, y||0, z); g.rotation.y = rot||0; return g; }
+const V = (x,y,z) => new THREE.Vector3(x,y,z);
+
+
+
+/* ---------- Shell (as built) ---------- */
+const walls = {N:group(), S:group(), E:group(), W:group()};
+const ceiling = group();
+const parvi = group();
+const lamps = [];
+
+B(-T, W+T, -0.3, 0, -T, D+T, mat.floor);
+B(-30, 40, -20.6, -20.4, -30, 45, mat.ground, scene, {cast:false});
+B(-T, W+T, H, H+0.25, -T, D+T, mat.ceil, ceiling);
+B(-T, 0, 0, H, -T, D+T, mat.wall, walls.W);
+B(W, W+T, 0, H, -T, DOOR0, mat.wall, walls.E);
+B(W, W+T, 2.1, H, DOOR0, DOOR1, mat.wall, walls.E);
+B(W, W+T, 0, H, DOOR1, D+T, mat.wall, walls.E);
+B(W+0.08, W+0.13, 0, 2.08, DOOR0+0.02, DOOR1-0.02, mat.oak, walls.E);
+B(W+0.04, W+0.08, 1.02, 1.05, DOOR1-0.2, DOOR1-0.08, mat.chrome, walls.E);
+
+function wallAlongX(z0, z1, openings, g){
+  let cur = -T;
+  openings.forEach(o => {
+    if(o.a0 > cur) B(cur, o.a0, 0, H, z0, z1, mat.wall, g);
+    if(o.y0 > 0) B(o.a0, o.a1, 0, o.y0, z0, z1, mat.wall, g);
+    if(o.y1 < H) B(o.a0, o.a1, o.y1, H, z0, z1, mat.wall, g);
+    cur = o.a1;
+  });
+  if(cur < W+T) B(cur, W+T, 0, H, z0, z1, mat.wall, g);
+}
+function glazing(a0,a1,y0,y1,zc,cols,transom,g){
+  const f = 0.055, d = 0.07;
+  B(a0,a1,y0,y0+f,zc-d/2,zc+d/2,mat.frame,g); B(a0,a1,y1-f,y1,zc-d/2,zc+d/2,mat.frame,g);
+  for(let i=0;i<=cols;i++){ const x = a0 + (a1-a0)*i/cols; B(x-f/2,x+f/2,y0,y1,zc-d/2,zc+d/2,mat.frame,g); }
+  if(transom) B(a0,a1,transom-f/2,transom+f/2,zc-d/2,zc+d/2,mat.frame,g);
+  B(a0,a1,y0,y1,zc-0.005,zc+0.005,mat.glass,g,{cast:false});
+}
+const northWin = [{a0:0.89,a1:1.97,y0:0.7,y1:3.3},{a0:3.1,a1:4.05,y0:0.0,y1:3.3},{a0:5.2,a1:6.16,y0:0.7,y1:3.3}];
+wallAlongX(-T, 0, northWin, walls.N);
+northWin.forEach(o => { glazing(o.a0,o.a1,o.y0,o.y1,-T/2,2,2.5,walls.N); B(o.a0,o.a1,1.05,1.08,-T-0.12,-T-0.08,mat.steel,walls.N); });
+wallAlongX(D, D+T, [{a0:0.83,a1:6.01,y0:0,y1:3.3}], walls.S);
+glazing(0.83,3.05,0,3.3,D+T/2,3,2.4,walls.S);
+glazing(3.05,3.86,0,3.3,D+T/2,1,2.3,walls.S);
+glazing(3.86,6.01,0,3.3,D+T/2,3,2.4,walls.S);
+B(0.8,6.4,-0.22,0,D+T,D+1.85,mat.slabX);
+B(0.8,6.4,0.05,1.1,D+1.81,D+1.83,mat.glass,scene,{cast:false});
+B(0.8,6.4,1.1,1.14,D+1.79,D+1.85,mat.steel);
+rod(V(W-0.32,3.7,0.05), V(W-0.32,3.7,SH_N[2]), 0.15, mat.duct, ceiling);   // existing duct over the entrance
+[[5.8,1.0],[3.9,2.0],[3.4,7.5]].forEach(([x,z]) => cyl(0.05,0.05,0.03,mat.bulb,x,(x > HALL_X && z > 0.3 && z < SH_N[2]) ? LID_Y : H-0.015,z,ceiling));   // spots in the lid; none over the lounge
+
+/* ---------- Bathroom + shafts (as built) ---------- */
+B(BATH_X, W, 0, H, BATH_Z0, BATH_Z1, mat.paint);
+// bathroom door: the delivered white flush door in a white frame (karmi + listat), lever handle
+const BF = 0.05;                                                   // frame face width
+B(BATH_X-0.015, BATH_X, 0, 2.1+BF, BDOOR[0]-BF, BDOOR[0]+0.01, mat.paint);   // jambs + head, standing 15 mm proud of the wall
+B(BATH_X-0.015, BATH_X, 0, 2.1+BF, BDOOR[1]-0.01, BDOOR[1]+BF, mat.paint);
+B(BATH_X-0.015, BATH_X, 2.09, 2.1+BF, BDOOR[0]-BF, BDOOR[1]+BF, mat.paint);
+B(BATH_X-0.008, BATH_X+0.03, 0.01, 2.09, BDOOR[0]+0.01, BDOOR[1]-0.01, mat.paint);   // leaf, a touch behind the frame face
+{ const gm = M({color:'#77756f', roughness:0.9}), NCg = {cast:false};        // 3 mm shadow gaps round the leaf and at the frame's outer edge
+  [BDOOR[0]+0.01, BDOOR[1]-0.013].forEach(z => B(BATH_X-0.0165, BATH_X-0.007, 0.01, 2.093, z, z+0.003, gm, scene, NCg));
+  B(BATH_X-0.0165, BATH_X-0.007, 2.09, 2.093, BDOOR[0]+0.01, BDOOR[1]-0.01, gm, scene, NCg);
+  [BDOOR[0]-BF-0.002, BDOOR[1]+BF-0.001].forEach(z => B(BATH_X-0.016, BATH_X-0.001, 0, 2.1+BF, z, z+0.003, gm, scene, NCg));
+  B(BATH_X-0.016, BATH_X-0.001, 2.1+BF-0.001, 2.1+BF+0.002, BDOOR[0]-BF, BDOOR[1]+BF, gm, scene, NCg); }
+B(BATH_X-0.06, BATH_X-0.008, 1.0, 1.02, BDOOR[0]+0.05, BDOOR[0]+0.06, mat.chrome);
+B(BATH_X-0.075, BATH_X-0.06, 1.0, 1.02, BDOOR[0]+0.05, BDOOR[0]+0.18, mat.chrome);
+B(SH_N[0], SH_N[1], 0, H, SH_N[2], BATH_Z0, mat.wall);
+B(SH_S[0], W, 0, H, BATH_Z1, SH_S[1], mat.wall);
+
+/* ---------- New concrete wall: bedroom | hall, with a flush door (as in A21 /9) ---------- */
+B(BW[0], BW[1], 0, H, 0, BEDDOOR[0], mat.wall);
+B(BW[0], BW[1], 0, H, BEDDOOR[1], WR_Z[1], mat.wall);      // runs on to be flush with the wardrobes' back
+B(BW[0], BW[1], DOOR_H, H, BEDDOOR[0], BEDDOOR[1], mat.wall);
+function hinged(px, pz, parent){ const g = group(parent); g.position.set(px, 0, pz); return g; }
+// concrete-finish leaf flush with the hall face, opens INTO the bedroom, hinged at its south end, so open it folds back across the
+// wardrobes' east section (accepted: those two doors are used with the bedroom door shut). Touch latch outside, lever on the bedroom side only.
+const BD_W = BEDDOOR[1]-BEDDOOR[0];
+const bdoor = hinged(BW[1]-0.045, BEDDOOR[1]);
+B(0, 0.045, 0.012, DOOR_H-0.003, -BD_W+0.003, -0.003, mat.wall, bdoor);
+B(-0.05, 0, 1.0, 1.02, -BD_W+0.06, -BD_W+0.18, mat.black, bdoor);
+let bdTarget = 0, bdNow = 0;
+
+/* ---------- Bedroom wardrobes: the bedroom's south wall, 3.4 m tall; all six doors open into the bedroom ---------- */
+// built as in A21 /9 inside a mirrored group, so the shelf section lands at the door end (east)
+const cloth = [mat.bedding, mat.leather2, mat.sage, mat.fabric, mat.art, mat.throwM, mat.white];
+const wrDoors = [];
+const WRG = group(); WRG.scale.x = -1; WRG.position.x = WR_X[0] + WR_X[1];
+(function(){
+  const P = WRG, BB = (x0,x1,y0,y1,z0,z1,m,o) => B(x0,x1,y0,y1,z0,z1,m,P,o);
+  const [x0, x1] = WR_X, [z0, z1] = WR_Z, n = WR_N, w = (x1-x0)/n, LT = 0.02, G = 0.0015, NCs = {cast:false};
+  const inner = M({map:woodTex('#2b241e', 17), roughness:0.75});
+  BB(x0, x1, 0, 0.06, z0+0.04, z1-0.02, mat.black);
+  const xS = x0 + (x1-x0)/3;
+  BB(x0, x1, 0.06, WR_H, z1-0.02, z1, mat.oak);             // closed oak back towards the living room
+  BB(x0, x0+0.02, 0.06, WR_H, z0+LT, z1-0.02, inner); BB(x1-0.02, x1, 0.06, WR_H, z0+LT, z1-0.02, inner);
+  BB(x0, x1, 0.06, 0.08, z0+LT, z1-0.02, inner); BB(x0, x1, WR_H-0.02, WR_H, z0, z1-0.02, mat.oak);
+  BB(x0, x1, DOOR_H-0.02, DOOR_H, z0+LT, z1-0.02, inner);
+  for(let k=1;k<3;k++){ const x = x0 + k*(x1-x0)/3; BB(x-0.01, x+0.01, 0.08, DOOR_H-0.02, z0+LT, z1-0.02, inner); }
+  BB(x0+0.01, x1-0.01, DOOR_H-G, DOOR_H+G, z1, z1+0.002, mat.oakDark, NCs);
+  [1,2].forEach(k => { const x = x0 + k*(x1-x0)/3; BB(x-G, x+G, 0.07, WR_H-0.01, z1, z1+0.002, mat.oakDark, NCs); });
+  const sA = x0+0.02, s1 = x0+(x1-x0)/3-0.01, s2 = x0+2*(x1-x0)/3-0.01, sB = x1-0.02, c = (z0+z1)/2;
+  function hang(a, b, y, len, k){
+    rod(V(a, y, c), V(b, y, c), 0.012, mat.chrome, P);
+    const m = Math.round((b-a)/0.07);
+    for(let i=0;i<m;i++){ const x = a + (i+0.5)*(b-a)/m, drop = len*(0.7+0.3*((i*5+k)%7)/6);
+      BB(x-0.018, x+0.018, y-0.04-drop, y-0.04, c-0.23, c+0.23, cloth[(i*3+k)%7]); }
+  }
+  // east third (mirrored: local west): shelves over a low drawer unit
+  BB(sA, s1, 0.08, 0.7, z0+0.06, z1-0.02, mat.oak);
+  for(let k=1;k<3;k++) BB(sA+0.01, s1-0.01, 0.08+k*0.207-G, 0.08+k*0.207+G, z0+0.058, z0+0.06, mat.oakDark, NCs);
+  [1.05, 1.4, 1.75].forEach((y, k) => { BB(sA, s1, y-0.02, y, z0+0.04, z1-0.02, inner);
+    for(let x = sA+0.05; x < s1-0.17; x += 0.21) BB(x, x+0.17, y, y+0.1+((x*9+k)%3)*0.03, z0+0.1, z1-0.06, cloth[(Math.round(x*7)+k+3)%7]); });
+  hang(s1+0.05, s2-0.03, 1.9, 0.75, 2); hang(s1+0.05, s2-0.03, 0.98, 0.65, 4);
+  BB(s2+0.02, sB, 0.08, 0.86, z0+0.06, z1-0.02, mat.oak);
+  for(let k=1;k<4;k++) BB(s2+0.03, sB-0.01, 0.08+k*0.195-G, 0.08+k*0.195+G, z0+0.058, z0+0.06, mat.oakDark, NCs);
+  [1.2, 1.55, 1.9].forEach((y, k) => { BB(s2+0.02, sB, y-0.02, y, z0+0.04, z1-0.02, inner);
+    for(let x = s2+0.06; x < sB-0.16; x += 0.2) BB(x, x+0.16, y, y+0.08+((x*7+k)%3)*0.03, z0+0.1, z1-0.06, cloth[(Math.round(x*5)+k)%7]); });
+  BB(sA+0.1, sB-0.1, DOOR_H-0.06, DOOR_H-0.05, z0+0.06, z0+0.08, mat.bulb, NCs);
+  for(let i=0;i<n;i++){ const a = x0+i*w; BB(a+G, a+w-G, DOOR_H+G, WR_H-0.02-G, z0, z0+LT, mat.oak); }
+  for(let i=0;i<n;i++){
+    const left = i % 2 === 0, hx = left ? x0+i*w : x0+(i+1)*w, sg = left ? 1 : -1, south = false, f = 1;
+    const g = group(P); g.position.set(hx, 0, south ? z1-LT : z0+LT);
+    B(sg>0 ? G : -w+G, sg>0 ? w-G : -G, 0.08+G, DOOR_H-G, south ? 0 : -LT, south ? LT : 0, mat.oak, g);
+    const px = sg * (w - 0.05), zp = south ? LT : -LT;
+    B(px-0.008, px+0.008, 0.95, 1.4, Math.min(zp-f*0.03, zp-f*0.015), Math.max(zp-f*0.03, zp-f*0.015), mat.black, g);
+    [1.0, 1.35].forEach(y => B(px-0.006, px+0.006, y-0.006, y+0.006, Math.min(zp, zp+f*-0.015), Math.max(zp, zp+f*-0.015), mat.black, g));
+    wrDoors.push({g, sg: sg * f});
+  }
+})();
+let wrTarget = 0, wrNow = 0;
+
+/* ---------- Coat wardrobes, immediately left of the front door: 2.7 m, out to the hall's front line, 3.42 m tall ---------- */
+(function(){
+  const [x0, x1] = WE_X, [z0, z1] = WE_Z, n = 5;
+  B(x0, x1, 0, 0.08, z0+0.03, z1, mat.black);
+  B(x0, x1, 0.08, WARD_TOP, z0, z1, mat.oak);
+  B(x0, x1, WARD_TOP, WARD_TOP+0.03, z0, z1, mat.black);
+  for(let k=1;k<n;k++){ const x = x0 + k*(x1-x0)/n; B(x-0.003, x+0.003, 0.09, WARD_TOP-0.01, z0-0.003, z0, mat.oakDark, scene, {cast:false}); }
+  for(let k=0;k<n;k++){ const x = x0 + (k + (k%2 ? 0.1 : 0.9))*(x1-x0)/n; B(x-0.008, x+0.008, 0.95, 1.4, z0-0.03, z0-0.015, mat.black); }   // bar pulls
+  B(x0-0.003, x0, 0.08, WARD_TOP, z0, z1, mat.oak);             // west end panel
+})();
+/* ---------- Cabinets on the bathroom wall, either side of its door, same front line and height as the coat wardrobes ---------- */
+// 55 cm deep (to the hall's front line). The south block runs on to the south shaft's face; the 95 x 30 cm gap
+// between it and the grey shaft, south of the bathroom box, is open shelving facing the living area.
+[[BC_N, 3], [BC_S, 2]].forEach(([[z0, z1], n]) => {
+  const x0 = HALL_X, x1 = BATH_X, NC = {cast:false};
+  B(x0+0.03, x1, 0, 0.08, z0, z1, mat.black);
+  B(x0, x1, 0.08, WARD_TOP, z0, z1, mat.oak);
+  B(x0, x1, WARD_TOP, WARD_TOP+0.03, z0, z1, mat.black);
+  for(let k=1;k<n;k++){ const z = z0 + k*(z1-z0)/n; B(x0-0.003, x0, 0.09, WARD_TOP-0.01, z-0.003, z+0.003, mat.oakDark, scene, NC); }
+  for(let k=0;k<n;k++){ const z = z0 + (k + (k%2 ? 0.1 : 0.9))*(z1-z0)/n; B(x0-0.03, x0-0.015, 0.95, 1.4, z-0.008, z+0.008, mat.black); }   // bar pulls
+});
+(function(){
+  const x0 = BATH_X, x1 = SH_S[0], z0 = BATH_Z1, z1 = SH_S[1]-0.01;
+  B(x0, x1, 0, 0.08, z0, z1-0.03, mat.black);
+  [0.08, 0.5, 0.92, 1.34, 1.76, 2.18, WARD_TOP-0.03].forEach(y => B(x0, x1, y, y+0.03, z0, z1, mat.oak));
+  B(x0, x1, WARD_TOP, WARD_TOP+0.03, z0, z1, mat.black);
+  // a few things, kept sparse
+  for(let i=0;i<7;i++) B(x0+0.06+i*0.032, x0+0.09+i*0.032, 0.95, 0.95+0.2+(i%3)*0.03, z0+0.04, z1-0.04, [mat.book1, mat.art, mat.leather2][i%3]);
+  cyl(0.09, 0.07, 0.16, mat.potDark, x1-0.2, 1.45, (z0+z1)/2);
+  B(x0+0.1, x0+0.5, 0.11, 0.4, z0+0.03, z1-0.02, mat.rugJute);    // jute basket on the bottom shelf
+  for(let i=0;i<10;i++) B(x0+0.5+i*0.03, x0+0.528+i*0.03, 1.79, 1.79+0.22+(i%4)*0.02, z0+0.05, z1-0.04, [mat.art, mat.book1, mat.leather][i%3]);
+})();
+/* ================= Reusable parts =================
+   Everything below builds in a WALL FRAME: local x runs along the wall, y is up, z comes out of the wall into the room
+   (z = 0 is the wall face). wallFrame(face) gives that frame for the N / E / S / W wall; frame.u(c) turns a world
+   coordinate along the wall (x for N/S, z for E/W) into local x. So a part is written once and goes on any wall.
+     meshSheet({face, at:[a, b], y:[y0, y1] | stock:[W, H], centre:[u, y], max:[w, h], cell, wire, angle, gap, edges, glowFloor})
+                                                     welded mesh cut from a stock sheet, framed, LED strip round it, backlit in the evening
+     meshCut(stock, angle, {maxW, maxH | w | h}) -> [w, h]   the biggest square-to-the-room piece a turned stock sheet gives
+     workDesk(frame, {at:[a, b], depth, top, pedestals})                           wall-fixed top with drawer pedestals
+     curvedMonitor(parent, u, z, y)  printer3D(parent, u, z, y)  taskChair(parent, u, z, rot)   (local coords; rot 0 faces the wall)
+*/
+function wallFrame(face, plane){
+  const g = group(), f = {N:[0, 0, 0, 1], S:[0, D, Math.PI, -1], E:[W, 0, -Math.PI/2, 1], W:[0, 0, Math.PI/2, -1]}[face];
+  if(face === 'N' || face === 'S'){ g.position.set(0, 0, plane ?? f[1]); } else { g.position.set(plane ?? f[0], 0, 0); }
+  g.rotation.y = f[2];
+  return {g, face, u: c => f[3]*c};
+}
+const meshMat = M({color:'#121212', roughness:0.55, metalness:0.35});
+const meshSheets = [];
+// Cutting a framed piece out of a stock mesh sheet whose grid is turned by `angle`: the piece (w x h, square to the room) has
+// to lie inside the turned stock sheet (W x H), i.e.  w·cos + h·sin <= W  and  w·sin + h·cos <= H.
+function meshFits(stock, angle, w, h){
+  const c = Math.abs(Math.cos(angle)), s = Math.abs(Math.sin(angle));
+  return w*c + h*s <= stock[0] + 1e-9 && w*s + h*c <= stock[1] + 1e-9;
+}
+// The biggest piece (by area) a stock sheet gives at that angle, optionally capped: {maxW, maxH}, or a fixed {w} or {h}.
+// Returns [w, h] in metres, rounded down to whole millimetres. meshCut([1.5, 3.0], 5°, {maxH: 2.65}) -> [1.274, 2.65]
+function meshCut(stock, angle, o = {}){
+  const c = Math.abs(Math.cos(angle)), s = Math.abs(Math.sin(angle)), [SW, SH] = stock;
+  const hFor = w => Math.min(o.h ?? Infinity, o.maxH ?? Infinity, s > 1e-9 ? (SW - w*c)/s : Infinity, c > 1e-9 ? (SH - w*s)/c : Infinity);
+  let best = [0, 0];
+  for(let mm = 1; mm <= Math.round(Math.max(SW, SH)*1000); mm++){
+    const w = o.w ?? mm/1000; if(w > (o.maxW ?? Infinity) + 1e-9) break;
+    const h = Math.floor(hFor(w)*1000)/1000;
+    if(h > 0 && meshFits(stock, angle, w, h) && w*h > best[0]*best[1]) best = [w, h];
+    if(o.w !== undefined) break;
+  }
+  return best;
+}
+// Matt-black welded steel mesh (default: 50 mm squares, 4 mm wire) standing `gap` off the wall on hidden spacers, in a 30 mm
+// Size it either by hand (at + y), or from a stock sheet: {stock:[W, H], centre:[u, y], max:[w, h]} cuts the biggest piece that
+// stock gives at `angle` and centres it there; with at + y and a stock it just warns (console) when the piece can't be cut.
+// angle frame whose return hides an LED strip running right round it (edges: 'all' by default, or 'tb' for top + bottom only).
+// `angle` turns the grid inside the square frame.
+function meshSheet(o){
+  const F = wallFrame(o.face, o.plane), cell = o.cell || 0.05, d = o.wire || 0.004, gap = o.gap ?? 0.025, ang = o.angle || 0;
+  let ua, ub, y0, y1;
+  if(o.at){ ua = Math.min(F.u(o.at[0]), F.u(o.at[1])); ub = Math.max(F.u(o.at[0]), F.u(o.at[1])); [y0, y1] = o.y; }
+  else { const [w, h] = meshCut(o.stock, ang, {maxW: o.max?.[0], maxH: o.max?.[1]}), uc = F.u(o.centre[0]);
+    ua = uc - w/2; ub = uc + w/2; y0 = o.centre[1] - h/2; y1 = o.centre[1] + h/2; }
+  if(o.stock && !meshFits(o.stock, ang, ub-ua, y1-y0)) console.warn(`meshSheet: ${(ub-ua).toFixed(3)} x ${(y1-y0).toFixed(3)} m can't be cut from a ${o.stock.join(' x ')} m sheet at ${(ang*180/Math.PI).toFixed(1)}°`);
+  const ca = Math.cos(ang), sa = Math.sin(ang), geo = new THREE.BoxGeometry(1, 1, 1);
+  // the grid runs through the stock sheet's corner (its edge wire), the piece cut from the middle of the sheet; without a stock, through the piece's corner
+  const st = o.stock || [ub-ua, y1-y0], uM = (ua+ub)/2, yM = (y0+y1)/2;
+  const pu0 = uM - (st[0]/2)*ca - (st[1]/2)*sa, py0 = yM + (st[0]/2)*sa - (st[1]/2)*ca;
+  function clip(pu, py, du, dy){                                   // the line p + t*dir inside the sheet: [t0, t1] or null
+    let t0 = -1e9, t1 = 1e9;
+    for(const [q, dv, lo, hi] of [[pu, du, ua, ub], [py, dy, y0, y1]]){
+      if(Math.abs(dv) < 1e-9){ if(q < lo-1e-6 || q > hi+1e-6) return null; continue; }
+      let a = (lo-1e-6-q)/dv, b = (hi+1e-6-q)/dv; if(a > b) [a, b] = [b, a];
+      t0 = Math.max(t0, a); t1 = Math.min(t1, b);
+    }
+    return t1 > t0 + 0.01 ? [t0, t1] : null;
+  }
+  function bar(pu, py, du, dy, z){
+    const t = clip(pu, py, du, dy); if(!t) return;
+    const m = new THREE.Mesh(geo, meshMat); m.scale.set(d, t[1]-t[0], d);
+    m.position.set(pu + du*(t[0]+t[1])/2, py + dy*(t[0]+t[1])/2, z); m.rotation.z = -Math.atan2(du, dy);
+    m.castShadow = true; m.receiveShadow = true; F.g.add(m);
+  }
+  const K = Math.ceil((Math.hypot(ub-ua, y1-y0) + Math.hypot(st[0], st[1]))/cell) + 1;
+  for(let k=-K;k<=K;k++){
+    bar(pu0 + k*cell*ca, py0 - k*cell*sa, sa, ca, gap + d/2);         // "verticals", wall side
+    bar(pu0 + k*cell*sa, py0 + k*cell*ca, ca, -sa, gap + 1.5*d);      // "horizontals", welded on in front
+  }
+  const fz0 = 0.004, fz1 = gap + 2*d + 0.004, BB = (a,b,c,e) => B(a, b, c, e, fz0, fz1, meshMat, F.g);
+  BB(ua-0.015, ub+0.015, y1, y1+0.03); BB(ua-0.015, ub+0.015, y0-0.03, y0);
+  BB(ua-0.03, ua-0.015, y0-0.03, y1+0.03); BB(ub+0.015, ub+0.03, y0-0.03, y1+0.03);
+  const sh = {F, ua, ub, y0, y1, cell, ang, wire: d, pu0, py0, glowFloor: o.glowFloor ?? 0, sides: (o.edges || 'all') === 'all'};
+  meshSheets.push(sh); return sh;
+}
+// the evening glow behind one sheet: an additive layer on the wall (the strip round the frame, with the mesh's soft shadow
+// lines painted in), the strips themselves, and a soft area light spilling into the room. Called by the 'mesh' element.
+function meshGlow(sh, g){
+  const {ua, ub, y0, y1, cell, ang} = sh, pad = 0.35, PX = 200;
+  const U0 = ua-pad, U1 = ub+pad, Y0 = Math.max(sh.glowFloor, y0-pad), Y1 = Math.min(H, y1+pad);
+  const cw = Math.round((U1-U0)*PX), ch = Math.round((Y1-Y0)*PX), cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
+  const cx = cv.getContext('2d'), img = cx.createImageData(cw, ch), dd = img.data, ca = Math.cos(ang), sa = Math.sin(ang);
+  const near = (v, step) => { const k = Math.abs(((v % step) + step) % step); return Math.min(k, step-k); };
+  for(let py=0; py<ch; py++){
+    const y = Y1 - (py+0.5)/PX;
+    const iy = 0.95*Math.exp(-Math.abs(y1 - y)/0.55) + 0.75*Math.exp(-Math.abs(y - y0)/0.45);   // top + bottom strips
+    const fy = y > y1 ? Math.exp(-(y-y1)/0.12) : y < y0 ? Math.exp(-(y0-y)/0.1) : 1;
+    for(let px=0; px<cw; px++){
+      const u = U0 + (px+0.5)/PX;
+      const iu = sh.sides ? 0.7*(Math.exp(-Math.abs(u - ua)/0.4) + Math.exp(-Math.abs(ub - u)/0.4)) : 0;   // side strips
+      const fu = u < ua ? Math.exp(-(ua-u)/0.1) : u > ub ? Math.exp(-(u-ub)/0.1) : 1;
+      let i = (iy + iu + 0.16) * fy * fu;
+      if(u > ua && u < ub && y > y0 && y < y1){                    // grazing light: each wire's line pushed away from the nearer strip
+        const shf = y > (y0+y1)/2 ? -0.01 : 0.01, shu = sh.sides ? (u > (ua+ub)/2 ? -0.01 : 0.01) : 0, a = u - sh.pu0 + shu, b = y - sh.py0;
+        const lv = near(a*ca - b*sa, cell), lh = near(a*sa + b*ca + shf, cell);
+        i *= 0.35 + 0.65*Math.min(Math.min(1, lv/sh.wire), Math.min(1, lh/(sh.wire*1.25)));
+      }
+      const k = (py*cw + px)*4, v = Math.min(1, i*0.85);
+      dd[k] = 255*v; dd[k+1] = 196*v; dd[k+2] = 128*v; dd[k+3] = 255;
+    }
+  }
+  cx.putImageData(img, 0, 0);
+  const tex = new THREE.CanvasTexture(cv); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 4;
+  const glow = new THREE.Mesh(new THREE.PlaneGeometry(U1-U0, Y1-Y0),
+    new THREE.MeshBasicMaterial({map:tex, transparent:true, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false}));
+  glow.position.set((U0+U1)/2, (Y0+Y1)/2, 0.002); g.add(glow);
+  [y1+0.012, y0-0.012].forEach(y => B(ua, ub, y-0.004, y+0.004, 0.008, 0.02, ledMat, g, {cast:false}));
+  if(sh.sides) [ua-0.012, ub+0.012].forEach(u => B(u-0.004, u+0.004, y0, y1, 0.008, 0.02, ledMat, g, {cast:false}));
+  const l = new THREE.RectAreaLight('#ffc98a', 1.7, ub-ua, y1-y0);   // emits along its -z: turn it to face the room
+  l.position.set((ua+ub)/2, (y0+y1)/2, 0.03); l.rotation.y = Math.PI; g.add(l);
+}
+// wall-fixed desk top with drawer pedestals; pedestals: [{at:[a, b], joints:[y...], cupboard:true}] (world coords along the wall)
+function workDesk(F, o){
+  const [ua, ub] = [F.u(o.at[0]), F.u(o.at[1])].sort((p, q) => p-q), dp = o.depth, top = o.top, G = 0.0015, NC = {cast:false}, P = F.g;
+  B(ua, ub, top-0.04, top, 0, dp, mat.oak, P); B(ua, ub, top-0.04, top, dp, dp+0.002, mat.oakDark, P, NC);
+  (o.pedestals || []).forEach(pd => {
+    const [a, b] = [F.u(pd.at[0]), F.u(pd.at[1])].sort((p, q) => p-q), fr = dp-0.02;
+    B(a+0.02, b-0.02, 0, 0.08, 0, dp-0.06, mat.black, P);
+    B(a, b, 0.08, top-0.045, 0, fr, mat.oak, P);
+    pd.joints.forEach(y => B(a+0.01, b-0.01, y-G, y+G, fr, fr+0.002, mat.oakDark, P, NC));
+    pd.joints.concat([top-0.045]).forEach((y, i, arr) => { if(y - (i ? arr[i-1] : 0.08) > 0.25) return;      // grip rails on drawers
+      B((a+b)/2-0.12, (a+b)/2+0.12, y-0.035, y-0.025, fr+0.002, fr+0.018, mat.black, P); });
+    if(pd.cupboard) B(b-0.2, b-0.04, 0.36, 0.40, fr+0.002, fr+0.018, mat.black, P);
+  });
+}
+// 57" 32:9 curved screen (1000R, 1.39 m arc) on a centre stand; u = its centre along the wall, z = distance of the screen centre from the wall
+function curvedMonitor(P, u, z, y){
+  const Rm = 1.0, arc = 1.39, hS = 0.40, yS = y + 0.13, n = 18;
+  for(let i=0;i<n;i++){
+    const a0 = -arc/2/Rm + i*arc/Rm/n, a1 = a0 + arc/Rm/n, am = (a0+a1)/2, w = 2*Rm*Math.sin((a1-a0)/2);
+    const g = group(P); g.position.set(u + Rm*Math.sin(am), 0, z + Rm - Rm*Math.cos(am)); g.rotation.y = -am;
+    B(-w/2-0.001, w/2+0.001, yS-0.012, yS+hS+0.012, -0.025, 0, mat.black, g);       // shell
+    B(-w/2, w/2, yS, yS+hS, 0, 0.002, mat.screen, g, {cast:false});                 // panel, faces the room
+  }
+  B(u-0.05, u+0.05, y, yS+0.12, z-0.07, z-0.03, mat.steel, P);                      // neck
+  B(u-0.17, u+0.17, y, y+0.015, z-0.12, z+0.12, mat.steel, P);                      // foot
+}
+// enclosed 3D printer (~39 cm cube): black frame, smoked glass, build plate, gantry and toolhead; filament spool beside it
+function printer3D(P, u, z, y){
+  const ps = 0.39, ph = 0.46, NC = {cast:false};
+  const smoke = M({color:'#2b2b2b', roughness:0.05, transparent:true, opacity:0.45, depthWrite:false});
+  const BX = (a,b,c,e,f,g2,m,opt) => B(u+a, u+b, y+c, y+e, z+f, z+g2, m, P, opt);
+  BX(-ps/2, ps/2, 0, 0.06, -ps/2, ps/2, mat.black); BX(-ps/2, ps/2, ph-0.03, ph, -ps/2, ps/2, mat.black);
+  [[-1,-1],[-1,1],[1,-1],[1,1]].forEach(([a,b]) => BX(a*ps/2-(a>0?0.02:0), a*ps/2+(a<0?0.02:0), 0.06, ph-0.03, b*ps/2-(b>0?0.02:0), b*ps/2+(b<0?0.02:0), mat.black));
+  BX(-ps/2+0.02, ps/2-0.02, 0.06, ph-0.03, ps/2-0.003, ps/2+0.003, smoke, NC);                   // front door
+  [-1,1].forEach(a => BX(a*(ps/2-0.003)-0.003, a*(ps/2-0.003)+0.003, 0.06, ph-0.03, -ps/2+0.02, ps/2-0.02, smoke, NC));
+  BX(-ps/2+0.02, ps/2-0.02, ph-0.003, ph+0.002, -ps/2+0.02, ps/2-0.02, smoke, NC);
+  BX(-ps/2, ps/2, 0.06, ph-0.03, -ps/2, -ps/2+0.02, mat.black);                                  // back panel
+  BX(-0.13, 0.13, 0.14, 0.15, -0.13, 0.13, mat.steel);                                            // build plate
+  BX(-0.012, 0.012, 0.36, 0.38, -0.17, 0.17, mat.steel);                                           // gantry
+  BX(0.02, 0.08, 0.31, 0.39, -0.03, 0.04, mat.white);                                              // toolhead
+  BX(-0.06, 0.04, 0.15, 0.19, -0.05, 0.05, mat.sage);                                              // a print
+  [[mat.black, 0.07], [mat.rugOlive, 0.06]].forEach(([m, h]) => { const c = cyl(0.1, 0.1, h, m, u-ps/2-0.16, y+0.035, z-0.02, P); c.rotation.x = Math.PI/2; });
+}
+// task chair; rot 0 = the sitter faces the wall (local -z)
+function taskChair(P, u, z, rot){
+  const ch = group(P); place(ch, u, z, rot || 0, 0);
+  B(-0.25,0.25,0.44,0.51,-0.24,0.24,mat.leather,ch); B(-0.23,0.23,0.53,1.05,0.2,0.25,mat.leather,ch);
+  B(-0.26,-0.22,0.6,0.64,-0.18,0.15,mat.black,ch); B(0.22,0.26,0.6,0.64,-0.18,0.15,mat.black,ch);
+  cyl(0.03,0.03,0.4,mat.chrome,0,0.22,0,ch);
+  for(let k=0;k<5;k++){ const a = k*2*Math.PI/5; B(-0.015,0.015,0.03,0.06,0,0.3,mat.black,group(ch)).parent.rotation.y = a; }
+  return ch;
+}
+// art for a picture TV in art mode: an abstract in the room's rust / moss / black, on a paper mount
+function artTex(seed = 77){
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 576; const g = c.getContext('2d'), rnd = rng(seed);
+  g.fillStyle = '#e4ded2'; g.fillRect(0, 0, 1024, 576); g.fillStyle = '#cfc5b2'; g.fillRect(70, 60, 884, 456);
+  for(let i=0;i<9000;i++){ g.fillStyle = `rgba(60,50,40,${rnd()*0.07})`; g.fillRect(70+rnd()*884, 60+rnd()*456, 2, 2); }
+  g.fillStyle = '#87482a'; g.fillRect(190, 130, 280, 300);
+  g.fillStyle = '#585d3f'; g.fillRect(420, 220, 190, 240);
+  g.fillStyle = 'rgba(28,26,24,0.93)'; g.beginPath(); g.arc(690, 250, 140, 0, Math.PI*2); g.fill();
+  g.fillStyle = '#c49c55'; g.fillRect(770, 320, 80, 140);
+  g.strokeStyle = '#1e1c1a'; g.lineWidth = 5; g.beginPath(); g.moveTo(130, 462); g.lineTo(900, 462); g.stroke();
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+}
+const tvArt = (() => { const t = artTex(); return M({map:t, emissive:'#ffffff', emissiveMap:t, emissiveIntensity:0.12, roughness:0.85}); })();
+// picture TV ("taulutelevisio", 16:9, `inch` diagonal) hung flush on a wall frame F: u, y = its centre; 26 mm deep, thin black frame, art on
+function frameTV(F, u, y, inch = 65){
+  const dg = inch*0.0254, w = dg*16/Math.hypot(16, 9), h = dg*9/Math.hypot(16, 9), fr = 0.018, dz = 0.026;
+  B(u-w/2-fr, u+w/2+fr, y-h/2-fr, y+h/2+fr, 0.003, dz, mat.black, F.g);
+  B(u-w/2, u+w/2, y-h/2, y+h/2, dz, dz+0.002, tvArt, F.g, {cast:false});
+  return {w: w+2*fr, h: h+2*fr};
+}
+// wall-hung (floating) bench on a wall frame F from wall coordinate a to b: oak, n flap fronts with shadow joints
+function floatBench(F, a, b, y, depth, n = 4){
+  const ua = Math.min(F.u(a), F.u(b)), ub = Math.max(F.u(a), F.u(b));
+  B(ua, ub, y[0], y[1], 0, depth, mat.oak, F.g);
+  for(let k=1;k<n;k++){ const u = ua + (ub-ua)*k/n; B(u-0.002, u+0.002, y[0]+0.01, y[1]-0.01, depth, depth+0.002, mat.oakDark, F.g, {cast:false}); }
+  return {ua, ub};
+}
+// low modular corner sofa. Local frame: the back runs along +x from 0 to len, the seat faces +z, the chaise ([w, d]) at the +x end.
+// place it with (x, z, rot) as place(): rot -PI/2 puts the back along +z world, facing west.
+function cornerSofa(P, x, z, rot, o = {}){
+  const len = o.len ?? 3.4, dep = o.depth ?? 1.05, [cw, cd] = o.chaise ?? [1.0, 1.75], m = o.mat ?? mat.sofa, g = place(group(P), x, z, rot);
+  const S = 0.32, C = 0.13, BK = 0.24, BH = 0.72, AW = 0.16, AH = 0.56;
+  B(0.08, len-0.08, 0, 0.05, 0.08, dep-0.08, mat.black, g); B(len-cw+0.08, len-0.08, 0, 0.05, dep-0.1, cd-0.08, mat.black, g);   // recessed plinth
+  B(0, len, 0.05, S, 0, dep, m, g); B(len-cw, len, 0.05, S, dep, cd, m, g);                     // base + chaise base
+  B(0, len, S, BH, 0, BK, m, g); B(0, AW, S, AH, BK, dep, m, g);                                 // back, arm at the open end
+  const a0 = AW+0.006, a1 = len-cw, n = Math.max(1, Math.round((a1-a0)/0.85)), cu = [];
+  for(let i=0;i<n;i++) cu.push([a0 + (a1-a0)*i/n + 0.004, a0 + (a1-a0)*(i+1)/n - 0.004]);
+  cu.forEach(([s0, s1]) => B(s0, s1, S, S+C, BK+0.01, dep-0.008, m, g));
+  B(a1+0.004, len-0.006, S, S+C, BK+0.01, cd-0.008, m, g);                                       // chaise cushion
+  cu.concat([[a1+0.004, len-0.006]]).forEach(([s0, s1]) => {                                     // back cushions, leaning
+    const p = place(group(g), (s0+s1)/2, BK+0.02, 0, S+C); p.rotation.x = -0.14;
+    B(-(s1-s0)/2, (s1-s0)/2, 0, BH-S-C+0.1, 0, 0.17, m, p); });
+  (o.cushions ?? [[a0+0.25, mat.rugOlive, 0.3], [a1-0.25, mat.cognac, -0.25], [len-0.3, mat.throwM, 0.2]]).forEach(([cx, cm, r]) => {
+    const p = place(group(g), cx, BK+0.2, r, S+C); p.rotation.x = -0.3; B(-0.24, 0.24, 0, 0.44, -0.06, 0.06, cm, p); });
+  return g;
+}
+// low lounge chair: black steel sled frame, cognac leather seat and back; faces local +z
+function loungeChair(P, x, z, rot){
+  const g = place(group(P), x, z, rot);
+  [-0.37, 0.37].forEach(a => {
+    rod(V(a, 0.012, -0.36), V(a, 0.012, 0.4), 0.012, mat.steel, g); rod(V(a, 0.012, 0.4), V(a, 0.52, 0.3), 0.012, mat.steel, g);
+    rod(V(a, 0.52, 0.3), V(a, 0.52, -0.2), 0.012, mat.steel, g); rod(V(a, 0.012, -0.36), V(a, 0.52, -0.2), 0.012, mat.steel, g); });
+  const st = B(-0.34, 0.34, 0.3, 0.42, -0.3, 0.38, mat.cognac, g); st.rotation.x = -0.08;
+  const bp = place(group(g), 0, -0.3, 0, 0.38); bp.rotation.x = -0.32; B(-0.34, 0.34, 0, 0.58, -0.11, 0, mat.cognac, bp);
+  return g;
+}
+// low coffee table: oak top on a blackened steel frame with a lower shelf; a book stack and a bowl
+function coffeeTable(P, x0, x1, z0, z1, h = 0.36){
+  B(x0, x1, h-0.04, h, z0, z1, mat.oak, P);
+  [[x0, z0], [x0, z1-0.03], [x1-0.03, z0], [x1-0.03, z1-0.03]].forEach(([x, z]) => B(x+0.02, x+0.05, 0, h-0.04, z+0.02, z+0.05, mat.steel, P));
+  B(x0+0.04, x1-0.04, 0.09, 0.105, z0+0.04, z1-0.04, mat.steel, P);
+  const xc = (x0+x1)/2, zc = (z0+z1)/2;
+  [[0.02, mat.cognac], [0.025, mat.throwM], [0.018, mat.black]].reduce((y, [t, m], i) => { B(xc-0.14+i*0.01, xc+0.1, y, y+t, zc-0.3, zc-0.08+i*0.01, m, P); return y+t; }, h);
+  cyl(0.11, 0.06, 0.07, mat.potDark, xc, h+0.035, zc+0.25, P);
+}
+// soft upholstered block: a box with rounded corners and edges (radius r), for pillowy modular seating
+function softBox(x0, x1, y0, y1, z0, z1, r, m, parent){
+  const w = x1-x0, d = z1-z0, h = y1-y0, b = Math.min(r*0.7, h/2.2, w/2.2, d/2.2), rr = Math.min(r, (w-2*b)/2, (d-2*b)/2) * 0.9;
+  const sw = w-2*b, sd = d-2*b, sh = new THREE.Shape();
+  sh.moveTo(-sw/2+rr, -sd/2); sh.lineTo(sw/2-rr, -sd/2); sh.quadraticCurveTo(sw/2, -sd/2, sw/2, -sd/2+rr);
+  sh.lineTo(sw/2, sd/2-rr); sh.quadraticCurveTo(sw/2, sd/2, sw/2-rr, sd/2); sh.lineTo(-sw/2+rr, sd/2);
+  sh.quadraticCurveTo(-sw/2, sd/2, -sw/2, sd/2-rr); sh.lineTo(-sw/2, -sd/2+rr); sh.quadraticCurveTo(-sw/2, -sd/2, -sw/2+rr, -sd/2);
+  const geo = new THREE.ExtrudeGeometry(sh, {depth:Math.max(0.001, h-2*b), bevelEnabled:true, bevelThickness:b, bevelSize:b, bevelSegments:4, curveSegments:6});
+  geo.rotateX(-Math.PI/2); geo.center();
+  const mesh = new THREE.Mesh(geo, m); mesh.position.set((x0+x1)/2, (y0+y1)/2, (z0+z1)/2);
+  mesh.castShadow = true; mesh.receiveShadow = true; (parent || scene).add(mesh); return mesh;
+}
+// big soft lounge armchair (bouclé): deep low seat, wide rounded arms, a tall back that leans; faces local +z
+function softArmchair(P, x, z, rot, m = mat.boucle){
+  const g = place(group(P), x, z, rot);
+  B(-0.42, 0.42, 0, 0.05, -0.38, 0.38, mat.black, g);                                   // recessed plinth
+  softBox(-0.36, 0.36, 0.05, 0.40, -0.3, 0.47, 0.1, m, g);                              // seat cushion
+  [-1, 1].forEach(k => softBox(k < 0 ? -0.53 : 0.33, k < 0 ? -0.33 : 0.53, 0.05, 0.6, -0.46, 0.45, 0.1, m, g));   // arms
+  const bk = place(group(g), 0, -0.36, 0, 0.05); bk.rotation.x = -0.16;
+  softBox(-0.52, 0.52, 0, 0.86, -0.16, 0.12, 0.12, m, bk);                              // back
+  softBox(-0.3, 0.3, 0.42, 0.72, 0.12, 0.26, 0.08, m, bk);                              // head/lumbar cushion
+  return g;
+}
+// Kave Home "Blok"-style L corner sofa: square-edged upholstered blocks on a recessed plinth, arms as high as the back.
+// Local frame as cornerSofa: the long back runs along +x from 0 to len, seats face +z; the short leg sits at the +x end, reaching
+// `short` along +z with its own back on the +x side. Corduroy ribs run front to back on the seats.
+function blokSofa(P, x, z, rot, o = {}){
+  const L = o.long || 2.9, S = o.short || 2.3, D = o.depth || 0.98, m = o.mat || mat.cord, md = mat.cordDark;
+  const g = place(group(P), x, z, rot), bd = 0.26, aw = 0.2, sy = 0.41, ty = 0.69;
+  const K = (x0, x1, y0, y1, z0, z1, mm, par) => B(x0, x1, y0, y1, z0, z1, mm, par || g);
+  K(0.04, L-0.04, 0, 0.05, 0.04, D-0.06, mat.black); K(L-D+0.04, L-0.04, 0, 0.05, D-0.06, S-0.06, mat.black);   // recessed plinth
+  K(0, L, 0.05, ty, 0, bd, m);                                         // long back block
+  K(L-bd, L, 0.05, ty, bd, S, m);                                      // short back block, along the glass
+  K(0, aw, 0.05, ty, bd, D, m);                                        // arm at the open end of the long leg
+  K(L-D, L-bd, 0.05, ty, S-aw, S, m);                                  // arm at the end of the short leg
+  K(aw, L-bd, 0.05, 0.25, bd, D, md); K(L-D, L-bd, 0.05, 0.25, D, S-aw, md);   // seat bases
+  const seat = (x0, x1, z0, z1) => K(x0+0.004, x1-0.004, 0.25, sy, z0, z1-0.004, m);
+  const xa = aw, xc = L-D, xe = L-bd, n = 2, w = (xc-xa)/n;
+  for(let i=0;i<n;i++) seat(xa+i*w, xa+(i+1)*w, bd, D);              // two long-leg seats
+  seat(xc, xe, bd, D);                                                 // corner seat
+  seat(xc, xe, D, S-aw);                                               // short-leg seat
+  [[xa+0.35, bd+0.1, 0.25], [xe-0.25, bd+0.1, -0.5]].forEach(([cx, cz, a]) => {   // two loose cushions
+    const c = place(group(g), cx, cz, a, sy); c.rotation.x = -0.25; K(-0.22, 0.22, 0, 0.42, -0.07, 0.07, mat.rugOlive, c); });
+  return g;
+}
+/* ================= end of reusable parts ================= */
+
+/* ---------- Workstation on the east concrete wall, south of the bathroom, under a backlit mesh sheet ---------- */
+// 80 cm deep top tight to the concrete. North pedestal: three drawers. South pedestal: two drawers over a cupboard (filament,
+// tools), the 3D printer on the top above it. One 57" curved screen, one task chair. One mesh piece cut from 1500 x 3000 stock (30 mm, 3 mm wire, turned 5°),
+// centred on the desk and between its top and the ceiling; LED strip right round it.
+MESH_P.forEach(m => meshSheet({face:'E', at:m.z, y:m.y, stock:MESH_STOCK, cell:MESH_C, wire:MESH_WIRE, angle:MESH_A, gap:MESH_GAP, glowFloor:DESK_TOP}));
+(function(){
+  const F = wallFrame('E'), [z0, z1] = DESK_Z, top = DESK_TOP;
+  workDesk(F, {at:DESK_Z, depth:DESK_D, top, pedestals:[{at:[z0, z0+0.6], joints:[0.3, 0.5]}, {at:[z1-0.8, z1], joints:[0.45, 0.58], cupboard:true}]});
+  const u = F.u(MON_Z);
+  curvedMonitor(F.g, u, 0.32, top);
+  B(u-0.23, u+0.23, top, top+0.015, DESK_D-0.58, DESK_D-0.12, mat.leather, F.g);    // desk mat
+  B(u-0.22, u+0.14, top+0.015, top+0.035, DESK_D-0.34, DESK_D-0.2, mat.art, F.g);   // keyboard
+  B(u+0.24, u+0.3, top+0.015, top+0.05, DESK_D-0.32, DESK_D-0.22, mat.art, F.g);    // mouse
+  printer3D(F.g, F.u(z1-0.42), 0.45, top);
+  taskChair(F.g, u, DESK_D + 0.35, 0);
+})();
+/* ---------- Living room: a floating lounge group in the south-west window corner (TV off for now) ---------- */
+if(LIV_TV) LIV_P.forEach(m => meshSheet({face:'W', at:m.z, y:m.y, stock:m.stock, cell:m.cell, wire:m.wire, angle:m.angle, gap:MESH_GAP, glowFloor:TVB_Y[1]}));
+(function(){
+  if(LIV_TV){
+    const F = wallFrame('W');
+    floatBench(F, TVB_Z[0], TVB_Z[1], TVB_Y, TVB_D, 6);
+    frameTV(F, F.u(LIV_ZC), TV_Y, 65);
+    B(F.u(LIV_ZC)-0.2, F.u(LIV_ZC)+0.2, TVB_Y[1], TVB_Y[1]+0.03, 0.12, 0.3, mat.black, F.g);
+  }
+  B(0.3, 3.55, 0, 0.012, 7.05, 11.2, mat.rugDark, scene, {cast:false});                       // big wool rug under the whole group
+  // Blok corner sofa: back to the room, facing the west wall; its short leg along the window
+  blokSofa(scene, BLOK.x, BLOK.z[0], -Math.PI/2, {long:BLOK.z[1]-BLOK.z[0], short:BLOK.short, depth:BLOK.depth});
+  // rectangular coffee table, 120 x 60 x 36: oak top on a black steel frame, a book and a bowl
+  const [tx0, tx1] = CT.x, [tz0, tz1] = CT.z;
+  B(tx0, tx1, 0.33, 0.36, tz0, tz1, mat.oak);
+  [[tx0+0.03, tz0+0.03], [tx1-0.05, tz0+0.03], [tx0+0.03, tz1-0.05], [tx1-0.05, tz1-0.05]].forEach(([a, b]) => B(a, a+0.02, 0, 0.33, b, b+0.02, mat.black));
+  [tz0+0.03, tz1-0.05].forEach(b => B(tx0+0.03, tx1-0.03, 0.29, 0.31, b, b+0.02, mat.black));
+  B(tx0+0.12, tx0+0.34, 0.36, 0.4, tz0+0.15, tz0+0.45, mat.cognac); cyl(0.11, 0.06, 0.07, mat.potDark, (tx0+tx1)/2+0.05, 0.4, tz1-0.3);
+  // black reading lamp in the window corner, its arm reaching over the chaise
+  const lx = 1.25, lz = 11.15, hx = 1.95, hz = 10.45;
+  cyl(0.14, 0.14, 0.02, mat.black, lx, 0.01, lz); rod(V(lx, 0.02, lz), V(lx, 1.6, lz), 0.01, mat.black);
+  rod(V(lx, 1.6, lz), V(hx, 1.65, hz), 0.008, mat.black);
+  cyl(0.06, 0.16, 0.2, mat.black, hx, 1.55, hz); cyl(0.05, 0.05, 0.02, mat.bulb, hx, 1.45, hz);
+  lamps.push({pos:V(hx, 1.35, hz), i:0.6, d:3.5});
+})();
+B(HALL_X+0.1, W-0.1, 0, 0.012, 0.2, 0.95, mat.rugJute, scene, {cast:false});   // runner in the entry
+
+/* ---------- Kitchen behind the coat wardrobes: two matt anthracite runs facing each other, nothing at the east end ---------- */
+// North run on the wardrobes' back: hob, worktop, wall units up to the wardrobe top, the fridge-freezer column in the east corner.
+// South run on the bathroom shaft: sink, worktop, wall units, the oven + microwave combi column in the east corner.
+// The east wall between the two columns stays open. The shaft is right behind the sink for water, drain and extract.
+function plinth(x0, x1, z0, z1){ B(x0, x1, 0, 0.08, z0, z1, mat.kitPlinth); }
+(function(){
+  const KT = 0.88, J = (x0,x1,y0,y1,z0,z1) => B(x0,x1,y0,y1,z0,z1,mat.kitJoint,scene,{cast:false});
+  // north run: base, worktop, splashback, wall units
+  plinth(HALL_X, KE, K_Z[0], KN-0.06); B(HALL_X, KE, 0.08, KT, K_Z[0], KN-0.02, mat.kitchen); B(HALL_X-0.01, KE, KT, 0.92, K_Z[0], KN, mat.kitTop);
+  B(HALL_X, KE, 0.92, 1.5, K_Z[0], K_Z[0]+0.02, mat.kitTop);
+  B(HALL_X, KE, 1.5, WARD_TOP, K_Z[0], K_Z[0]+0.36, mat.kitchen);                      // wall units up to the wardrobe top
+  B(4.9, 5.7, 1.12, 1.5, K_Z[0], K_Z[0]+0.3, mat.kitchen);                             // slatted hood box over the hob
+  for(let x = 4.91; x < 5.69; x += 0.045) B(x, x+0.022, 1.12, 1.5, K_Z[0]+0.3, K_Z[0]+0.33, mat.kitchen);
+  B(5.0, 5.6, 0.92, 0.926, K_Z[0]+0.06, K_Z[0]+0.56, mat.hob);                          // induction hob
+  // south run: base, worktop, splashback, wall units to 2.4 m
+  plinth(HALL_X, KE, KS+0.06, K_Z[1]); B(HALL_X, KE, 0.08, KT, KS+0.02, K_Z[1], mat.kitchen); B(HALL_X-0.01, KE, KT, 0.92, KS, K_Z[1], mat.kitTop);
+  B(HALL_X, KE, 0.92, 1.5, K_Z[1]-0.02, K_Z[1], mat.kitTop);
+  B(HALL_X, KE, 1.5, WARD_TOP, K_Z[1]-0.36, K_Z[1], mat.kitchen);
+  B(5.2, 5.8, 0.905, 0.921, KS+0.12, KS+0.5, mat.sink);
+  cyl(0.015,0.015,0.26,mat.chrome,5.5,1.05,K_Z[1]-0.06); rod(V(5.5,1.18,K_Z[1]-0.06),V(5.5,1.18,K_Z[1]-0.24),0.013,mat.chrome);   // tap
+  // the two corner columns, to the wardrobe top
+  plinth(KE, W, K_Z[0], KN-0.06); B(KE, W, 0.08, WARD_TOP, K_Z[0], KN-0.02, mat.kitchen);   // fridge-freezer, integrated
+  plinth(KE, W, KS+0.06, K_Z[1]); B(KE, W, 0.08, WARD_TOP, KS+0.02, K_Z[1], mat.kitchen);   // oven + microwave combi at eye level, cupboards over and under
+  B(KE+0.04, W-0.04, 1.05, 1.5, KS+0.012, KS+0.02, mat.ovenGl);
+  B(KE+0.06, W-0.12, 1.43, 1.47, KS+0.008, KS+0.012, mat.black);                         // its control strip
+  B(KE, W, WARD_TOP, WARD_TOP+0.03, K_Z[0], KN, mat.black); B(KE, W, WARD_TOP, WARD_TOP+0.03, KS, K_Z[1], mat.black);
+  // front joints
+  J(KE-0.002, KE+0.002, 0.1, WARD_TOP-0.01, KN-0.023, KN-0.019); J(KE-0.002, KE+0.002, 0.1, WARD_TOP-0.01, KS+0.016, KS+0.02);
+  J(KE, W, 2.4-0.002, 2.4+0.002, KN-0.023, KN-0.019); J(KE, W, 0.9, 0.904, KN-0.023, KN-0.019);   // fridge | freezer | top cupboard
+  J(KE, W, 2.4-0.002, 2.4+0.002, KS+0.016, KS+0.02); J(KE, W, 0.98, 0.984, KS+0.016, KS+0.02);   // oven column: drawers | combi | cupboard
+  [5.0, 5.6].forEach(x => J(x-0.002, x+0.002, 0.1, KT-0.01, KN-0.023, KN-0.02));
+  [5.2, 5.8].forEach(x => J(x-0.002, x+0.002, 0.1, KT-0.01, KS+0.017, KS+0.02));
+  J(HALL_X, KE, 0.49, 0.495, KN-0.023, KN-0.02); J(HALL_X, KE, 0.49, 0.495, KS+0.017, KS+0.02);
+  [[KN-0.023, KN-0.02], [KS+0.017, KS+0.02]].forEach(([a,b]) => J(BATH_X-0.002, BATH_X+0.002, 0.1, KT-0.01, a, b));   // the 55 cm the runs gained
+  [5.3, 5.85].forEach(x => J(x-0.002, x+0.002, 1.52, WARD_TOP-0.01, K_Z[0]+0.36, K_Z[0]+0.363));
+  J(HALL_X, KE, 2.4-0.002, 2.4+0.002, K_Z[0]+0.36, K_Z[0]+0.363);
+  [5.3, 5.85].forEach(x => J(x-0.002, x+0.002, 1.52, 2.38, K_Z[1]-0.363, K_Z[1]-0.36));
+  lamps.push({pos:V(5.5, 1.3, (KN+KS)/2), i:0.5, d:2.5});
+})();
+// pendant over the kitchen aisle, long, in the 4 m room
+rod(V(5.5,H,(KN+KS)/2),V(5.5,2.35,(KN+KS)/2),0.004,mat.black); B(4.95,6.05,2.3,2.35,(KN+KS)/2-0.05,(KN+KS)/2+0.05,mat.black);
+B(4.97,6.03,2.29,2.3,(KN+KS)/2-0.035,(KN+KS)/2+0.035,mat.bulb); lamps.push({pos:V(5.5,2.1,(KN+KS)/2), i:0.9, d:4});
+
+/* ---------- Bedroom (north-west), as in A21 /9 ---------- */
+B(0.2,BW[0]-0.2,0,0.012,0.75,3.1,mat.rugOlive,scene,{cast:false});
+(function bed(){
+  const g = group(); place(g, BED_C[0], BED_C[1], 0);  // headboard on the north wall under the window, faces south
+  B(-0.95,0.95,0,0.22,-1.05,1.1,mat.oakDark,g);
+  B(-0.9,0.9,0.22,0.48,-1.03,1.05,mat.bedding,g);
+  B(-0.92,0.92,0.48,0.56,-0.35,1.07,mat.bedding,g);
+  B(-0.94,0.94,0.56,0.59,0.55,0.95,mat.throwM,g);
+  [-0.45,0.45].forEach(x => { const p = B(x-0.38,x+0.38,0.48,0.66,-0.98,-0.68,mat.bedding,g); p.rotation.x = -0.25; });
+  B(-1.0,1.0,0.3,0.68,-1.12,-1.06,mat.fabric,g);               // low upholstered headboard, just under the 0.7 m sill
+})();
+[0.03, BW[0]-0.43].forEach(x0 => {                              // nightstands either side, wall-arm reading lamps on the north wall beside the window
+  const x = x0 + 0.2;
+  B(x0,x0+0.4,0.3,0.5,0.02,0.42,mat.oakDark);
+  rod(V(x,1.25,0.02),V(x,1.25,0.25),0.006,mat.steel);
+  cyl(0.03,0.07,0.12,mat.steel,x,1.2,0.27);
+  lamps.push({pos:V(x,1.05,0.3), i:0.45, d:2.5});
+});
+B(0.89, 1.97, 3.18, 3.3, -0.1, -0.02, mat.steel);              // blackout roller blind in the window reveal, rolled up
+const pend = new THREE.Mesh(new THREE.SphereGeometry(0.28,40,24), mat.shade);
+pend.position.set(BED_C[0],2.4,BED_C[1]+0.26); scene.add(pend); rod(V(BED_C[0],2.68,BED_C[1]+0.26),V(BED_C[0],H,BED_C[1]+0.26),0.004,mat.black);
+lamps.push({pos:V(BED_C[0],2.3,BED_C[1]+0.26), i:1.0, d:5});
+
+function plant(x,z,s,parent,y0){
+  const g = group(parent); place(g,x,z,0,y0||0);
+  cyl(0.2*s,0.16*s,0.38*s,mat.pot,0,0.19*s,0,g);
+  const rnd = rng(Math.floor(x*1000+z*77)+5);
+  for(let i=0;i<9;i++){
+    const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.17*s,10,8), i%2?mat.green:mat.green2);
+    const a = rnd()*Math.PI*2, r = 0.1+rnd()*0.22;
+    leaf.position.set(Math.cos(a)*r*s, (0.55+rnd()*0.55)*s, Math.sin(a)*r*s);
+    leaf.scale.set(1, 0.35, 0.6); leaf.rotation.set(rnd()*0.8, a, rnd()*0.8); leaf.castShadow = true; g.add(leaf);
+    rod(V(0,0.36*s,0), leaf.position.clone(), 0.006, mat.green, g);
+  }
+  return g;
+}
+plant(4.35, 0.45, 1.0);   // by the French balcony
+
+
+/* ================= Four metres: the moves that make the height read =================
+   lidBox(rects, faces)   a 2.45 m dark-wood ceiling "lid" over the entry: rects [{x:[a,b], z:[a,b]}], faces = fascia
+                          planes closing the box up to the 4 m ceiling [{x:[a,b]|x0, z:[a,b]|z0}]
+   curtainRun(x0, x1, z, gaps)  floor-to-ceiling linen on a ceiling track; open (stacked at the ends) or drawn (toggle)
+   bigPendant(x, z, yb, r)      one oversized black dome on a long cable
+   tallTree(x, z, h)            an olive-like tree in a black planter, ~2.8 m
+*/
+const linen = M({color:'#d9d2c4', roughness:1, side:THREE.DoubleSide});
+function lidBox(rects, faces){
+  const g = group(ceiling);
+  rects.forEach(r => { B(r.x[0], r.x[1], LID_Y, LID_Y+0.04, r.z[0], r.z[1], mat.oakDark, g); B(r.x[0], r.x[1], LID_Y+0.04, H, r.z[0], r.z[1], mat.wall, g, {cast:false}); });
+  faces.forEach(f => {                                                     // fascias: concrete-look box face above the lid, a black shadow line under it
+    const [x0, x1] = f.x || [f.x0-0.01, f.x0+0.01], [z0, z1] = f.z || [f.z0-0.01, f.z0+0.01];
+    B(x0, x1, LID_Y+0.04, H, z0, z1, mat.wall, g); B(x0, x1, LID_Y, LID_Y+0.04, z0, z1, mat.black, g);
+  });
+  return g;
+}
+const curtOpen = group(), curtShut = group(); curtShut.visible = false;
+// pleated panel from xa to xb in the plane z: thin rotated strips zig-zagging 6 cm deep
+function pleats(xa, xb, z, parent, pitch = 0.11, depth = 0.06){
+  const half = pitch/2, a = Math.atan2(depth, half), s = Math.hypot(half, depth), h = H - 0.06, geo = new THREE.BoxGeometry(s, h, 0.004);
+  for(let x = xa, i = 0; x < xb - 1e-3; x += half, i++){
+    const m = new THREE.Mesh(geo, linen); m.position.set(x + half/2, 0.02 + h/2, z + depth/2); m.rotation.y = i%2 ? a : -a;
+    m.castShadow = true; m.receiveShadow = true; parent.add(m);
+  }
+}
+function curtainRun(x0, x1, z, stack = 0.5){
+  B(x0-0.05, x1+0.05, H-0.035, H-0.01, z-0.02, z+0.03, mat.black);                     // ceiling track
+  pleats(x0, x0+stack, z, curtOpen); pleats(x1-stack, x1, z, curtOpen);               // open: stacked at both ends
+  pleats(x0, (x0+x1)/2, z, curtShut); pleats((x0+x1)/2, x1, z, curtShut);             // drawn: two panels meeting in the middle
+}
+function bigPendant(x, z, yb, r){
+  const h = r*0.42;
+  cyl(r*0.18, r, h, mat.black, x, yb + h/2, z, scene, 48);                            // shallow black dome
+  cyl(r*0.96, r*0.96, 0.008, mat.bulb, x, yb + 0.01, z, scene, 48);                  // warm diffuser underneath
+  cyl(0.05, 0.05, 0.06, mat.black, x, yb + h + 0.03, z);
+  rod(V(x, yb + h + 0.06, z), V(x, H, z), 0.004, mat.black); cyl(0.07, 0.07, 0.02, mat.black, x, H-0.01, z);
+  lamps.push({pos:V(x, yb - 0.2, z), i:1.3, d:5.5});
+}
+function tallTree(x, z, h = 2.8){
+  const g = group(); place(g, x, z, 0);
+  B(-0.3, 0.3, 0, 0.62, -0.3, 0.3, mat.black, g); B(-0.27, 0.27, 0.58, 0.6, -0.27, 0.27, mat.soil || mat.potDark || mat.black, g);
+  const rnd = rng(Math.floor(x*331 + z*17) + 3), bark = mat.oakDark;
+  const top = V(0.08, h*0.55, 0.04); rod(V(0, 0.6, 0), top, 0.045, bark, g);
+  const tips = [];
+  for(let b=0;b<6;b++){ const a = b*Math.PI/3 + rnd()*0.5, rr = 0.35 + rnd()*0.3, y = h*(0.72 + rnd()*0.2);
+    const tip = V(Math.cos(a)*rr, y, Math.sin(a)*rr); rod(top, tip, 0.018, bark, g); tips.push(tip); }
+  tips.forEach((t, k) => { for(let i=0;i<14;i++){
+    const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.11 + rnd()*0.06, 8, 6), (i+k)%2 ? mat.green : mat.green2);
+    leaf.position.set(t.x + (rnd()-0.5)*0.55, Math.min(h, t.y + (rnd()-0.4)*0.5), t.z + (rnd()-0.5)*0.55);
+    leaf.scale.set(1, 0.55, 1); leaf.castShadow = true; g.add(leaf); } });
+  return g;
+}
+
+// the lid over the entry and the kitchen block (x HALL_X..W, z 0.3..SH_N[2]); a 30 cm full-height light slot stays along the north wall, so the
+// entry window keeps its 3.3 m head and the old duct only shows where it dives into the box
+lidBox([{x:[HALL_X, W], z:[0.3, SH_N[2]]}], [{x0:HALL_X, z:[0.3, SH_N[2]]}, {x:[HALL_X, W], z0:0.3}]);
+curtainRun(0.83, 6.01, D-0.12, 0.5);
+bigPendant(1.7, 8.9, 2.2, 0.5);
+tallTree(4.75, 10.85, 2.8);
+
+/* ---------- Lights ---------- */
+const hemi = new THREE.HemisphereLight('#e4ebee', '#8c8478', 0.62);
+scene.add(hemi);
+const amb = new THREE.AmbientLight('#ffffff', 0.12); scene.add(amb);
+const sun = new THREE.DirectionalLight('#fff1dc', 2.3);
+sun.position.set(-6, 10, D+13);
+sun.target.position.set(W/2, 0, D/2); scene.add(sun.target);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048,2048);
+Object.assign(sun.shadow.camera, {left:-10, right:10, top:10, bottom:-10, near:1, far:45});
+sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.02;
+scene.add(sun);
+const pts = lamps.map(l => { const p = new THREE.PointLight('#ffcf94', 0, l.d, 2); p.position.copy(l.pos); scene.add(p); return {p, i:l.i}; });
+
+let evening = false;
+function viewerBg(){
+  const v = getComputedStyle(document.documentElement).getPropertyValue('--viewer').trim() || '#d7d6cf';
+  scene.background = new THREE.Color(evening ? '#1b2230' : v);
+  scene.background.convertSRGBToLinear();
+}
+function setEvening(on){
+  evening = on;
+  sun.intensity = on ? 0 : 2.3;
+  hemi.intensity = on ? 0.09 : 0.62;
+  amb.intensity = on ? 0.05 : 0.12;
+  pts.forEach(o => o.p.intensity = on ? o.i*2.2 : 0);
+  mat.bulb.emissiveIntensity = on ? 2.2 : 0;
+  mat.screen.emissiveIntensity = on ? 1.2 : 0;
+  tvArt.emissiveIntensity = on ? 0.5 : 0.12;
+  mat.glass.color.set(on ? '#2c3b52' : '#cfe2e8'); mat.glass.opacity = on ? 0.55 : 0.16;
+  viewerBg();
+}
+viewerBg();
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', viewerBg);
+new MutationObserver(viewerBg).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+
+/* ---------- Evening, indirect: hidden LED strips as soft area lights, a warm fill standing in for the bounce ---------- */
+THREE.RectAreaLightUniformsLib.init();
+const ledMat = new THREE.MeshBasicMaterial({color:'#ffe2b8'});
+// a rectangular LED source facing straight up or down; long side along x or z
+function areaLight(parent, x, y, z, along, len, wid, face, i){
+  const l = new THREE.RectAreaLight('#ffcf94', i, along === 'x' ? len : wid, along === 'x' ? wid : len);
+  l.position.set(x, y, z); l.rotation.x = face === 'up' ? Math.PI/2 : -Math.PI/2;
+  parent.add(l); return l;
+}
+const indirect = {};
+function element(key, label, on, fill, parents, build){
+  const gs = parents.map(p => { const g = group(p); g.visible = false; return g; });
+  build(...gs); indirect[key] = {gs, on, fill, label};
+}
+const NC = {cast:false};
+element('ward', 'Uplight on top of the bedroom wardrobes', true, 0.08, [scene], g => {
+  B(0.1, WR_X[1]-0.1, WR_H+0.01, WR_H+0.025, WR_Z[0]+0.05, WR_Z[0]+0.08, ledMat, g, NC);
+  areaLight(g, WR_X[1]/2, WR_H+0.03, (WR_Z[0]+WR_Z[1])/2, 'x', WR_X[1]-0.2, 0.4, 'up', 9);
+});
+element('kitchen', 'Kitchen: under the wall units + plinth glow', true, 0.02, [scene], g => {
+  B(HALL_X+0.05, KE-0.05, 1.492, 1.5, K_Z[0]+0.33, K_Z[0]+0.36, ledMat, g, NC);
+  areaLight(g, (HALL_X+KE)/2, 1.49, K_Z[0]+0.3, 'x', KE-HALL_X-0.1, 0.35, 'down', 9);
+  B(HALL_X+0.05, KE-0.05, 1.492, 1.5, K_Z[1]-0.36, K_Z[1]-0.33, ledMat, g, NC);
+  areaLight(g, (HALL_X+KE)/2, 1.49, K_Z[1]-0.2, 'x', KE-HALL_X-0.1, 0.3, 'down', 8);
+  areaLight(g, (HALL_X+KE)/2, 0.07, (KN+KS)/2, 'x', KE-HALL_X-0.1, KS-KN-0.1, 'down', 4);
+});
+element('bed', 'Glow under the bed and behind the headboard', true, 0.02, [scene], g => {
+  areaLight(g, BED_C[0], 0.05, BED_C[1], 'x', 1.75, 2.0, 'down', 6);
+  B(BED_C[0]-0.95, BED_C[0]+0.95, 0.68, 0.688, 0.03, 0.07, ledMat, g, NC);
+  areaLight(g, BED_C[0], 0.695, 0.05, 'x', 1.9, 0.06, 'up', 30);
+});
+if(LIV_TV) element('tvbench', 'Glow under the floating TV bench', true, 0.01, [scene], g => {
+  B(TVB_D-0.06, TVB_D-0.04, TVB_Y[0]-0.008, TVB_Y[0]-0.002, TVB_Z[0]+0.05, TVB_Z[1]-0.05, ledMat, g, NC);
+  areaLight(g, TVB_D/2, TVB_Y[0]-0.01, (TVB_Z[0]+TVB_Z[1])/2, 'z', TVB_Z[1]-TVB_Z[0]-0.1, TVB_D-0.1, 'down', 5);
+});
+element('sofa', 'Glow under the sofa', true, 0.01, [scene], g => {
+  areaLight(g, (ISL.x[0]+ISL.x[1])/2, 0.05, (ISL.z[0]+ISL.z[1])/2, 'z', ISL.z[1]-ISL.z[0]-0.25, ISL.x[1]-ISL.x[0]-0.25, 'down', 4);
+});
+element('mesh', LIV_TV ? 'Backlit mesh walls (desk + TV)' : 'Backlit mesh wall over the desk', true, 0.03, meshSheets.map(m => m.F.g), (...gs) => gs.forEach((g, i) => meshGlow(meshSheets[i], g)));
+
+// additive wash on a wall: bright at the bottom (or top), fading up the full height, with faint vertical streaks the grazing light pulls out of the concrete
+function washTex(seed, fromTop){
+  const c = document.createElement('canvas'); c.width = 256; c.height = 512; const x = c.getContext('2d'), img = x.createImageData(256, 512), d = img.data, rnd = rng(seed);
+  const streak = Array.from({length:256}, () => 0.85 + rnd()*0.3);
+  for(let i=1;i<255;i++) streak[i] = (streak[i-1] + streak[i] + streak[i+1])/3;
+  for(let py=0; py<512; py++){ const t = fromTop ? py/511 : 1 - py/511;              // t: 0 at the light, 1 at the far end
+    const v0 = 0.9*Math.exp(-t*2.2) + 0.12;
+    for(let px=0; px<256; px++){ const edge = Math.min(1, px/14, (255-px)/14), v = Math.min(1, v0*streak[px]*edge*(0.97 + rnd()*0.06)), k = (py*256+px)*4;
+      d[k] = 255*v; d[k+1] = 200*v; d[k+2] = 140*v; d[k+3] = 255; } }
+  x.putImageData(img, 0, 0); const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+}
+// face: 'x+' (wall at x0 facing +x), 'x-', 'z+', 'z-'; a = along-wall range, y0..y1 height; strength 0..1
+function wallWash(g, face, at, a, y0, y1, strength, fromTop){
+  const w = a[1]-a[0], h = y1-y0, mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
+    new THREE.MeshBasicMaterial({map:washTex(Math.round(at*100+a[0]*10), fromTop), transparent:true, opacity:strength, blending:THREE.AdditiveBlending, depthWrite:false, toneMapped:false}));
+  const c = (a[0]+a[1])/2, o = 0.004;
+  if(face === 'x+'){ mesh.position.set(at+o, (y0+y1)/2, c); mesh.rotation.y = Math.PI/2; }
+  if(face === 'x-'){ mesh.position.set(at-o, (y0+y1)/2, c); mesh.rotation.y = -Math.PI/2; }
+  if(face === 'z+'){ mesh.position.set(c, (y0+y1)/2, at+o); }
+  if(face === 'z-'){ mesh.position.set(c, (y0+y1)/2, at-o); mesh.rotation.y = Math.PI; }
+  g.add(mesh);
+  // the light source: an LED line in a floor (or lid) slot along the wall, and a soft spill into the room
+  const sy = fromTop ? y1 - 0.01 : y0 + 0.005, d = 0.06;
+  if(face[0] === 'x'){ const x = at + (face === 'x+' ? d : -d); B(x-0.01, x+0.01, sy-0.004, sy+0.004, a[0], a[1], ledMat, g, {cast:false}); }
+  else { const z = at + (face === 'z+' ? d : -d); B(a[0], a[1], sy-0.004, sy+0.004, z-0.01, z+0.01, ledMat, g, {cast:false}); }
+}
+element('graze', 'Grazing light up the west concrete wall + the lid edge', true, 0.04, [scene], g => {
+  wallWash(g, 'x+', 0, [WR_Z[1]+0.15, D-0.2], 0, H, 0.75, false);                       // floor slot along the west wall, sofa side
+  wallWash(g, 'x-', HALL_X-0.01, [0.35, SH_N[2]-0.05], LID_Y+0.04, H, 0.55, false);          // the lid's west face, lit from its bottom edge
+});
+const hemiDay = {c:hemi.color.clone(), g:hemi.groundColor.clone()}, groundDay = mat.ground.color.clone();
+let indirectOn = false;
+function applyIndirect(){
+  let fill = 0;
+  Object.values(indirect).forEach(e => { const vis = indirectOn && e.on; e.gs.forEach(g => g.visible = vis); if(vis) fill += e.fill; });
+  if(indirectOn){ hemi.color.set('#ffcf94'); hemi.groundColor.set('#4a3c2e'); hemi.intensity = 0.02 + fill; amb.intensity = 0.02; }
+}
+function setIndirect(on){
+  indirectOn = on;
+  if(on){ setEvening(true); pts.forEach(o => o.p.intensity = 0); mat.bulb.emissiveIntensity = 0; mat.screen.emissiveIntensity = 0; mat.ground.color.set('#151515'); }   // screens off, no glow on the ground outside
+  else { hemi.color.copy(hemiDay.c); hemi.groundColor.copy(hemiDay.g); mat.ground.color.copy(groundDay); setEvening(document.getElementById('t-evening').checked); }
+  applyIndirect();
+}
+const tInd = document.getElementById('t-indirect'), indOpts = document.getElementById('indirect-opts');
+indOpts.innerHTML = Object.entries(indirect).map(([k, e]) => `<label><input type="checkbox" data-el="${k}"${e.on ? ' checked' : ''}> ${e.label}</label>`).join('');
+indOpts.addEventListener('change', e => { const k = e.target.dataset.el; if(k){ indirect[k].on = e.target.checked; applyIndirect(); } });
+tInd.addEventListener('change', () => {
+  if(tInd.checked) document.getElementById('t-evening').checked = false;
+  indOpts.hidden = !tInd.checked; setIndirect(tInd.checked);
+});
+document.getElementById('t-evening').addEventListener('change', e => {
+  if(e.target.checked && indirectOn){ tInd.checked = false; indOpts.hidden = true; setIndirect(false); }
+});
+
+/* ---------- Views ---------- */
+document.getElementById('t-curtain').addEventListener('change', e => { curtShut.visible = e.target.checked; curtOpen.visible = !e.target.checked; });
+const views = {
+  overview: {p:[-6.2, 10.5, -5.5], t:[3.45, 1.2, 3.2]},
+  entry:    {p:[6.7, 1.6, 0.6],    t:[3.4, 1.3, 0.9]},
+  kitchen:  {p:[3.5, 1.6, 3.0],    t:[6.6, 1.1, 3.0]},
+  hall:     {p:[4.0, 1.6, 7.6],    t:[4.0, 1.4, 0.0]},
+  doorway:  {p:[4.4, 1.6, 2.9],    t:[0.5, 0.9, 1.4], open:'bed'},
+  bedroom:  {p:[2.45, 1.7, 3.4],   t:[1.2, 0.7, 0.5]},
+  wardrobes:{p:[1.6, 1.5, 0.8],    t:[1.5, 1.6, 3.6], open:'wr'},
+  meshwall: {p:[2.0, 1.6, 10.9],    t:[6.9, 1.4, 9.4], ind:true},
+  living:   {p:[4.1, 2.0, 6.1],     t:[1.6, 0.4, 9.5]},
+  tvwall:   {p:[3.75, 1.55, 11.1],   t:[0.6, 0.6, 8.0], ind:true},
+  sofa:     {p:[0.15, 1.9, 7.4],     t:[3.0, 0.4, 9.9]},
+  desk:     {p:[3.7, 1.7, 11.1],    t:[6.9, 1.0, 9.3]},
+  arrival:  {p:[3.55, 1.5, 5.2],   t:[4.7, 2.5, 0.4]},
+  height:   {p:[4.0, 1.5, 4.7],    t:[1.4, 2.9, 11.3], ind:true},
+  plan:     {p:[3.45, 19, 5.75],   t:[3.45, 0, 5.72]},
+};
+let fly = null;
+const tBdoor = document.getElementById('t-bdoor'), tWr = document.getElementById('t-wr');
+function setParvi(on){ parvi.visible = on; }   // no parvi in this version; kept for the VR build
+function setView(name){
+  const v = views[name]; if(!v) return;
+  if(v.open === 'bed'){ tBdoor.checked = true; bdTarget = 1; }
+  if(v.open === 'wr'){ tWr.checked = true; wrTarget = 1; }
+  if(v.ind && !tInd.checked){ tInd.checked = true; tInd.dispatchEvent(new Event('change')); }
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  fly = {p0:camera.position.clone(), t0:controls.target.clone(), p1:V(...v.p), t1:V(...v.t), start:performance.now(), ms: reduce ? 1 : 1100};
+  document.querySelectorAll('#views button').forEach(b => b.setAttribute('aria-pressed', b.dataset.view === name ? 'true' : 'false'));
+}
+camera.position.set(...views.overview.p); controls.target.set(...views.overview.t);
+document.getElementById('t-evening').addEventListener('change', e => setEvening(e.target.checked));
+tBdoor.addEventListener('change', () => { bdTarget = tBdoor.checked ? 1 : 0; });
+tWr.addEventListener('change', () => { wrTarget = tWr.checked ? 1 : 0; });
+document.getElementById('views').addEventListener('click', e => { const b = e.target.closest('button[data-view]'); if(b) setView(b.dataset.view); });
+document.getElementById('plan').addEventListener('click', e => { const z = e.target.closest('[data-view]'); if(z) setView(z.dataset.view); });
+
+// deep links, e.g. ?view=living&indirect=1
+const qs = new URLSearchParams(location.search);
+if(qs.get('wr')){ tWr.checked = true; wrTarget = 1; }
+if(qs.get('indirect')){ tInd.checked = true; tInd.dispatchEvent(new Event('change')); }
+if(views[qs.get('view')]) setView(qs.get('view'));
+if(qs.get('cam')){ const c = qs.get('cam').split(',').map(Number); if(c.length === 6){ camera.position.set(c[0], c[1], c[2]); controls.target.set(c[3], c[4], c[5]); } }
+
+// click a door to open / close it (ignored when the pointer was dragged to orbit); in measure mode, clicks place points
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(); let downAt = null;
+renderer.domElement.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; });
+renderer.domElement.addEventListener('pointerup', e => {
+  if(!downAt || Math.hypot(e.clientX-downAt[0], e.clientY-downAt[1]) > 5) return;
+  const r = renderer.domElement.getBoundingClientRect();
+  ndc.set((e.clientX-r.left)/r.width*2-1, -(e.clientY-r.top)/r.height*2+1);
+  ray.setFromCamera(ndc, camera);
+  if(measureOn){ measureClick(); return; }
+  if(ray.intersectObjects(bdoor.children, false)[0]){ tBdoor.checked = !tBdoor.checked; bdTarget = tBdoor.checked ? 1 : 0; }
+});
+
+/* ---------- Measuring tape: click two surfaces, shows the distance + its x / y / z parts ---------- */
+let measureOn = false, mStart = null;
+const mGroup = new THREE.Group(); scene.add(mGroup);
+const mLabels = document.getElementById('m-labels'), mItems = [];
+const mDot = new THREE.MeshBasicMaterial({color:'#ff3b30', depthTest:false});
+const mLine = new THREE.LineBasicMaterial({color:'#ff3b30', depthTest:false});
+function shown(o){ for(; o; o = o.parent) if(!o.visible) return false; return true; }
+function dot(p){ const m = new THREE.Mesh(new THREE.SphereGeometry(0.025, 12, 8), mDot); m.position.copy(p); m.renderOrder = 999; mGroup.add(m); }
+function measureClick(){
+  const hit = ray.intersectObject(scene, true).find(h => shown(h.object) && !(h.object.parent === mGroup) && h.object.isMesh);
+  if(!hit) return;
+  const p = hit.point.clone(); dot(p);
+  if(!mStart){ mStart = p; return; }
+  const a = mStart, b = p; mStart = null;
+  const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), mLine); ln.renderOrder = 999; mGroup.add(ln);
+  const d = a.distanceTo(b), f = v => Math.abs(v).toFixed(2);
+  const el = document.createElement('div');
+  el.style.cssText = 'position:absolute;transform:translate(-50%,-120%);background:#111d;color:#fff;font:12px/1.35 system-ui,sans-serif;padding:3px 7px;border-radius:4px;white-space:nowrap';
+  el.innerHTML = `<b>${d.toFixed(2)} m</b><br><span style="opacity:.75">x ${f(b.x-a.x)} · z ${f(b.z-a.z)} · height ${f(b.y-a.y)}</span>`;
+  mLabels.appendChild(el); mItems.push({el, mid: a.clone().lerp(b, 0.5)});
+}
+function measureClear(){ mGroup.clear(); mLabels.innerHTML = ''; mItems.length = 0; mStart = null; }
+function measureLabels(){
+  const r = renderer.domElement.getBoundingClientRect();
+  mItems.forEach(({el, mid}) => { const v = mid.clone().project(camera);
+    el.style.display = v.z < 1 ? '' : 'none'; el.style.left = ((v.x+1)/2*r.width)+'px'; el.style.top = ((1-v.y)/2*r.height)+'px'; });
+}
+document.getElementById('t-measure').addEventListener('change', e => { measureOn = e.target.checked; renderer.domElement.style.cursor = measureOn ? 'crosshair' : ''; if(!measureOn) measureClear(); });
+addEventListener('keydown', e => { if(e.key === 'Escape') measureClear(); });
+
+/* ---------- Loop ---------- */
+function resize(){
+  const w = host.clientWidth, h = host.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w / Math.max(h,1); camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(host); resize();
+const ease = k => k<0.5 ? 4*k*k*k : 1 - Math.pow(-2*k+2,3)/2;
+function tick(now){
+  if(fly){
+    const k = Math.min(1, (now - fly.start) / fly.ms), e = ease(k);
+    camera.position.lerpVectors(fly.p0, fly.p1, e);
+    controls.target.lerpVectors(fly.t0, fly.t1, e);
+    if(k >= 1) fly = null;
+  }
+  if(Math.abs(bdNow - bdTarget) > 0.002){ bdNow += (bdTarget - bdNow) * 0.1; bdoor.rotation.y = Math.PI/2 * bdNow; }
+  if(Math.abs(wrNow - wrTarget) > 0.002){ wrNow += (wrTarget - wrNow) * 0.1; wrDoors.forEach(d => d.g.rotation.y = d.sg * 1.75 * wrNow); }
+  if(mItems.length) measureLabels();      // labels follow last frame's camera
+  if(renderer.xr.isPresenting){ xrFrame(); renderer.render(scene, camera); return; }
+  controls.update();
+  const c = camera.position;
+  walls.W.visible = c.x > -T; walls.E.visible = c.x < W+T;
+  walls.N.visible = c.z > -T; walls.S.visible = c.z < D+T;
+  ceiling.visible = c.y < H;
+  renderer.render(scene, camera);
+}
+
+/* ---------- VR: enter button, teleport onto any floor (incl. the parvi), snap turn ---------- */
+const vrbtn = document.getElementById('vrbtn');
+let xrTargets = [];
+const reticle = new THREE.Mesh(new THREE.RingGeometry(0.16, 0.22, 40).rotateX(-Math.PI/2), new THREE.MeshBasicMaterial({color:'#7ec8f2'}));
+reticle.visible = false; scene.add(reticle);
+const xray = new THREE.Raycaster(), tmpM = new THREE.Matrix4(), nrm = new THREE.Matrix3();
+const ctrls = [0, 1].map(i => {
+  const c = renderer.xr.getController(i);
+  const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([V(0,0,0), V(0,0,-1)]), new THREE.LineBasicMaterial({color:'#7ec8f2'}));
+  line.scale.z = 6; c.add(line); rig.add(c);
+  const st = {c, line, hit:null, turnArmed:true};
+  c.addEventListener('selectend', () => { if(st.hit) teleport(st.hit); });
+  return st;
+});
+function isFloor(h){
+  if(!h.face) return false;
+  nrm.getNormalMatrix(h.object.matrixWorld);
+  const n = h.face.normal.clone().applyMatrix3(nrm).normalize();
+  return n.y > 0.8 && h.point.y > -0.05;              // any upward surface: floor, stair steps, bed, sofa, parvi (not the ground far below)
+}
+function teleport(p){
+  const head = new THREE.Vector3(); camera.getWorldPosition(head);
+  rig.position.x += p.x - head.x; rig.position.z += p.z - head.z; rig.position.y = p.y;
+}
+function snapTurn(a){
+  const head = new THREE.Vector3(); camera.getWorldPosition(head);
+  rig.position.sub(head).applyAxisAngle(UP, a).add(head); rig.rotation.y += a;
+}
+const heading = () => { const d = new THREE.Vector3(); camera.getWorldDirection(d); return Math.atan2(-d.x, -d.z); };
+const UPSTAIRS = V(3.6, 0, 2.6), DOWNSTAIRS = V(5.6, 0, MON_Z);
+function jumpLevel(){
+  const up = rig.position.y < PF/2;
+  teleport(up ? UPSTAIRS : DOWNSTAIRS);
+  snapTurn((up ? Math.PI : 0) - heading());          // upstairs: behind the desk facing south over the living room; downstairs: facing north
+}
+function xrFrame(){
+  reticle.visible = false;
+  ctrls.forEach(st => {
+    tmpM.identity().extractRotation(st.c.matrixWorld);
+    xray.ray.origin.setFromMatrixPosition(st.c.matrixWorld);
+    xray.ray.direction.set(0,0,-1).applyMatrix4(tmpM);
+    const h = xray.intersectObjects(xrTargets, true)[0];
+    st.hit = h && isFloor(h) ? h.point.clone() : null;
+    st.line.scale.z = h ? h.distance : 6;
+    if(st.hit){ reticle.position.copy(st.hit).y += 0.01; reticle.visible = true; }
+  });
+  const s = renderer.xr.getSession();
+  if(s) for(const src of s.inputSources){
+    const gp = src.gamepad; if(!gp || gp.axes.length < 4) continue;
+    const st = ctrls[src.handedness === 'left' ? 0 : 1] || ctrls[0];
+    const ax = !!(gp.buttons[4] && gp.buttons[4].pressed);    // A on the right controller, X on the left
+    if(ax && !st.axDown) jumpLevel();
+    st.axDown = ax;
+    const x = gp.axes[2];
+    if(Math.abs(x) > 0.7 && st.turnArmed){ snapTurn(x > 0 ? -Math.PI/6 : Math.PI/6); st.turnArmed = false; }
+    if(Math.abs(x) < 0.3) st.turnArmed = true;
+  }
+}
+let saved = null;
+renderer.xr.addEventListener('sessionstart', () => {
+  saved = {p:camera.position.clone(), q:camera.quaternion.clone()};
+  fly = null; controls.enabled = false;
+  setParvi(true);
+  Object.values(walls).forEach(g => g.visible = true); ceiling.visible = true;
+  pts.forEach(o => o.p.visible = evening);                 // fewer lights = faster on the headset
+  xrTargets = scene.children.filter(o => o !== rig && o !== reticle);
+  rig.position.copy(DOWNSTAIRS); rig.rotation.y = 0;      // living room, facing north towards the stair and the parvi
+});
+renderer.xr.addEventListener('sessionend', () => {
+  rig.position.set(0,0,0); rig.rotation.y = 0; reticle.visible = false;
+  pts.forEach(o => o.p.visible = true);
+  controls.enabled = true;
+  if(saved){ camera.position.copy(saved.p); camera.quaternion.copy(saved.q); }
+  resize();
+});
+let xrSession = null;
+async function toggleVR(){
+  if(xrSession){ xrSession.end(); return; }
+  const s = await navigator.xr.requestSession('immersive-vr', {optionalFeatures:['local-floor', 'bounded-floor']});
+  xrSession = s; vrbtn.textContent = 'Exit VR';
+  s.addEventListener('end', () => { xrSession = null; vrbtn.textContent = 'Enter VR'; });
+  await renderer.xr.setSession(s);
+}
+if(navigator.xr){
+  navigator.xr.isSessionSupported('immersive-vr').then(ok => {
+    vrbtn.disabled = !ok;
+    vrbtn.textContent = ok ? 'Enter VR' : (window.isSecureContext ? 'VR not available on this device' : 'VR needs https or localhost');
+  });
+} else vrbtn.textContent = window.isSecureContext ? 'VR not available in this browser' : 'VR needs https or localhost';
+vrbtn.addEventListener('click', () => toggleVR().catch(e => { vrbtn.textContent = 'VR failed: ' + e.message; }));
+renderer.setAnimationLoop(tick);
+})();
+</script>
